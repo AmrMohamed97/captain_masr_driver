@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "514044255637",
+    "firebase_url": "https://captain-masr-4acb2-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "captain-masr-4acb2",
+    "storage_bucket": "captain-masr-4acb2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514044255637:android:9b8d4ab567c2ecbe36ea9c",
+        "android_client_info": {
+          "package_name": "com.evyx.captain_masr_driver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2LrCe11GeFZC2d1fTjok8yTAX14S5ByM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,12 @@
+import 'package:captain_masr_driver/firebase_options.dart';
+import 'package:captain_masr_driver/firebase_rtdb_helper.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MyApp());
 }
 
@@ -54,18 +60,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -106,14 +101,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             const Text('You have pushed the button this many times:'),
             Text(
-              '$_counter',
+              '56',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: (){
+          FirebaseRtdbHelper.incrementInvoiceCounter(1);
+        } ,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
