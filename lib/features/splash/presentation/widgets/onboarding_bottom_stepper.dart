@@ -64,7 +64,11 @@ class OnboardingBottomStepper extends StatelessWidget {
                       cubit.changePageIndex();
                     } else {
                       sl<Cache>().setData(AppConstants.onBoardingVisited, true);
-                      navigateReplacement(context, const ChooseRoleView());
+                      // navigateReplacement(context, const ChooseRoleView());
+                      context
+                          .read<GlobalCubit>()
+                          .selectRole(AppConstants.driver);
+                      navigateReplacement(context, const LoginView());
                     }
                   },
                   child: Container(

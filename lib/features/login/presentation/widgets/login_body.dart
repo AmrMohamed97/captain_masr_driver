@@ -1,5 +1,5 @@
 import '../../../../core/imports/imports.dart';
-import '../../../splash/presentation/views/choose_role_view.dart';
+// import '../../../splash/presentation/views/choose_role_view.dart';
 import 'login_form.dart';
 
 class LoginBody extends StatelessWidget {
@@ -14,7 +14,9 @@ class LoginBody extends StatelessWidget {
           //! Header
           AuthHeader(
             popOnTap: () {
-              navigateAndRemoveUntil(context, const ChooseRoleView());
+              // navigateAndRemoveUntil(context, const ChooseRoleView());
+              context.read<GlobalCubit>().selectRole(AppConstants.driver);
+              navigateAndRemoveUntil(context, const LoginView());
             },
             title: AppStrings.welcomeBack.tr(context),
             subtitle: context.read<GlobalCubit>().isRider
@@ -23,7 +25,7 @@ class LoginBody extends StatelessWidget {
           ),
 
           //! Form
-          const LoginForm()
+          const LoginForm(),
         ],
       ),
     );

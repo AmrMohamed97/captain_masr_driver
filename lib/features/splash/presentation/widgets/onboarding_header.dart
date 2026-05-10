@@ -29,7 +29,11 @@ class OnboardingHeader extends StatelessWidget {
                       ? () {
                           sl<Cache>()
                               .setData(AppConstants.onBoardingVisited, true);
-                          navigateReplacement(context, const ChooseRoleView());
+                          // navigateReplacement(context, const ChooseRoleView());
+                          context
+                          .read<GlobalCubit>()
+                          .selectRole(AppConstants.driver);
+                      navigateReplacement(context, const LoginView());
                         }
                       : null,
                   child: Text(

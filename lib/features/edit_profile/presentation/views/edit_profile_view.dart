@@ -47,10 +47,14 @@ class EditProfileView extends StatelessWidget {
               context.read<GlobalCubit>().getUserData();
               context.read<GlobalCubit>().navBarController.index = 0;
 
-              navigateAndRemoveUntil(
-                context,
-                const ChooseRoleView(),
-              );
+              // navigateAndRemoveUntil(
+              //   context,
+              //   const ChooseRoleView(),
+              // );
+              context
+                          .read<GlobalCubit>()
+                          .selectRole(AppConstants.driver);
+                      navigateAndRemoveUntil(context, const LoginView());
             }
             if (state is DeleteAccountErrorState) {
               showToast(

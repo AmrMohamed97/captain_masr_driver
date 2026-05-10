@@ -99,9 +99,10 @@ handleDioException(DioException e) {
         case 401: //unauthorized
           sl<Cache>().removeKey(AppConstants.token);
           sl<Cache>().removeKey(AppConstants.user);
+          
           navigatorKey.currentState?.pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) {
-              return const ChooseRoleView();
+              return const LoginView();
             }),
             (route) => false,
           );
@@ -112,7 +113,7 @@ handleDioException(DioException e) {
           sl<Cache>().removeKey(AppConstants.user);
           navigatorKey.currentState?.pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) {
-              return const ChooseRoleView();
+              return const LoginView();
             }),
             (route) => false,
           );

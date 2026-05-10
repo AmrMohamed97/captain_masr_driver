@@ -44,13 +44,17 @@ class _SplashViewState extends State<SplashView> {
                     Future.delayed(
                       const Duration(milliseconds: 1500),
                       () {
+                        context
+                          .read<GlobalCubit>()
+                          .selectRole(AppConstants.driver);
+                      // navigate(context, const LoginView());
                         navigateReplacement(
                           // ignore: use_build_context_synchronously
                           context,
                           onBoardingVisited
                               ? sl<Cache>().getStringData(AppConstants.token) ==
                                       null
-                                  ? const ChooseRoleView()
+                                  ? const LoginView()
                                   : context.read<GlobalCubit>().isRider
                                       ? const BaseView()
                                       : const HomeView()
