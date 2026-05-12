@@ -22,7 +22,7 @@ class HomeHeader extends StatelessWidget {
                       (context.read<HomeCubit>().sliders?.isNotEmpty ?? false)
                   ? 228.rH(context)
                   : 130.rH(context),
-              decoration: const BoxDecoration(
+              decoration:   BoxDecoration(
                 gradient: AppColors.primaryGradient,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),

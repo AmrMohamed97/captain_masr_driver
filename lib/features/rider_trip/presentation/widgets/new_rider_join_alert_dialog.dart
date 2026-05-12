@@ -50,7 +50,7 @@ class NewRiderJoinAlertDialog extends StatelessWidget {
             //! Bottom Section
             Container(
               width: double.infinity,
-              decoration: const BoxDecoration(
+              decoration:   BoxDecoration(
                 gradient: AppColors.primaryGradient,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),

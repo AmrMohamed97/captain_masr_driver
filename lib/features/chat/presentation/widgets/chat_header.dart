@@ -15,7 +15,7 @@ class ChatHeader extends StatelessWidget {
       padding: EdgeInsets.symmetric(
         horizontal: 16.rW(context),
       ),
-      decoration: const BoxDecoration(
+      decoration:   BoxDecoration(
         gradient: AppColors.primaryGradient,
       ),
       child: Column(
