@@ -1,4 +1,5 @@
 import '../../../../core/imports/imports.dart';
+import '../../../trip_details/presentation/views/cashed_images.dart';
 
 class MyVehicleForm extends StatelessWidget {
   const MyVehicleForm({
@@ -65,16 +66,17 @@ class MyVehicleForm extends StatelessWidget {
                 child: Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      cubit.driverVehicleModel?.vehicleLicenseImage ?? "",
+                    child: CachedImage(
+                      showImageOnTap: true,
+                      url: cubit.driverVehicleModel?.vehicleLicenseImage ?? "",
                       height: 200.rH(context),
-                      errorBuilder: (context, error, stackTrace) => Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16.rH(context)),
-                        child: const Icon(
-                          Icons.error,
-                          color: AppColors.grey,
-                        ),
-                      ),
+                      // errorBuilder: (context, error, stackTrace) => Padding(
+                      //   padding: EdgeInsets.symmetric(vertical: 16.rH(context)),
+                      //   child: const Icon(
+                      //     Icons.error,
+                      //     color: AppColors.grey,
+                      //   ),
+                      // ),
                     ),
                   ),
                 ),
