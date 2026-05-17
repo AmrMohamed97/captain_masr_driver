@@ -494,4 +494,6 @@ abstract class AppStrings {
   static const String checkInternetAndTryAgain = "checkInternetAndTryAgain";
   static const String retry = "retry";
   static const String estimatedTripDetails = "estimatedTripDetails";
+  static const String unreadNotifications = "unreadNotifications";
+  static const String tapToReadAll = "tapToReadAll";
 }

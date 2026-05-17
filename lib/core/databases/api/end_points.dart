@@ -123,6 +123,7 @@ class EndPoints {
 
   //! Notifications
   static const String notifications = "${baseUrl}notifications";
+  static String notificationById(String id) => "${baseUrl}notifications/$id";
 
   //! Switch Flow
   static const String becomeDriver = "${baseUrl}user/become-driver";

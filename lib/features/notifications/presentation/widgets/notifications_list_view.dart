@@ -1,5 +1,6 @@
 import '../../../../core/imports/imports.dart';
 import '../../../../core/widgets/custom_refresh_indicator.dart';
+import '../views/notification_detail_view.dart';
 import 'notification_card.dart';
 import 'notification_loading_card.dart';
 
@@ -39,21 +40,28 @@ class NotificationsListView extends StatelessWidget {
                         cubit.notifications.isEmpty)) {
                   return const NotificationLoadingCard();
                 }
-                //! Trip Card
+
+                final notification = cubit.notifications[index];
+
+                //! Notification Card
                 return NotificationCard(
-                  model: cubit.notifications[index],
+                  model: notification,
                   onTap: () {
-                    // if (context.read<GlobalCubit>().isRider) {
-                    //   if (index == 0) {
-                    //     navigate(
-                    //       context,
-                    //       const TripDetailsView(
-                    //         tripId: 0,
-                    //         isAccepted: true,
-                    //       ),
-                    //     );
-                    //   }
-                    // }
+                    if (notification.id == null) return;
+                    navigate(
+                      context,
+                      NotificationDetailView(
+                        notificationId: notification.id!,
+                        notificationTitle: notification.title ?? '',
+                      ),
+                      then: (result) {
+                        // result is the updatedUnreadCount returned by the
+                        // detail screen when it successfully loads the detail
+                        if (result is int) {
+                          cubit.markAsReadLocally(notification.id!, result);
+                        }
+                      },
+                    );
                   },
                 );
               },

@@ -431,5 +431,7 @@
     "errorCalculatingCost": "حدث خطأ أثناء حساب التكلفة",
     "checkInternetAndTryAgain": "تأكد من اتصالك بالإنترنت وحاول مرة أخرى",
     "retry": "إعادة المحاولة",
+    "unreadNotifications": "إشعار غير مقروء",
+    "tapToReadAll": "اضغط لعرضها وتحديدها كمقروءة",
     "estimatedTripDetails": "تفاصيل الرحلة المقدرة"
 }

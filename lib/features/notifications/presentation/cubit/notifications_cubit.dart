@@ -31,6 +31,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   //! Notifications
   List<NotificationModel> notifications = [];
+  int unreadCount = 0;
 
   Future<void> getNotifications() async {
     emit(NotificationsLoadingState());
@@ -42,9 +43,31 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       (model) {
         notifications += model.notifications;
         pagination = model.pagination;
+        unreadCount = model.unreadCount;
         page += 1;
         emit(NotificationsSuccessState());
       },
     );
+  }
+
+  //! Mark a single notification as read locally after viewing its detail
+  void markAsReadLocally(String notificationId, int updatedUnreadCount) {
+    final idx = notifications.indexWhere((n) => n.id == notificationId);
+    if (idx != -1 && notifications[idx].isRead == false) {
+      // Rebuild the item with isRead = true
+      final old = notifications[idx];
+      notifications[idx] = NotificationModel(
+        id: old.id,
+        type: old.type,
+        title: old.title,
+        body: old.body,
+        createdAt: old.createdAt,
+        image: old.image,
+        isRead: true,
+        data: old.data,
+      );
+      unreadCount = updatedUnreadCount;
+      emit(NotificationsSuccessState());
+    }
   }
 }

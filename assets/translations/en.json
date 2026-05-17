@@ -431,5 +431,7 @@
     "errorCalculatingCost": "An error occurred while calculating cost",
     "checkInternetAndTryAgain": "Check your internet connection and try again",
     "retry": "Retry",
-    "estimatedTripDetails": "Estimated Trip Details"
+        "estimatedTripDetails": "Estimated Trip Details",
+    "unreadNotifications": "Unread Notifications",
+    "tapToReadAll": "Tap to view and mark all as read"
 }
