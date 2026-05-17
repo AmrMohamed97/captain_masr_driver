@@ -112,7 +112,9 @@ class TripsCubit extends Cubit<TripsState> {
           switch (selectedTapBar) {
             case 1:
               getCompletedTrips();
-            case 3:
+            case 2:
+              getCompletedShareTrips();
+            case 4:
               getCanceledTrips();
             default:
           }
@@ -133,6 +135,26 @@ class TripsCubit extends Cubit<TripsState> {
       (error) => emit(TripsErrorState(error: error)),
       (model) {
         completedTrips += model.data as List<TripDetailsModel>;
+        pagination = model.pagination;
+        page += 1;
+        emit(TripsSuccessState());
+      },
+    );
+  }
+
+  //! Get Completed Share/Group Trips
+  List<TripDetailsModel> completedShareTrips = [];
+  Future<void> getCompletedShareTrips() async {
+    emit(TripsLoadingState());
+    final result = await sl<TripsRepo>().getCompletedTrips(
+      page: page + 1,
+      isRider: isRider,
+      type: "share_trips",
+    );
+    result.fold(
+      (error) => emit(TripsErrorState(error: error)),
+      (model) {
+        completedShareTrips += model.data as List<TripDetailsModel>;
         pagination = model.pagination;
         page += 1;
         emit(TripsSuccessState());
@@ -198,6 +220,7 @@ class TripsCubit extends Cubit<TripsState> {
     pagination = null;
     page = 0;
     completedTrips.clear();
+    completedShareTrips.clear();
     scheduledTrips.clear();
     canceledTrips.clear();
     switch (selectedTapBar) {
@@ -206,8 +229,10 @@ class TripsCubit extends Cubit<TripsState> {
       case 1:
         return await getCompletedTrips();
       case 2:
-        return await getScheduledTrips();
+        return await getCompletedShareTrips();
       case 3:
+        return await getScheduledTrips();
+      case 4:
         return await getCanceledTrips();
       default:
         return;
@@ -222,6 +247,7 @@ class TripsCubit extends Cubit<TripsState> {
     pagination = null;
     page = 0;
     completedTrips.clear();
+    completedShareTrips.clear();
     canceledTrips.clear();
     scrollController.jumpTo(0);
     emit(TripsSelectTapBarState());
@@ -232,12 +258,15 @@ class TripsCubit extends Cubit<TripsState> {
       //! Completed
       case 1:
         getCompletedTrips();
-      //! schedule Trip
+      //! Completed Share
       case 2:
+        getCompletedShareTrips();
+      //! schedule Trip
+      case 3:
         getScheduledTrips();
         return;
       //! Canceled Trips
-      case 3:
+      case 4:
         getCanceledTrips();
 
       default:

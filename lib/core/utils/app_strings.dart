@@ -177,6 +177,7 @@ abstract class AppStrings {
   static const String ongoing = "ongoing";
   static const String noTripsAvailable = "noTripsAvailable";
   static const String completed = "completed";
+  static const String completedGroup = "completedGroup";
   static const String scheduled = "scheduled";
   static const String canceled = "canceled";
   static const String classicRide = "classicRide";

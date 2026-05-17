@@ -118,6 +118,7 @@
     "seeMore": "عرض المزيد",
     "ongoing": "قيد التنفيذ",
     "completed": "مكتمل",
+    "completedGroup": "مكتمل جماعي",
     "scheduled": "مجدول",
     "canceled": "ملغى",
     "classicRide": "رحلة كلاسيكية",
@@ -334,7 +335,7 @@
     "orangeCash": "أورنج كاش",
     "etisalatCash": "اتصالات كاش",
     "wePay": "وي باي",
-    "maakWallet": "محفظة كابتن مصر",
+    "maakWallet": "محفظة معاك",
     "dailyRides": "الرحلات اليومية",
     "onMyWay": "في طريقي",
     "enterPickupLocation": "أدخل موقع الالتقاط",
@@ -431,7 +432,7 @@
     "errorCalculatingCost": "حدث خطأ أثناء حساب التكلفة",
     "checkInternetAndTryAgain": "تأكد من اتصالك بالإنترنت وحاول مرة أخرى",
     "retry": "إعادة المحاولة",
+    "estimatedTripDetails": "تفاصيل الرحلة المقدرة",
     "unreadNotifications": "إشعار غير مقروء",
-    "tapToReadAll": "اضغط لعرضها وتحديدها كمقروءة",
-    "estimatedTripDetails": "تفاصيل الرحلة المقدرة"
+    "tapToReadAll": "اضغط لعرضها وتحديدها كمقروءة"
 }

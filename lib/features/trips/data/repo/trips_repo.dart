@@ -19,6 +19,7 @@ class TripsRepo {
     required int page,
     required bool isRider,
     int? limit,
+    String? type,
   }) async {
     try {
       final Response response = await api.get(
@@ -26,6 +27,7 @@ class TripsRepo {
         queryParameters: {
           "page": page,
           "limit": limit,
+          if (type != null) "type": type,
         },
       );
       return Right(

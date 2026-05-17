@@ -47,6 +47,7 @@ class TripsBody extends StatelessWidget {
                 taps: [
                   AppStrings.ongoing.tr(context),
                   AppStrings.completed.tr(context),
+                  AppStrings.completedGroup.tr(context),
                   AppStrings.scheduled.tr(context),
                   AppStrings.canceled.tr(context),
                 ],
@@ -67,7 +68,7 @@ class TripsBody extends StatelessWidget {
             return Expanded(
               child: PageView.builder(
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 4,
+                itemCount: 5,
                 onPageChanged: (page) {
                   cubit.selectTapBar(page);
                 },
@@ -79,8 +80,10 @@ class TripsBody extends StatelessWidget {
                     case 1:
                       trips = cubit.completedTrips;
                     case 2:
-                      trips = cubit.scheduledTrips;
+                      trips = cubit.completedShareTrips;
                     case 3:
+                      trips = cubit.scheduledTrips;
+                    case 4:
                       trips = cubit.canceledTrips;
                     default:
                       trips = [];
@@ -106,7 +109,7 @@ class TripsBody extends StatelessWidget {
                         }
                         //! Trip Card
                         return TripCard(
-                          model: cubit.selectedTapBar == 3
+                          model: cubit.selectedTapBar == 4
                               ? (trips[index] as CanceledTripModel).ride!
                               : trips[index] as TripDetailsModel,
                           isOngoing: cubit.selectedTapBar == 0,
@@ -160,8 +163,8 @@ class TripsBody extends StatelessWidget {
                                     tripId: (trips[index] as TripDetailsModel)
                                             .rideId ??
                                         0,
-                                    isAccepted: cubit.selectedTapBar == 2,
-                                    isCompleted: cubit.selectedTapBar == 1,
+                                    isAccepted: false,
+                                    isCompleted: true,
                                     isClassic:
                                         (trips[index] as TripDetailsModel)
                                                 .tripType ==
@@ -172,16 +175,35 @@ class TripsBody extends StatelessWidget {
                                         (trips[index] as TripDetailsModel)
                                                 .tripType ==
                                             "delivery",
-                                    isScheduled: cubit.selectedTapBar == 2,
+                                    isScheduled: false,
                                   ),
                                 );
+                                break;
                               case 2:
+                                navBarNavigate(
+                                  context: context,
+                                  widget: TripDetailsView(
+                                    tripId: (trips[index] as TripDetailsModel)
+                                            .rideId ??
+                                        0,
+                                    isAccepted: false,
+                                    isCompleted: true,
+                                    isClassic: false,
+                                    isGroup: true,
+                                    isShare: true,
+                                    isDelivery: false,
+                                    isScheduled: false,
+                                  ),
+                                );
+                                break;
+                              case 3:
                                 navBarNavigate(
                                   context: context,
                                   widget: PostedScheduleTripView(
                                     trip: trips[index],
                                   ),
                                 );
+                                break;
                               default:
                                 return;
                             }

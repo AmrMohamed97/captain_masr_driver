@@ -32,6 +32,7 @@ class TripDetailsCubit extends Cubit<TripDetailsState> {
     final result = await sl<TripDetailsRepo>().completedTripDetails(
       tripId: tripId,
       isRider: isRider,
+      type: (isGroup || isShare) ? "share_trips" : null,
     );
     result.fold(
       (error) => emit(TripDetailsErrorState(error: error)),

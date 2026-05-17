@@ -16,10 +16,14 @@ class TripDetailsRepo {
   Future<Either<String, TripDetailsModel>> completedTripDetails({
     required int tripId,
     required bool isRider,
+    String? type,
   }) async {
     try {
       final Response response = await api.get(
         "${isRider ? EndPoints.userCompletedTrips : EndPoints.driverCompletedTrips}/$tripId",
+        queryParameters: {
+          if (type != null) "type": type,
+        },
       );
       return Right(TripDetailsModel.fromJson(response.data["data"]));
     } on ServerException catch (e) {
