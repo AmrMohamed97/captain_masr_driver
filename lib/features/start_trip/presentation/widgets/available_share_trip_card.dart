@@ -133,7 +133,7 @@ class _AvaibleShareTripCardState extends State<AvaibleShareTripCard> {
                               ),
                               SizedBox(width: 7.rW(context)),
                               Text(
-                                "${model.driver?.rating?.toStringAsFixed(3) ?? 0.0}",
+                                "${model.driver?.rating?.toStringAsFixed(2) ?? 0.0}",
                                 style: Styles.regular14(context).copyWith(
                                   color: AppColors.greyText,
                                 ),

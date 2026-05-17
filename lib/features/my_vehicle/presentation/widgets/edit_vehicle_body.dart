@@ -74,107 +74,109 @@ class EditVehicleBody extends StatelessWidget {
                               : Center(
                                   child: SizedBox(
                                     height: 80.rH(context),
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      children: List.generate(
-                                        cubit.vehicleCategories.length,
-                                        (index) {
-                                          return Padding(
-                                            padding: EdgeInsetsDirectional.only(
-                                              end: 8.rW(context),
-                                            ),
-                                            child: Column(
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    cubit.selectedVehicleCategoryId =
-                                                        cubit
-                                                            .vehicleCategories[
-                                                                index]
-                                                            .id;
-                                                    cubit.selectedVehicleType =
-                                                        null;
-                                                    cubit.selectedVehicleBrand =
-                                                        null;
-                                                    cubit.selectedVehicleModel =
-                                                        null;
-                                                    cubit.selectItem();
-                                                  },
-                                                  child: AnimatedContainer(
-                                                    duration: const Duration(
-                                                        milliseconds: 300),
-                                                    width: 67.rW(context),
-                                                    height: 50.rH(context),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal:
-                                                                8.rW(context),
-                                                            vertical:
-                                                                8.rH(context)),
-                                                    decoration: BoxDecoration(
-                                                      color: Theme.of(context)
-                                                          .cardColor,
-                                                      border: Border.all(
-                                                        width: 2,
-                                                        color: cubit
-                                                                    .vehicleCategories[
-                                                                        index]
-                                                                    .id ==
-                                                                cubit
-                                                                    .selectedVehicleCategoryId
-                                                            ? AppColors.primary
-                                                            : AppColors
-                                                                .transparent,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          offset: Offset(
-                                                              0, 2.rH(context)),
-                                                          blurRadius: 7,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .shadowColor,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Image.network(
-                                                      cubit
+                                    child: AbsorbPointer(
+                                      child: ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        children: List.generate(
+                                          cubit.vehicleCategories.length,
+                                          (index) {
+                                            return Padding(
+                                              padding: EdgeInsetsDirectional.only(
+                                                end: 8.rW(context),
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      cubit.selectedVehicleCategoryId =
+                                                          cubit
                                                               .vehicleCategories[
                                                                   index]
-                                                              .logo ??
-                                                          "",
-                                                      errorBuilder: (context,
-                                                          error, stackTrace) {
-                                                        return const Icon(
-                                                          Icons.error,
-                                                          color: AppColors.grey,
-                                                        );
-                                                      },
+                                                              .id;
+                                                      cubit.selectedVehicleType =
+                                                          null;
+                                                      cubit.selectedVehicleBrand =
+                                                          null;
+                                                      cubit.selectedVehicleModel =
+                                                          null;
+                                                      cubit.selectItem();
+                                                    },
+                                                    child: AnimatedContainer(
+                                                      duration: const Duration(
+                                                          milliseconds: 300),
+                                                      width: 67.rW(context),
+                                                      height: 50.rH(context),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  8.rW(context),
+                                                              vertical:
+                                                                  8.rH(context)),
+                                                      decoration: BoxDecoration(
+                                                        color: Theme.of(context)
+                                                            .cardColor,
+                                                        border: Border.all(
+                                                          width: 2,
+                                                          color: cubit
+                                                                      .vehicleCategories[
+                                                                          index]
+                                                                      .id ==
+                                                                  cubit
+                                                                      .selectedVehicleCategoryId
+                                                              ? AppColors.primary
+                                                              : AppColors
+                                                                  .transparent,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                6),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            offset: Offset(
+                                                                0, 2.rH(context)),
+                                                            blurRadius: 7,
+                                                            color:
+                                                                Theme.of(context)
+                                                                    .shadowColor,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Image.network(
+                                                        cubit
+                                                                .vehicleCategories[
+                                                                    index]
+                                                                .logo ??
+                                                            "",
+                                                        errorBuilder: (context,
+                                                            error, stackTrace) {
+                                                          return const Icon(
+                                                            Icons.error,
+                                                            color: AppColors.grey,
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 8.rH(context)),
-                                                Text(
-                                                  cubit.vehicleCategories[index]
-                                                          .name ??
-                                                      "",
-                                                  style:
-                                                      Styles.regular12(context)
-                                                          .copyWith(
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        ?.color,
+                                                  SizedBox(height: 8.rH(context)),
+                                                  Text(
+                                                    cubit.vehicleCategories[index]
+                                                            .name ??
+                                                        "",
+                                                    style:
+                                                        Styles.regular12(context)
+                                                            .copyWith(
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.color,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),

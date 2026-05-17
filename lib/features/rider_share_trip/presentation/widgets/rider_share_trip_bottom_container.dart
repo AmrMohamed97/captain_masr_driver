@@ -121,7 +121,7 @@ class RiderShareTripBottomContainer extends StatelessWidget {
                                         SizedBox(width: 5.rW(context)),
                                         Text(
                                           cubit.tripDetails!.driverRating
-                                                  ?.toStringAsFixed(3) ??
+                                                  ?.toStringAsFixed(2) ??
                                               "0.0",
                                           style: Styles.regular12(context)
                                               .copyWith(

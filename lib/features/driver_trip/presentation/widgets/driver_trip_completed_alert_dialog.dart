@@ -304,7 +304,7 @@ class DriverTripCompletedAlertDialog extends StatelessWidget {
                       String formatNum(num? value) {
                         if (value == null) return '0';
                         return value
-                            .toStringAsFixed(3)
+                            .toStringAsFixed(2)
                             .replaceAll(RegExp(r'\.?0+$'), '');
                       }
 

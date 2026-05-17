@@ -240,7 +240,7 @@ class TripCard extends StatelessWidget {
                                       ),
                                       SizedBox(width: 7.rW(context)),
                                       Text(
-                                        "${model.driverRating?.toStringAsFixed(3) ?? 0.0}",
+                                        "${model.driverRating?.toStringAsFixed(2) ?? 0.0}",
                                         style:
                                             Styles.regular14(context).copyWith(
                                           color: AppColors.greyText,

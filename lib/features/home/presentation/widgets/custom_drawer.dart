@@ -127,7 +127,7 @@ class CustomDrawer extends StatelessWidget {
                                                       .userModel?.rating
                                                       ?.toString() ??
                                                   "0.0")
-                                              ?.toStringAsFixed(3) ??
+                                              ?.toStringAsFixed(2) ??
                                           "0.0",
                                       style: Styles.regular16(context).copyWith(
                                         color: AppColors.greyText,
