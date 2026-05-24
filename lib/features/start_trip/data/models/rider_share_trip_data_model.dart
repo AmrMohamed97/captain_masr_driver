@@ -13,7 +13,7 @@ class RiderShareTripDataModel {
   final String? date;
   final List<String>? dates;
   final String? time;
-
+  final String? promoCode;
   RiderShareTripDataModel({
     required this.seatsCount,
     required this.seatsIds,
@@ -29,5 +29,6 @@ class RiderShareTripDataModel {
     required this.date,
     this.dates,
     this.time,
+    this.promoCode,
   });
 }

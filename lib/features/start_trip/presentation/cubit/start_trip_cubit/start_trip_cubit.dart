@@ -81,6 +81,14 @@ class StartTripCubit extends Cubit<StartTripState> {
 
   //! Calculate Estimated
   Future<void> calculateEstimated() async {
+    print('===============calculateEstimated onMyWay data=================');
+    print(startLocation?.lat);
+    print(startLocation?.lon);
+    print(endLocation?.lat);
+    print(endLocation?.lon);
+    print(selectedSeatsIds.length);
+    print('[${DateTime.now().toString()}]');
+    print('===============calculateEstimated data end=====================');
     emit(StartTripLoadingState());
     final result = await sl<RiderTripRepo>().calculateEstimated(
       tripTypeId: isDelivery
@@ -97,7 +105,8 @@ class StartTripCubit extends Cubit<StartTripState> {
       dropoffAddress: endLocation?.address ?? "",
       dropoffLatitude: endLocation?.lat ?? 0,
       dropoffLongitude: endLocation?.lon ?? 0,
-      seatsNeeded: (driverOnMyWay||isShareRide) ? selectedSeatsIds.length : null,
+      seatsNeeded:
+          (driverOnMyWay || isShareRide) ? selectedSeatsIds.length : null,
       stops: stops.map((e) => LatLng(e.lat!, e.lon!)).toList(),
     );
     result.fold((error) => emit(CalculateEstimatedErrorState(error: error)), (
@@ -172,7 +181,7 @@ class StartTripCubit extends Cubit<StartTripState> {
     });
   }
 
-  selectSeat(int index) {
+  void selectSeat(int index) {
     if (selectedSeatsIds.contains(seats[index].id)) {
       selectedSeatsIds.remove(seats[index].id);
     } else {
@@ -205,15 +214,23 @@ class StartTripCubit extends Cubit<StartTripState> {
   PromoCodeModel? promoCodeModel;
   double? discountPrice;
 
-  applyPromoCode(PromoCodeModel? model) {
+  void applyPromoCode(PromoCodeModel? model) {
     promoCodeModel = model;
 
     if (promoCodeModel != null) {
-      final price = details?.price ?? 0;
-      final dicountValue = ((promoCodeModel?.percentage ?? 0) / 100) * price;
-      discountPrice = double.tryParse(
-        (price - dicountValue).toStringAsFixed(2),
-      );
+      if (isShareRide) {
+        final price = details?.totalPrice ?? 0;
+        final dicountValue = ((promoCodeModel?.percentage ?? 0) / 100) * price;
+        discountPrice = double.tryParse(
+          (price - dicountValue).toStringAsFixed(2),
+        );
+      } else {
+        final price = details?.price ?? 0;
+        final dicountValue = ((promoCodeModel?.percentage ?? 0) / 100) * price;
+        discountPrice = double.tryParse(
+          (price - dicountValue).toStringAsFixed(2),
+        );
+      }
     } else {
       discountPrice = null;
     }
@@ -223,22 +240,22 @@ class StartTripCubit extends Cubit<StartTripState> {
 
   TripDetailsModel? details;
 
-  isFemaleToggle(bool value) {
+  void isFemaleToggle(bool value) {
     isFemale = value;
     emit(StartTripIsFemaleToggleState());
   }
 
-  hasBabyCarriageToggle(bool value) {
+  void hasBabyCarriageToggle(bool value) {
     hasBabyCarriage = value;
     emit(StartTripIsFemaleToggleState());
   }
 
-  hasLuggagesToggle(bool value) {
+  void hasLuggagesToggle(bool value) {
     hasLuggages = value;
     emit(StartTripIsFemaleToggleState());
   }
 
-  selectLocations(dynamic value) async {
+  Future<void> selectLocations(dynamic value) async {
     if (value != null) {
       startLocation = value[0];
       endLocation = value[1];
@@ -432,7 +449,7 @@ class StartTripCubit extends Cubit<StartTripState> {
   //! Seats Number
   int seatsNum = 1;
 
-  changeSeatsNum({required bool increase}) {
+  void changeSeatsNum({required bool increase}) {
     if (increase && seatsNum < 4) {
       seatsNum++;
     } else if (!increase && seatsNum > 1) {
@@ -446,7 +463,7 @@ class StartTripCubit extends Cubit<StartTripState> {
   int mediumLuggaes = 0;
   int largeLuggaes = 0;
 
-  changeLuggagesNumber({required int index, required bool increase}) {
+  void changeLuggagesNumber({required int index, required bool increase}) {
     switch (index) {
       case 0:
         smallLuggaes = increase ? smallLuggaes + 1 : smallLuggaes - 1;
@@ -466,7 +483,7 @@ class StartTripCubit extends Cubit<StartTripState> {
   //! Selected Vehicle Category
   int? selectedVehicleCategoryId;
 
-  chooseVhecileCategory(int index) {
+  void chooseVhecileCategory(int index) {
     if (details == null) {
       selectedVehicleCategoryId = vehicleCategories[index].id;
     }

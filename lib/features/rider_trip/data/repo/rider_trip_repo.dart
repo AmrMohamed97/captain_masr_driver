@@ -258,6 +258,7 @@ class RiderTripRepo {
     required double dropoffLatitude,
     required double dropoffLongitude,
     required int vehicleCategoryId,
+    required String? promoCode,
   }) async {
     try {
       final Response response = await api.post(
@@ -275,7 +276,8 @@ class RiderTripRepo {
           "dropoff_latitude": dropoffLatitude,
           "dropoff_longitude": dropoffLongitude,
           "vehicle_category_id": vehicleCategoryId,
-          "trip_type_id": 3
+          "trip_type_id": 2,//share trip
+          "promo_code": promoCode,
         },
       );
       return Right(response.data["message"]);

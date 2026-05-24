@@ -75,6 +75,7 @@ class StartTripBottomSection extends StatelessWidget {
                         ),
                         SizedBox(height: 18.rH(context)),
                         //! Estimated Cost
+                        // if (!cubit.isShareRide)
                         Row(
                           children: [
                             CustomSvgPicture(
@@ -91,7 +92,7 @@ class StartTripBottomSection extends StatelessWidget {
                             const Spacer(),
                             if (!cubit.isShareRide)
                               Text(
-                                "${cubit.promoCodeModel != null ? (cubit.discountPrice ?? (cubit.details?.price ?? "??")) : (cubit.details?.price ?? "??")} ${AppStrings.egp.tr(context)}",
+                                "${cubit.promoCodeModel != null ? (cubit.discountPrice ?? (cubit.details?.price?.toStringAsFixed(2) ?? "??")) : (cubit.details?.price?.toStringAsFixed(2) ?? "??")} ${AppStrings.egp.tr(context)}",
                                 style:
                                     Styles.semibold16Primary(context).copyWith(
                                   color: AppColors.red,
@@ -99,7 +100,9 @@ class StartTripBottomSection extends StatelessWidget {
                               ),
                             if (cubit.isShareRide)
                               Text(
-                                cubit.details?.totalPrice.toString() ?? '',
+                                 "${cubit.promoCodeModel != null ? (cubit.discountPrice ?? (cubit.details?.totalPrice?.toStringAsFixed(2) ?? "??")) : (cubit.details?.totalPrice?.toStringAsFixed(2) ?? "??")} ${AppStrings.egp.tr(context)}",
+                                // cubit.details?.totalPrice?.toStringAsFixed(2) ??
+                                //     '',
                                 style:
                                     Styles.semibold16Primary(context).copyWith(
                                   color: AppColors.red,
@@ -743,6 +746,7 @@ class StartTripBottomSection extends StatelessWidget {
                                                                 "yyyy-MM-dd")
                                                             .format(
                                                                 DateTime.now()),
+                                                        promoCode: cubit.promoCodeModel?.name,
                                                       ),
                                                     ),
                                                   );

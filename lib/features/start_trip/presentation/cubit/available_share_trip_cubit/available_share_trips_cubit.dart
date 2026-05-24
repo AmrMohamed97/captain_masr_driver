@@ -142,20 +142,15 @@ class AvailableShareTripsCubit extends Cubit<AvailableShareTripsState> {
 
   //! Rider Request Share Trip
   Future<void> riderRequestShareTrip({required int id,required List<int> availableSeatIds}) async {
-    print("request data======================================");
+    print("================request data======================================");
     print(shareTripData.pickupLatitude);
     print(shareTripData.pickupLongitude);
     print(shareTripData.dropoffLatitude);
     print(shareTripData.dropoffLongitude);
-    print(shareTripData.date);
-    print(shareTripData.vehicleCategoryId);
-    print(shareTripData.seatsIds);
-    print(shareTripData.mainPaymentMethodId);
-    print(shareTripData.subPaymentMethodId);
-    print(shareTripData.time);
-    print(shareTripData.dates);
     print(shareTripData.seatsCount);
-    print(id);
+    print(shareTripData.dates);
+    print("================request data end==================================");
+    
     emit(AvailableShareTripsLoadingState());
     final result = isScheduled
         ? await sl<ScheduleTripRepo>().userRequestScheduledTrip(
@@ -167,7 +162,7 @@ class AvailableShareTripsCubit extends Cubit<AvailableShareTripsState> {
             dropoffLongitude: shareTripData.dropoffLongitude,
             dropoffLatitude: shareTripData.dropoffLatitude,
             vehicleCategoryId: shareTripData.vehicleCategoryId,
-            seatsCount: shareTripData.seatsCount,
+            seatsCount: availableSeatIds.length,// shareTripData.seatsCount,
             seatsIds: availableSeatIds,//shareTripData.seatsIds,
             mainPaymentMethodId: shareTripData.mainPaymentMethodId,
             subPaymentMethodId: shareTripData.subPaymentMethodId,
@@ -176,7 +171,7 @@ class AvailableShareTripsCubit extends Cubit<AvailableShareTripsState> {
           )
         : await sl<RiderTripRepo>().requestShareTrip(
             shareRideId: id,
-            seatsCount: shareTripData.seatsCount,
+            seatsCount: availableSeatIds.length,// shareTripData.seatsCount,
             seatsIds: availableSeatIds,//shareTripData.seatsIds,
             mainPaymentMethodId: shareTripData.mainPaymentMethodId,
             pickupAddress: shareTripData.pickupAddress,
@@ -186,6 +181,7 @@ class AvailableShareTripsCubit extends Cubit<AvailableShareTripsState> {
             dropoffLatitude: shareTripData.dropoffLatitude,
             dropoffLongitude: shareTripData.dropoffLongitude,
             vehicleCategoryId: shareTripData.vehicleCategoryId,
+            promoCode: shareTripData.promoCode,
           );
     result.fold(
       (error) => emit(AvailableShareTripsErrorState(error: error)),
