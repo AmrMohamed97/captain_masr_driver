@@ -18,8 +18,11 @@ class _HomeViewState extends State<HomeView> {
     BlocProvider.of<GlobalCubit>(context).getDriverTodaySummary();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    print('token=>${sl<Cache>().getStringData(AppConstants.token)}');
+    print(sl<Cache>().getStringData(AppConstants.token));
     return BlocProvider(
       create: (context) => HomeCubit(
         isDriver: context.read<GlobalCubit>().isDriver,
@@ -40,7 +43,6 @@ class _HomeViewState extends State<HomeView> {
             }
           },
           builder: (context, state) {
-            
             return CustomModalProgressIndicator(
               inAsyncCall: state is HomeLoadingState,
               child: const HomeBody(),

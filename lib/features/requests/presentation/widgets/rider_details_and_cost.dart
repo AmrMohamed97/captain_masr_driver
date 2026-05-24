@@ -115,7 +115,7 @@ class RiderDetailsAndCost extends StatelessWidget {
         ),
         //! Cost
         Text(
-          "${model.price ?? "??"} ${AppStrings.egp.tr(context)}",
+          "${(model.price ?? 0).toStringAsFixed(1)} ${AppStrings.egp.tr(context)}",
           style: Styles.semibold20Primary(context).copyWith(
             color: AppColors.red,
           ),

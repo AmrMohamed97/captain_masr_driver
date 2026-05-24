@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'app/app.dart';
 import 'core/imports/imports.dart';
@@ -9,6 +10,9 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //! Initialize Date Formatting
+  await initializeDateFormatting();
 
   //! Service Locator
   initServiceLocator();
@@ -23,25 +27,20 @@ void main() async {
   ]);
 
   //! Firebase Initialization
-  try {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-} catch (e) {
- if (e.toString().contains('duplicate-app')) {
-      debugPrint('Firebase already initialized');
-    } else {
-      rethrow;
-    }
-}
+  await Firebase.initializeApp(
+    name: 'ma3ak-6992f' ,
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   //! Notifications Initialization
-  try {
+  // try {
     await Future.wait([
       NotificationHandler.init(),
       LocalNotificationService.init(),
     ]);
-  } catch (e) {
-    debugPrint('Error initializing notifications: $e');
-  }
+  // } catch (e) {
+  //   debugPrint('Error initializing notifications: $e');
+  // }
 
   //! Run App
   runApp(

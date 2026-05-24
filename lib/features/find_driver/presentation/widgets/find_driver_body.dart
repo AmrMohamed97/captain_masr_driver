@@ -166,7 +166,7 @@ class FindDriverBody extends StatelessWidget {
                                                 ),
                                                 SizedBox(width: 7.rW(context)),
                                                 Text(
-                                                  "${num.parse((cubit.requests[index].driverRating ?? 0.0).toStringAsFixed(3))}",
+                                                  "${num.parse((cubit.requests[index].driverRating ?? 0.0).toStringAsFixed(2))}",
                                                   style:
                                                       Styles.regular14(context)
                                                           .copyWith(
@@ -256,35 +256,37 @@ class FindDriverBody extends StatelessWidget {
                                         fit: BoxFit.cover,
                                       ),
                                       SizedBox(width: 11.rW(context)),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          //! Brand & Model
-                                          Text(
-                                            "${cubit.requests[index].vehicleBrand ?? ""} ${cubit.requests[index].vehicleModel ?? ""}",
-                                            style: Styles.semibold12(context)
-                                                .copyWith(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color,
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            //! Brand & Model
+                                            Text(
+                                              "${cubit.requests[index].vehicleBrand ?? ""} ${cubit.requests[index].vehicleModel ?? ""}",
+                                              style: Styles.semibold12(context)
+                                                  .copyWith(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.color,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(height: 1.rH(context)),
-                                          //! Color & Plate
-                                          Text(
-                                            "${cubit.requests[index].vehicleColor ?? ""} - ${cubit.requests[index].vehiclePlats ?? ""}",
-                                            style: Styles.regular12(context)
-                                                .copyWith(
-                                              color: AppColors.greyText,
+                                            SizedBox(height: 1.rH(context)),
+                                            //! Color & Plate
+                                            Text(
+                                              "${cubit.requests[index].vehicleColor ?? ""} - ${cubit.requests[index].vehiclePlats ?? ""}",
+                                              style: Styles.regular12(context)
+                                                  .copyWith(
+                                                color: AppColors.greyText,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                      const Spacer(),
+                                      const SizedBox(width: 8),
                                       Text(
-                                        "${cubit.requests[index].price ?? ""} ${AppStrings.egp.tr(context)}",
+                                        "${cubit.requests[index].price?.toStringAsFixed(2) ?? ""} ${AppStrings.egp.tr(context)}",
                                         style: Styles.semibold20Primary(context)
                                             .copyWith(
                                           color: AppColors.red,

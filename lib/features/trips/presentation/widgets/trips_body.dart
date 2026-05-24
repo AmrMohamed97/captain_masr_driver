@@ -12,6 +12,7 @@ import '../../data/models/canceled_trip_model.dart';
 import 'cancel_trip_alert_dialog.dart';
 import 'trip_card.dart';
 
+
 class TripsBody extends StatelessWidget {
   const TripsBody({super.key});
 

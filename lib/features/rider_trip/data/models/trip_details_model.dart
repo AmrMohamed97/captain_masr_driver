@@ -56,6 +56,8 @@ class TripDetailsModel {
       time,
       seatsAvailable,
       type;
+  final num? driverEarnings;
+  final num? tip;
   final double? pickupLatitude,
       pickupLongitude,
       dropoffLatitude,
@@ -81,7 +83,8 @@ class TripDetailsModel {
     required this.userId,
     required this.rideId,
     required this.riderId,
-     this.requestId,
+    this.tip,
+    this.requestId,
     // required this.tripId,
     required this.smallCount,
     required this.mediumCount,
@@ -98,7 +101,7 @@ class TripDetailsModel {
     required this.tripType,
     required this.status,
     required this.createdAt,
-     this.arrivedAt,
+    this.arrivedAt,
     required this.pickupLatitude,
     required this.pickupLongitude,
     required this.dropoffLatitude,
@@ -142,7 +145,7 @@ class TripDetailsModel {
     required this.deliveryImageDriver,
     required this.dateFrom,
     required this.dateTo,
-     this.date,
+    this.date,
     required this.time,
     required this.seatsAvailable,
     required this.type,
@@ -151,11 +154,13 @@ class TripDetailsModel {
     this.startedAt,
     this.completedAt,
     this.todayStatus,
+    this.driverEarnings,
   });
 
   factory TripDetailsModel.fromJson(Map json) {
     return TripDetailsModel(
       id: json["id"] ?? json["trip_id"],
+      tip: json["tip"] ?? json["tip"],
       userId: json["user_id"],
       rideId: int.tryParse(json["ride_id"]?.toString() ?? "0"),
       riderId: json["rider_id"],
@@ -194,6 +199,9 @@ class TripDetailsModel {
       totalPrice: num.tryParse(json["total_price"]?.toString() ?? "0.0"),
       price: num.tryParse(
           (json["price"]?.toString() ?? json["cost"])?.toString() ?? "0.0"),
+      driverEarnings: num.tryParse(
+          (json["driverEarnings"]?.toString() ?? json["cost"])?.toString() ??
+              "0.0"),
       // totalPrice: num.tryParse(
       //     (json["total_price"]?.toString() ?? json["cost"])?.toString() ?? "0.0"),
       // stops: (json["stops"] as List?)
@@ -266,7 +274,7 @@ class TripDetailsModel {
       dateFrom: json["date_from"] ?? json["from"],
       dateTo: json["date_to"] ?? json["to"],
       date: json["date"],
-      time: json["time"],
+      time: json["time"] ?? json["time"],
       seatsAvailable: json["seats_available"]?.toString(),
       type: json["type"],
       days: json["days"] is List
@@ -277,7 +285,7 @@ class TripDetailsModel {
           .toList(),
     );
   }
-  Map<String,dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
       "id": id,
       "user_id": userId,

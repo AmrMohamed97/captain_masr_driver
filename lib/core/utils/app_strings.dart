@@ -196,6 +196,7 @@ abstract class AppStrings {
   static const String cost = "cost";
   static const String estimatedCost = "estimatedCost";
   static const String tips = "tips";
+  static const String tripCost = "tripCost";
   static const String systemCut = "systemCut";
   static const String driverEarning = "driverEarning";
   static const String rebook = "rebook";

@@ -3,10 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/imports/imports.dart';
 import '../../../../core/widgets/partial_star.dart';
-import '../../../../core/widgets/seats_number.dart';
 import '../../../driver_trip/presentation/widgets/prefernces_items_wrap.dart';
 import '../../../home/presentation/views/home_view.dart';
-import '../../../preferences/presentation/widgets/preferences_alert_dialog.dart';
 import '../../../start_trip/presentation/views/start_trip_view.dart';
 import '../../../trips/presentation/widgets/cancel_trip_alert_dialog.dart';
 import '../../../trips/presentation/widgets/reason_of_cancel_trip_alert_dialog.dart';
@@ -52,132 +50,125 @@ class TripDetailsBody extends StatelessWidget {
                     children: [
                       //! Completed Date & Time
                       if (cubit.isCompleted)
-                        Padding(
-                          padding: EdgeInsets.only(
-                            bottom: 18.rH(context),
+                        Container(
+                          width: double.infinity,
+                          height: 37.rH(context),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.rW(context),
                           ),
-                          child: Container(
-                            width: double.infinity,
-                            height: 37.rH(context),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8.rW(context),
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withOpacity(.12),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              children: [
-                                //! Date
-                                CustomSvgPicture(
-                                  svg: Assets.imagesCalender,
-                                  height: 19.rH(context),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary.withOpacity(.12),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              //! Date
+                              CustomSvgPicture(
+                                svg: Assets.imagesCalender,
+                                height: 19.rH(context),
+                              ),
+                              SizedBox(width: 10.rW(context)),
+                              Text(
+                                cubit.formatTripDate(
+                                  locale: context.read<GlobalCubit>().language,
                                 ),
-                                SizedBox(width: 10.rW(context)),
-                                Text(
-                                  cubit.formatTripDate(
-                                    locale:
-                                        context.read<GlobalCubit>().language,
-                                  ),
-                                  style: Styles.medium14(context).copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
-                                  ),
+                                style: Styles.medium14(context).copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
                                 ),
-                                const Spacer(),
-                                //! Time
-                                CustomSvgPicture(
-                                  svg: Assets.imagesTime,
-                                  height: 19.rH(context),
+                              ),
+                              const Spacer(),
+                              //! Time
+                              CustomSvgPicture(
+                                svg: Assets.imagesTime,
+                                height: 19.rH(context),
+                              ),
+                              SizedBox(width: 10.rW(context)),
+                              Text(
+                                cubit.formatTripTime(
+                                  locale: context.read<GlobalCubit>().language,
                                 ),
-                                SizedBox(width: 10.rW(context)),
-                                Text(
-                                  cubit.formatTripTime(
-                                    locale:
-                                        context.read<GlobalCubit>().language,
-                                  ),
-                                  style: Styles.medium14(context).copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
-                                  ),
+                                style: Styles.medium14(context).copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
 
                       //! Riders (If Driver & share or group or school Trip)
-                      if (context.read<GlobalCubit>().isDriver &&
-                          (cubit.isShare || cubit.isGroup))
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 56.rH(context),
-                              child: Center(
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: List.generate(
-                                    cubit.riders.length,
-                                    (index) {
-                                      return Positioned(
-                                        left: 60.rW(context) * index,
-                                        right: 60.rW(context),
-                                        child: Column(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                cubit.selectRider(index);
-                                              },
-                                              child: CircleAvatar(
-                                                radius: 24.rH(context),
-                                                backgroundColor:
-                                                    cubit.selectedRider == index
-                                                        ? AppColors.primary
-                                                        : AppColors.transparent,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(50),
-                                                  child: Image.asset(
-                                                    cubit.riders[index],
-                                                    height: double.infinity,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 3.rH(context)),
-                                            CircleAvatar(
-                                              radius: 2.rH(context),
-                                              backgroundColor:
-                                                  cubit.selectedRider == index
-                                                      ? AppColors.primary
-                                                      : AppColors.greyText
-                                                          .withOpacity(.5),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "Ahmed & Omar & Yassen",
-                              style: Styles.semibold14Primary(context).copyWith(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
-                              ),
-                            ),
-                          ],
-                        ),
+                      // if (context.read<GlobalCubit>().isDriver &&
+                      //     (cubit.isShare || cubit.isGroup))
+                      //   Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     children: [
+                      //       SizedBox(
+                      //         height: 56.rH(context),
+                      //         child: Center(
+                      //           child: Stack(
+                      //             clipBehavior: Clip.none,
+                      //             children: List.generate(
+                      //               cubit.riders.length,
+                      //               (index) {
+                      //                 return Positioned(
+                      //                   left: 60.rW(context) * index,
+                      //                   right: 60.rW(context),
+                      //                   child: Column(
+                      //                     children: [
+                      //                       // GestureDetector(
+                      //                       //   onTap: () {
+                      //                       //     cubit.selectRider(index);
+                      //                       //   },
+                      //                       //   child: CircleAvatar(
+                      //                       //     radius: 24.rH(context),
+                      //                       //     backgroundColor:
+                      //                       //         cubit.selectedRider == index
+                      //                       //             ? AppColors.primary
+                      //                       //             : AppColors.transparent,
+                      //                       //     child: ClipRRect(
+                      //                       //       borderRadius:
+                      //                       //           BorderRadius.circular(50),
+                      //                       //       child: Image.asset(
+                      //                       //         cubit.riders[index],
+                      //                       //         height: double.infinity,
+                      //                       //         fit: BoxFit.cover,
+                      //                       //       ),
+                      //                       //     ),
+                      //                       //   ),
+                      //                       // ),
+                      //                       SizedBox(height: 3.rH(context)),
+                      //                       CircleAvatar(
+                      //                         radius: 2.rH(context),
+                      //                         backgroundColor:
+                      //                             cubit.selectedRider == index
+                      //                                 ? AppColors.primary
+                      //                                 : AppColors.greyText
+                      //                                     .withOpacity(.5),
+                      //                       ),
+                      //                     ],
+                      //                   ),
+                      //                 );
+                      //               },
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Text(
+                      //         "Ahmed & Omar & Yassen",
+                      //         style: Styles.semibold14Primary(context).copyWith(
+                      //           color: Theme.of(context)
+                      //               .textTheme
+                      //               .bodyLarge
+                      //               ?.color,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
 
                       //! Driver Or User Details
                       if (!cubit.isShare && !cubit.isGroup)
@@ -275,122 +266,122 @@ class TripDetailsBody extends StatelessWidget {
                       //! Divider
                       CustomDivider(space: 8.rH(context)),
 
-                      //! Car Details
-                      if (context.read<GlobalCubit>().isRider)
-                        Row(
-                          children: [
-                            //! Car Image
-                            Image.asset(
-                              Assets.imagesTestCar1,
-                              height: 27.rH(context),
-                            ),
-                            SizedBox(width: 11.rW(context)),
-                            //! Name & Number
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //! Name
-                                  Text(
-                                    "${cubit.tripDetails!.vehicleBrand ?? ""} ${cubit.tripDetails!.vehicleModel ?? ""}",
-                                    style: Styles.semibold12(context).copyWith(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
-                                  ),
-                                  SizedBox(height: 1.rH(context)),
-                                  //! Number & Color
-                                  Text(
-                                    "${cubit.tripDetails!.vehicleColor ?? "??"} - ${cubit.tripDetails!.vehiclePlats ?? "??"}",
-                                    style: Styles.regular12(context).copyWith(
-                                      color: AppColors.greyText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            //! Available Seats
-                            if (cubit.isGroup || cubit.isScheduled)
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.availableSeats.tr(context),
-                                    style: Styles.medium12(context).copyWith(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
-                                  ),
-                                  SizedBox(height: 1.rH(context)),
-                                  Text(
-                                    "2 ${AppStrings.seats.tr(context)}",
-                                    style: Styles.medium14(context).copyWith(
-                                      color: AppColors.red,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            //! Co-Riders
-                            if (cubit.isShare)
-                              Column(
-                                children: [
-                                  Text(
-                                    AppStrings.coRiders.tr(context),
-                                    style: Styles.medium12(context).copyWith(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                    ),
-                                  ),
-                                  SizedBox(height: 1.rH(context)),
-                                  Text(
-                                    "3 ${AppStrings.riders.tr(context)}",
-                                    style: Styles.medium14(context).copyWith(
-                                      color: AppColors.red,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            //! Prefernces
-                            if (cubit.isClassic)
-                              GestureDetector(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) =>
-                                        PreferencesAlertDialog(
-                                      preferencesModel:
-                                          cubit.tripDetails!.preferences,
-                                      canEdit: false,
-                                      showCantEditTitle: false,
-                                    ),
-                                  );
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CustomSvgPicture(
-                                      svg: Assets.imagesPreferences,
-                                      height: 24.rH(context),
-                                    ),
-                                    SizedBox(width: 6.rW(context)),
-                                    Text(
-                                      AppStrings.preferences.tr(context),
-                                      style: Styles.regular14(context).copyWith(
-                                        color: AppColors.primary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
+                      // //! Car Details
+                      // if (context.read<GlobalCubit>().isRider)
+                      //   Row(
+                      //     children: [
+                      //       //! Car Image
+                      //       Image.asset(
+                      //         Assets.imagesTestCar1,
+                      //         height: 27.rH(context),
+                      //       ),
+                      //       SizedBox(width: 11.rW(context)),
+                      //       //! Name & Number
+                      //       Expanded(
+                      //         child: Column(
+                      //           crossAxisAlignment: CrossAxisAlignment.start,
+                      //           children: [
+                      //             //! Name
+                      //             Text(
+                      //               "${cubit.tripDetails!.vehicleBrand ?? ""} ${cubit.tripDetails!.vehicleModel ?? ""}",
+                      //               style: Styles.semibold12(context).copyWith(
+                      //                 color: Theme.of(context)
+                      //                     .textTheme
+                      //                     .bodyLarge
+                      //                     ?.color,
+                      //               ),
+                      //             ),
+                      //             SizedBox(height: 1.rH(context)),
+                      //             //! Number & Color
+                      //             Text(
+                      //               "${cubit.tripDetails!.vehicleColor ?? "??"} - ${cubit.tripDetails!.vehiclePlats ?? "??"}",
+                      //               style: Styles.regular12(context).copyWith(
+                      //                 color: AppColors.greyText,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       //! Available Seats
+                      //       if (cubit.isGroup || cubit.isScheduled)
+                      //         Column(
+                      //           children: [
+                      //             Text(
+                      //               AppStrings.availableSeats.tr(context),
+                      //               style: Styles.medium12(context).copyWith(
+                      //                 color: Theme.of(context)
+                      //                     .textTheme
+                      //                     .bodyLarge
+                      //                     ?.color,
+                      //               ),
+                      //             ),
+                      //             SizedBox(height: 1.rH(context)),
+                      //             Text(
+                      //               "2 ${AppStrings.seats.tr(context)}",
+                      //               style: Styles.medium14(context).copyWith(
+                      //                 color: AppColors.red,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       //! Co-Riders
+                      //       if (cubit.isShare)
+                      //         Column(
+                      //           children: [
+                      //             Text(
+                      //               AppStrings.coRiders.tr(context),
+                      //               style: Styles.medium12(context).copyWith(
+                      //                 color: Theme.of(context)
+                      //                     .textTheme
+                      //                     .bodyLarge
+                      //                     ?.color,
+                      //               ),
+                      //             ),
+                      //             SizedBox(height: 1.rH(context)),
+                      //             Text(
+                      //               "3 ${AppStrings.riders.tr(context)}",
+                      //               style: Styles.medium14(context).copyWith(
+                      //                 color: AppColors.red,
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       //! Prefernces
+                      //       if (cubit.isClassic)
+                      //         GestureDetector(
+                      //           onTap: () {
+                      //             showDialog(
+                      //               context: context,
+                      //               builder: (context) =>
+                      //                   PreferencesAlertDialog(
+                      //                 preferencesModel:
+                      //                     cubit.tripDetails!.preferences,
+                      //                 canEdit: false,
+                      //                 showCantEditTitle: false,
+                      //               ),
+                      //             );
+                      //           },
+                      //           child: Row(
+                      //             mainAxisSize: MainAxisSize.min,
+                      //             children: [
+                      //               CustomSvgPicture(
+                      //                 svg: Assets.imagesPreferences,
+                      //                 height: 24.rH(context),
+                      //               ),
+                      //               SizedBox(width: 6.rW(context)),
+                      //               Text(
+                      //                 AppStrings.preferences.tr(context),
+                      //                 style: Styles.regular14(context).copyWith(
+                      //                   color: AppColors.primary,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //     ],
+                      //   ),
 
-                      SizedBox(height: 20.rH(context)),
+                      // SizedBox(height: 20.rH(context)),
 
                       //! Destination
                       CustomTable(
@@ -446,7 +437,9 @@ class TripDetailsBody extends StatelessWidget {
                         const BookingCard(),
 
                       //! Days You Want
-                      if (cubit.isGroup)
+                      if (cubit.tripDetails?.date != null ||
+                          (cubit.tripDetails?.days != null &&
+                              cubit.tripDetails!.days!.isNotEmpty))
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -464,15 +457,13 @@ class TripDetailsBody extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 16.rH(context)),
-                            SizedBox(
-                              height: 70.rH(context),
-                              child: ListView.separated(
-                                itemCount: 5,
-                                scrollDirection: Axis.horizontal,
-                                separatorBuilder: (context, index) {
-                                  return SizedBox(width: 12.rW(context));
-                                },
-                                itemBuilder: (context, index) {
+                            if (cubit.tripDetails?.date != null)
+                              Builder(
+                                builder: (context) {
+                                  final dateTime = DateTime.tryParse(
+                                      cubit.tripDetails!.date!);
+                                  if (dateTime == null)
+                                    return const SizedBox.shrink();
                                   return Container(
                                     width: 47.rW(context),
                                     height: 70.rH(context),
@@ -491,8 +482,7 @@ class TripDetailsBody extends StatelessWidget {
                                           height: 24.rH(context),
                                           child: FittedBox(
                                             child: Text(
-                                              cubit.daysFromTo[index].day
-                                                  .toString(),
+                                              dateTime.day.toString(),
                                               style: Styles.semibold18Primary(
                                                       context)
                                                   .copyWith(
@@ -509,8 +499,12 @@ class TripDetailsBody extends StatelessWidget {
                                           height: 14.rH(context),
                                           child: FittedBox(
                                             child: Text(
-                                              DateFormat('EEE').format(
-                                                  cubit.daysFromTo[index]),
+                                              DateFormat(
+                                                      'EEE',
+                                                      context
+                                                          .read<GlobalCubit>()
+                                                          .language)
+                                                  .format(dateTime),
                                               style: Styles.semibold18Primary(
                                                       context)
                                                   .copyWith(
@@ -523,102 +517,187 @@ class TripDetailsBody extends StatelessWidget {
                                     ),
                                   );
                                 },
+                              )
+                            else if (cubit.tripDetails?.days != null)
+                              SizedBox(
+                                height: 70.rH(context),
+                                child: ListView.separated(
+                                  itemCount: cubit.tripDetails!.days!.length,
+                                  scrollDirection: Axis.horizontal,
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(width: 12.rW(context));
+                                  },
+                                  itemBuilder: (context, index) {
+                                    final dayStr =
+                                        cubit.tripDetails!.days![index];
+                                    final dateTime = DateTime.tryParse(dayStr);
+                                    if (dateTime == null)
+                                      return const SizedBox.shrink();
+                                    return Container(
+                                      width: 47.rW(context),
+                                      height: 70.rH(context),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            AppColors.primary.withOpacity(.15),
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            height: 24.rH(context),
+                                            child: FittedBox(
+                                              child: Text(
+                                                dateTime.day.toString(),
+                                                style: Styles.semibold18Primary(
+                                                        context)
+                                                    .copyWith(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      ?.color,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 2.rH(context)),
+                                          SizedBox(
+                                            height: 14.rH(context),
+                                            child: FittedBox(
+                                              child: Text(
+                                                DateFormat(
+                                                        'EEE',
+                                                        context
+                                                            .read<GlobalCubit>()
+                                                            .language)
+                                                    .format(dateTime),
+                                                style: Styles.semibold18Primary(
+                                                        context)
+                                                    .copyWith(
+                                                  color: AppColors.greyText,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
                             SizedBox(height: 18.rH(context)),
                           ],
                         ),
 
-                      //! Gathering & Returning Time
+                      //! Gathering Time
                       if (cubit.isGroup)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //! Title
-                            Text(
-                              AppStrings.gatheringAndReturningTime.tr(context),
-                              style: Styles.medium16Primary(context).copyWith(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
-                              ),
-                            ),
-                            SizedBox(height: 10.rH(context)),
-                            Row(
+                        Builder(
+                          builder: (context) {
+                            print('date ========================0000000000000');
+                            print(cubit.tripDetails?.time);
+                            final String? timeStr = cubit.tripDetails?.time;
+                            // final dateTime = timeStr != null
+                            //     ? DateTime.tryParse(timeStr)?.toLocal()
+                            //     : null;
+                            // final formattedTime = dateTime != null
+                            //     ? DateFormat.jm(
+                            //             context.read<GlobalCubit>().language)
+                            //         .format(dateTime)
+                            //     : "";
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                //! Start
-                                Expanded(
-                                  child: CustomSelectContainer(
-                                    value: "06:27 AM",
-                                    onTap: () {},
-                                    svg: Assets.imagesTime,
-                                    icon: Container(),
-                                    borderColor: AppColors.primary,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 18.rW(context),
-                                  ),
-                                  child: Text(
-                                    AppStrings.to.tr(context),
-                                    style: Styles.regular14(context).copyWith(
-                                      color: AppColors.greyText,
-                                    ),
-                                  ),
-                                ),
-                                //! End
-                                Expanded(
-                                  child: CustomSelectContainer(
-                                    value: "12:27 PM",
-                                    onTap: () {},
-                                    svg: Assets.imagesTime,
-                                    icon: Container(),
-                                    borderColor: AppColors.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 16.rH(context)),
-                          ],
-                        ),
-
-                      //! Seats Needs
-                      if (cubit.isGroup || cubit.isShare)
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 16.rH(context)),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  AppStrings.seatsNeeded.tr(context),
-                                  style: Styles.regular16(context).copyWith(
+                                //! Title
+                                Text(
+                                  AppStrings.startHour.tr(context),
+                                  style:
+                                      Styles.medium16Primary(context).copyWith(
                                     color: Theme.of(context)
                                         .textTheme
                                         .bodyLarge
                                         ?.color,
                                   ),
                                 ),
-                              ),
-                              const SeatsNumber(seatsNumber: 2),
-                            ],
-                          ),
+                                SizedBox(height: 10.rH(context)),
+                                CustomSelectContainer(
+                                  value: timeStr ?? "",
+                                  onTap: () {},
+                                  svg: Assets.imagesTime,
+                                  icon: Container(),
+                                  borderColor: AppColors.primary,
+                                ),
+                                SizedBox(height: 16.rH(context)),
+                              ],
+                            );
+                          },
                         ),
 
+                      //! Seats Needs
+                      // if (cubit.isGroup || cubit.isShare)
+                      //   Padding(
+                      //     padding: EdgeInsets.only(bottom: 16.rH(context)),
+                      //     child: Row(
+                      //       children: [
+                      //         Expanded(
+                      //           child: Text(
+                      //             AppStrings.seatsNeeded.tr(context),
+                      //             style: Styles.regular16(context).copyWith(
+                      //               color: Theme.of(context)
+                      //                   .textTheme
+                      //                   .bodyLarge
+                      //                   ?.color,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         const SeatsNumber(seatsNumber: 2),
+                      //       ],
+                      //     ),
+                      //   ),
+
                       //! Total Cost
-                      if ((cubit.isAccepted || cubit.isCompleted)&&cubit.tripDetails?.price!=null)
+                      if ((cubit.isAccepted || cubit.isCompleted) &&
+                          (cubit.tripDetails?.tip != null &&
+                              cubit.tripDetails?.tip != 0))
                         Padding(
                           padding: EdgeInsets.symmetric(
                             vertical: 16.rH(context),
                           ),
                           child: CostRow(
-                            cost: cubit.tripDetails!.price ?? 0.0,
+                            cost: cubit.tripDetails!.tip ?? 0.0,
                             costBeforeDiscount: null,
-                            title: AppStrings.totalCost.tr(context),
+                            title: AppStrings.tips.tr(context),
                           ),
                         ),
-
+                      if ((cubit.isAccepted || cubit.isCompleted) &&
+                          cubit.tripDetails?.price != null)
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 16.rH(context),
+                          ),
+                          child: CostRow(
+                            cost: context.read<GlobalCubit>().isRider
+                                ? cubit.tripDetails!.price ?? 0.0
+                                : cubit.tripDetails?.driverEarnings ?? 0.0,
+                            costBeforeDiscount: null,
+                            title: AppStrings.tripCost.tr(context),
+                          ),
+                        ),
+                      // if ((cubit.isAccepted || cubit.isCompleted) &&
+                      //     cubit.tripDetails?.tip != null)
+                      //   Padding(
+                      //     padding: EdgeInsets.symmetric(
+                      //       vertical: 16.rH(context),
+                      //     ),
+                      //     child: CostRow(
+                      //       cost: cubit.tripDetails!.tip ?? 0.0,
+                      //       costBeforeDiscount: null,
+                      //       title:  AppStrings.totalCost.tr(context),
+                      //     ),
+                      //   ),
                       //! Completed Cost
                       // if (cubit.isCompleted)
                       //   CustomTable(

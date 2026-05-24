@@ -2,6 +2,7 @@ import '../../../../core/imports/imports.dart';
 import '../../../notifications/presentation/views/notifications_view.dart';
 import '../cubit/home_cubit.dart';
 import 'home_sliders.dart';
+import 'notification_icon_button.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -122,32 +123,8 @@ class HomeHeader extends StatelessWidget {
                         ),
                       ),
                       //! Notifications
-                      GestureDetector(
-                        onTap: () {
-                          navBarNavigate(
-                            context: context,
-                            widget: const NotificationsView(),
-                          );
-                        },
-                        child: Container(
-                          width: 38.rH(context),
-                          height: 38.rH(context),
-                          decoration: BoxDecoration(
-                            color: AppColors.white.withOpacity(.90),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Center(
-                            child: Badge(
-                              isLabelVisible: false,
-                              smallSize: 8.rH(context),
-                              largeSize: 8.rH(context),
-                              child: CustomSvgPicture(
-                                svg: Assets.imagesNotifications,
-                                height: 22.rH(context),
-                              ),
-                            ),
-                          ),
-                        ),
+                      NotificationIconButton(
+                        userId: context.read<GlobalCubit>().userModel?.id ?? 0,
                       ),
                     ],
                   ),
