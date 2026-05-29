@@ -221,14 +221,18 @@ class StartTripCubit extends Cubit<StartTripState> {
       if (isShareRide) {
         final price = details?.totalPrice ?? 0;
         final dicountValue = ((promoCodeModel?.percentage ?? 0) / 100) * price;
+        // استخدام math.max لمنع القيم السالبة تماشياً مع الـ Backend
+        final finalPrice = price - dicountValue;
         discountPrice = double.tryParse(
-          (price - dicountValue).toStringAsFixed(2),
+          (finalPrice < 0 ? 0.0 : finalPrice).toStringAsFixed(2),
         );
       } else {
         final price = details?.price ?? 0;
         final dicountValue = ((promoCodeModel?.percentage ?? 0) / 100) * price;
+        // استخدام math.max لمنع القيم السالبة تماشياً مع الـ Backend
+        final finalPrice = price - dicountValue;
         discountPrice = double.tryParse(
-          (price - dicountValue).toStringAsFixed(2),
+          (finalPrice < 0 ? 0.0 : finalPrice).toStringAsFixed(2),
         );
       }
     } else {
