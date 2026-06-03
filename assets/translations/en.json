@@ -435,5 +435,6 @@
     "retry": "Retry",
     "estimatedTripDetails": "Estimated Trip Details",
     "unreadNotifications": "Unread Notifications",
+    "biddingPrice": "Bidding Price (Optional)",
     "tapToReadAll": "Tap to view and mark all as read"
 }

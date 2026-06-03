@@ -1,5 +1,7 @@
 class EndPoints {
-  static const String baseUrl = "https://ma3ak.evyx.lol/api/";
+  // static const String baseUrl = "https://ma3ak.evyx.lol/api/";
+    static const String baseUrl = "https://captian-masr.evyx.lol/api/";
+
   //! Login
   static const String userLogin = "${baseUrl}user/login";
   static const String driverLogin = "${baseUrl}driver/login";

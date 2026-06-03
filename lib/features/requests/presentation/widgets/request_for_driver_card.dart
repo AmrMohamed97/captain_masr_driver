@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import '../../../../core/imports/imports.dart';
+import '../../../../core/widgets/custom_text_field.dart';
 import '../../../rider_trip/data/models/trip_details_model.dart';
 import 'luggages_row.dart';
 import 'rider_details_and_cost.dart';
@@ -14,7 +15,7 @@ class RequestForDriverCard extends StatefulWidget {
   });
 
   final TripDetailsModel model;
-  final Future<bool> Function() acceptOnTap;
+  final Future<bool> Function(num? biddingPrice) acceptOnTap;
   final Function() declineOnTap;
 
   @override
@@ -25,6 +26,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
   bool _isCountingDown = false;
   int _countdown = 10;
   Timer? _timer;
+  final TextEditingController _biddingPriceController = TextEditingController();
 
   void _startCountdown() {
     setState(() {
@@ -50,6 +52,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
   @override
   void dispose() {
     _timer?.cancel();
+    _biddingPriceController.dispose();
     super.dispose();
   }
 
@@ -132,6 +135,20 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
 
                 SizedBox(height: 20.rH(context)),
 
+                //! Bidding Price Input
+                CustomTextField(
+                  controller: _biddingPriceController,
+                  enabled: !_isCountingDown,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  hintText: AppStrings.biddingPrice.tr(context),
+                  prefixIcon: Icon(
+                    Icons.monetization_on_outlined,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+
+                SizedBox(height: 20.rH(context)),
+
                 //! Buttons
                 Row(
                   children: [
@@ -151,7 +168,8 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                     Expanded(
                       child: CustomButton(
                         onPressed: () async {
-                          final success = await widget.acceptOnTap();
+                          final biddingPrice = num.tryParse(_biddingPriceController.text);
+                          final success = await widget.acceptOnTap(biddingPrice);
                           if (success) {
                             _startCountdown();
                           }

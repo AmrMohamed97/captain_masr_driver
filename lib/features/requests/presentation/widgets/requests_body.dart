@@ -32,8 +32,11 @@ class RequestsBody extends StatelessWidget {
                   return RequestForDriverCard(
                     key: ValueKey(cubit.rideRequests[index].id),
                     model: cubit.rideRequests[index],
-                    acceptOnTap: () async {
-                      return await cubit.acceptRide(id: cubit.rideRequests[index].id ?? 0);
+                    acceptOnTap: (biddingPrice) async {
+                      return await cubit.acceptRide(
+                        id: cubit.rideRequests[index].id ?? 0,
+                        biddingPrice: biddingPrice,
+                      );
                     },
                     declineOnTap: () => cubit.declineRequest(
                         id: cubit.rideRequests[index].id ?? 0),

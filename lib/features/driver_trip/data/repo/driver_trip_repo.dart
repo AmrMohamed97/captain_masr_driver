@@ -14,10 +14,15 @@ class DriverTripRepo {
   DriverTripRepo(this.api);
 
   //! Accept Request
-  Future<Either<String, String>> acceptRequest({required int id}) async {
+  Future<Either<String, String>> acceptRequest({required int id,num? biddingPrice}) async {
+    final formData = FormData.fromMap({
+      "bidding_price": biddingPrice,
+    });
     try {
       final Response response = await api.post(
         "${EndPoints.driverAcceptRide}/$id",
+        data: formData,//biddingPrice!=null?formData:null,
+        
       );
       return Right(response.data["message"]);
     } on ServerException catch (e) {

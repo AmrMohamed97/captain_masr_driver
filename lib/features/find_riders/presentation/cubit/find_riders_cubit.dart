@@ -31,9 +31,9 @@ class FindRidersCubit extends Cubit<FindRidersState> {
   final List<int> acceptedTripTypeIds;
 
   //! Accept Request
-  Future<bool> acceptRide({required int id}) async {
+  Future<bool> acceptRide({required int id,num? biddingPrice}) async {
     emit(AcceptRequestLoadingState());
-    final result = await sl<DriverTripRepo>().acceptRequest(id: id);
+    final result = await sl<DriverTripRepo>().acceptRequest(id: id,biddingPrice: biddingPrice);
     return result.fold(
       (error) {
         // Ride no longer available — remove it from the list
