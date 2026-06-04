@@ -290,12 +290,12 @@ negotiationStatus,
           ?.map((e) => int.tryParse(e.toString()) ?? 0)
           .toList(),
       negotiation: json['negotiation'] != null
-          ? Negotiation.fromJson(json['negotiation'])
+          ? Negotiation.fromJson(json['negotiation'] as Map)
           : null,
-      negotiations: (json['negotiations'] as Map<String, dynamic>?)?.map(
+      negotiations: (json['negotiations'] as Map?)?.map(
         (key, value) => MapEntry(
-          key,
-          Negotiation.fromJson(value as Map<String, dynamic>),
+          key.toString(),
+          Negotiation.fromJson(value as Map),
         ),
       ),
     );
@@ -405,7 +405,7 @@ class Negotiation {
     this.updatedAt,
   });
 
-  factory Negotiation.fromJson(Map<String, dynamic> json) {
+  factory Negotiation.fromJson(Map json) {
     return Negotiation(
       action: json['action'] as String?,
       createdAt: json['created_at'] as String?,

@@ -21,19 +21,19 @@ class FindRidersCubit extends Cubit<FindRidersState> {
     required this.acceptedTripTypeIds,
   }) : super(FindRidersInitial()) {
     getCurrentLocation();
-    initRealTime(
-      context,
-      driverId: driverId,
-    );
+    initRealTime(context, driverId: driverId);
   }
 
   /// Trip type IDs the driver has enabled (from HomeCubit.driverTripTypes).
   final List<int> acceptedTripTypeIds;
 
   //! Accept Request
-  Future<bool> acceptRide({required int id,num? biddingPrice}) async {
+  Future<bool> acceptRide({required int id, num? biddingPrice}) async {
     emit(AcceptRequestLoadingState());
-    final result = await sl<DriverTripRepo>().acceptRequest(id: id,biddingPrice: biddingPrice);
+    final result = await sl<DriverTripRepo>().acceptRequest(
+      id: id,
+      biddingPrice: biddingPrice,
+    );
     return result.fold(
       (error) {
         // Ride no longer available — remove it from the list
@@ -70,6 +70,8 @@ class FindRidersCubit extends Cubit<FindRidersState> {
           if (!kReleaseMode) log("Added: ${data.toString()}");
 
           if (data != null) {
+            print("data  ==========firebase ============= ");
+            print("$data");
             final ride = TripDetailsModel.fromJson(data);
             // Filter: ignore trip types the driver has not selected
             if (acceptedTripTypeIds.isNotEmpty &&
@@ -134,7 +136,7 @@ class FindRidersCubit extends Cubit<FindRidersState> {
         final data = event.snapshot.value as Map?;
         final status = data?["status"]?.toString() ?? "";
         if (status == "accepted") {
-           navigateReplacement(
+          navigateReplacement(
             context,
             DriverTripView(
               tripId: data?["ride_id"],
@@ -175,9 +177,9 @@ class FindRidersCubit extends Cubit<FindRidersState> {
         if (data == null) return;
         final status = data["status"]?.toString() ?? "";
         if (status == "canceled" || status == "cancelled"
-            // ||
-            // status == "accepted"
-            ) {
+        // ||
+        // status == "accepted"
+        ) {
           _pendingRideSubscriptions.remove(rideId)?.cancel();
           final before = rideRequests.length;
           rideRequests.removeWhere(
