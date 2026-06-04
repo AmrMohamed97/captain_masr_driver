@@ -11,9 +11,7 @@ class RequestsBody extends StatelessWidget {
         //! Header
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
-          child: CustomAppBar(
-            title: AppStrings.requests.tr(context),
-          ),
+          child: CustomAppBar(title: AppStrings.requests.tr(context)),
         ),
 
         SizedBox(height: 26.rH(context)),
@@ -29,17 +27,24 @@ class RequestsBody extends StatelessWidget {
                   return SizedBox(height: 16.rH(context));
                 },
                 itemBuilder: (context, index) {
-                  return RequestForDriverCard(
-                    key: ValueKey(cubit.rideRequests[index].id),
-                    model: cubit.rideRequests[index],
-                    acceptOnTap: (biddingPrice) async {
-                      return await cubit.acceptRide(
-                        id: cubit.rideRequests[index].id ?? 0,
-                        biddingPrice: biddingPrice,
-                      );
+                  return GestureDetector(
+                    onTap: () {
+                      print('value =====================');
+                      print(cubit.rideRequests[index].negotiation?.riderPrice);
                     },
-                    declineOnTap: () => cubit.declineRequest(
-                        id: cubit.rideRequests[index].id ?? 0),
+                    child: RequestForDriverCard(
+                      key: ValueKey(cubit.rideRequests[index].id),
+                      model: cubit.rideRequests[index],
+                      acceptOnTap: (biddingPrice) async {
+                        return await cubit.acceptRide(
+                          id: cubit.rideRequests[index].id ?? 0,
+                          biddingPrice: biddingPrice,
+                        );
+                      },
+                      declineOnTap: () => cubit.declineRequest(
+                        id: cubit.rideRequests[index].id ?? 0,
+                      ),
+                    ),
                   );
                 },
               ),

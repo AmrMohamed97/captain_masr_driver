@@ -436,5 +436,6 @@
     "estimatedTripDetails": "Estimated Trip Details",
     "unreadNotifications": "Unread Notifications",
     "biddingPrice": "Bidding Price (Optional)",
+    "negotiatePrice": "Negotiate Price",
     "tapToReadAll": "Tap to view and mark all as read"
 }

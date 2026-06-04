@@ -3,6 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../preferences/data/models/preferences_model.dart';
 
 class TripDetailsModel {
+  final Map<String, Negotiation>? negotiations;
+  final Negotiation? negotiation;
   final int? id,
       userId,
       rideId,
@@ -20,6 +22,7 @@ class TripDetailsModel {
       shareRideId;
   final String? riderName,
       riderImage,
+negotiationStatus,
       riderPhone,
       riderPhoneCode,
       pickupAddress,
@@ -79,13 +82,14 @@ class TripDetailsModel {
   final List<int>? seatsIds;
 
   TripDetailsModel({
+    this.negotiations,
     required this.id,
     required this.userId,
     required this.rideId,
     required this.riderId,
     this.tip,
     this.requestId,
-    // required this.tripId,
+    required this.negotiationStatus,
     required this.smallCount,
     required this.mediumCount,
     required this.largeCount,
@@ -155,6 +159,7 @@ class TripDetailsModel {
     this.completedAt,
     this.todayStatus,
     this.driverEarnings,
+    this.negotiation,
   });
 
   factory TripDetailsModel.fromJson(Map json) {
@@ -164,7 +169,7 @@ class TripDetailsModel {
       userId: json["user_id"],
       rideId: int.tryParse(json["ride_id"]?.toString() ?? "0"),
       riderId: json["rider_id"],
-      requestId: json["request_id"],
+      requestId: json["request_id"] ?? json['driver_request_id'],
       // tripId: json["trip_id"],
       smallCount: json["small_count"],
       mediumCount: json["medium_count"],
@@ -174,6 +179,7 @@ class TripDetailsModel {
       tripTypeId: json["trip_type_id"],
       riderName: json["rider_name"],
       riderImage: json["rider_image"]?.toString(),
+      negotiationStatus: json["negotiation_status"] as String?,
       pickupAddress: json["pickup_address"],
       dropoffAddress: json["dropoff_address"],
       pickupDate: json["pickup_date"],
@@ -283,6 +289,15 @@ class TripDetailsModel {
       seatsIds: (json["seats_ids"] as List?)
           ?.map((e) => int.tryParse(e.toString()) ?? 0)
           .toList(),
+      negotiation: json['negotiation'] != null
+          ? Negotiation.fromJson(json['negotiation'])
+          : null,
+      negotiations: (json['negotiations'] as Map<String, dynamic>?)?.map(
+        (key, value) => MapEntry(
+          key,
+          Negotiation.fromJson(value as Map<String, dynamic>),
+        ),
+      ),
     );
   }
   Map<String, dynamic> toMap() {
@@ -359,7 +374,62 @@ class TripDetailsModel {
       "started_at": startedAt,
       "completed_at": completedAt,
       "today_status": todayStatus,
+      "negotiation_status": negotiationStatus,
+      'negotiation': negotiation?.toJson(),
+      'negotiations':
+          negotiations?.map((k, v) => MapEntry(k, v.toJson())),
     };
   }
   // Map<String, dynamic> toJson() => toMap();
+}
+class Negotiation {
+  final String? action;
+  final String? createdAt;
+  final num? driverPrice;
+  final int? driverRequestId;
+  final int? id;
+  final bool? isFinal;
+  final num? price;
+  final num? riderPrice;
+  final String? updatedAt;
+
+  Negotiation({
+    this.action,
+    this.createdAt,
+    this.driverPrice,
+    this.driverRequestId,
+    this.id,
+    this.isFinal,
+    this.price,
+    this.riderPrice,
+    this.updatedAt,
+  });
+
+  factory Negotiation.fromJson(Map<String, dynamic> json) {
+    return Negotiation(
+      action: json['action'] as String?,
+      createdAt: json['created_at'] as String?,
+      driverPrice: json['driver_price'] as num?,
+      driverRequestId: json['driver_request_id'] as int?,
+      id: json['id'] as int?,
+      isFinal: json['is_final'] as bool?,
+      price: json['price'] as num?,
+      riderPrice: json['rider_price'] as num?,
+      updatedAt: json['updated_at'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'action': action,
+      'created_at': createdAt,
+      'driver_price': driverPrice,
+      'driver_request_id': driverRequestId,
+      'id': id,
+      'is_final': isFinal,
+      'price': price,
+      'rider_price': riderPrice,
+      'updated_at': updatedAt,
+    };
+  }
 }
