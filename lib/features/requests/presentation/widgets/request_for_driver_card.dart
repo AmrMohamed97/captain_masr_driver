@@ -158,13 +158,6 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                   child: widget.model.negotiation?.riderPrice == null
                       ? Column(
                           children: [
-                            TextButton(
-                              onPressed: () {
-                                print('value =====================');
-                                print(widget.model.negotiation?.riderPrice);
-                              },
-                              child: Text('data'),
-                            ),
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Row(

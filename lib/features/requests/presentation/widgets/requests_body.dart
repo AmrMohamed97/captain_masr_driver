@@ -27,23 +27,17 @@ class RequestsBody extends StatelessWidget {
                   return SizedBox(height: 16.rH(context));
                 },
                 itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      print('value =====================');
-                      print(cubit.rideRequests[index].negotiation?.riderPrice);
-                    },
-                    child: RequestForDriverCard(
-                      key: ValueKey(cubit.rideRequests[index].id),
-                      model: cubit.rideRequests[index],
-                      acceptOnTap: (biddingPrice) async {
-                        return await cubit.acceptRide(
-                          id: cubit.rideRequests[index].id ?? 0,
-                          biddingPrice: biddingPrice,
-                        );
-                      },
-                      declineOnTap: () => cubit.declineRequest(
+                  return RequestForDriverCard(
+                    key: ValueKey(cubit.rideRequests[index].id),
+                    model: cubit.rideRequests[index],
+                    acceptOnTap: (biddingPrice) async {
+                      return await cubit.acceptRide(
                         id: cubit.rideRequests[index].id ?? 0,
-                      ),
+                        biddingPrice: biddingPrice,
+                      );
+                    },
+                    declineOnTap: () => cubit.declineRequest(
+                      id: cubit.rideRequests[index].id ?? 0,
                     ),
                   );
                 },
