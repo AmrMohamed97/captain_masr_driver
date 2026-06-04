@@ -176,30 +176,21 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                                   SizedBox(width: 10.rH(context)),
                                   //! Decrement Button
                                   IconButton(
-                                    onPressed: _isCountingDown
+                                    onPressed: _isCountingDown ||
+                                            _biddingPrice <= 0.0
                                         ? null
                                         : () {
-                                            if (_biddingPrice >
-                                                (widget.model.price ?? 0.0)) {
-                                              setState(() {
-                                                _biddingPrice -= 5;
-                                                if (_biddingPrice <
-                                                    (widget.model.price ??
-                                                        0.0)) {
-                                                  _biddingPrice =
-                                                      (widget.model.price ??
-                                                              0.0)
-                                                          .toDouble();
-                                                }
-                                              });
-                                            }
+                                            setState(() {
+                                              _biddingPrice -= 5;
+                                              if (_biddingPrice < 0.0) {
+                                                _biddingPrice = 0.0;
+                                              }
+                                            });
                                           },
                                     icon: Icon(
                                       Icons.remove_circle_outline,
-                                      color:
-                                          _isCountingDown ||
-                                              _biddingPrice <=
-                                                  (widget.model.price ?? 0.0)
+                                      color: _isCountingDown ||
+                                              _biddingPrice <= 0.0
                                           ? AppColors.grey
                                           : AppColors.primary,
                                     ),
