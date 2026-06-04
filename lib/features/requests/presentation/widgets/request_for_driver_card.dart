@@ -138,26 +138,34 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 SizedBox(height: 20.rH(context)),
 
                 //! Negotiation Panel
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.rW(context),
-                    vertical: 12.rH(context),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? AppColors.black.withOpacity(0.3)
-                        : AppColors.grey3.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? AppColors.grey.withOpacity(0.2)
-                          : AppColors.grey,
-                      width: 1,
-                    ),
-                  ),
-                  child: widget.model.negotiation?.riderPrice == null
-                      ? Column(
+                widget.model.negotiation?.riderPrice == null
+                    ? Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.rW(context),
+                          vertical: 12.rH(context),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.black.withOpacity(0.3)
+                              : AppColors.grey3.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.grey.withOpacity(0.2)
+                                : AppColors.grey,
+                            width: 1,
+                          ),
+                        ),
+                        child: Column(
                           children: [
+                            TextButton(
+                              onPressed: () {
+                                print('value =====================');
+                                print(widget.model.negotiation?.riderPrice);
+                              },
+                              child: Text('data'),
+                            ),
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Row(
@@ -303,18 +311,54 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                               }).toList(),
                             ),
                           ],
-                        )
-                      : Row(
+                        ),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10.rH(context),
+                          horizontal: 12.rW(context),
+                        ),
+                        margin: EdgeInsets.only(bottom: 12.rH(context)),
+                        decoration: BoxDecoration(
+                          color: AppColors.green.withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColors.green.withOpacity(0.3),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Rider Offer:", style: Styles.bold16(context)),
                             Text(
-                              "${widget.model.negotiation?.riderPrice ?? ""} ${AppStrings.egp.tr(context)}",
-                              style: Styles.bold16(context),
+                              "عرض الراكب الجديد:",
+                              style: Styles.semibold14Primary(
+                                context,
+                              ).copyWith(color: AppColors.green),
+                            ),
+                            Row(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  " ${widget.model.negotiation!.riderPrice} ${AppStrings.egp.tr(context)}",
+                                  style: Styles.semibold14Primary(context)
+                                      .copyWith(
+                                        color: AppColors.green,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                                SizedBox(width: 8.rW(context)),
+                                Icon(
+                                  Icons.local_offer,
+                                  color: AppColors.green,
+                                  size: 20.rW(context),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                ),
+                      ),
 
                 SizedBox(height: 20.rH(context)),
 
