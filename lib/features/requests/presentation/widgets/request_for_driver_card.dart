@@ -106,7 +106,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 21.rH(context)),
+                SizedBox(height: 8.rH(context)),
                 //! Riders Details & Cost
                 RiderDetailsAndCost(model: widget.model),
 
@@ -117,7 +117,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                   LuggagesRow(tripDetails: widget.model),
 
                 //! Divider
-                CustomDivider(space: 12.rH(context)),
+                CustomDivider(space: 2.rH(context)),
 
                 //! Start & End Points
                 StartAndEndPoint(
@@ -127,7 +127,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 ),
 
                 //! Divider
-                CustomDivider(space: 12.rH(context)),
+                CustomDivider(space: 2.rH(context)),
 
                 //! Distantance & Duration
                 DistanceAndDuration(
@@ -135,7 +135,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                   duration: widget.model.timeMinutes?.toString() ?? "??",
                 ),
 
-                SizedBox(height: 20.rH(context)),
+                SizedBox(height: 14.rH(context)),
 
                 //! Negotiation Panel
                 widget.model.negotiation?.riderPrice == null
@@ -159,13 +159,6 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                         ),
                         child: Column(
                           children: [
-                            TextButton(
-                              onPressed: () {
-                                print('value =====================');
-                                print(widget.model.negotiation?.riderPrice);
-                              },
-                              child: Text('data'),
-                            ),
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Row(
@@ -249,7 +242,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 14.rH(context)),
+                            SizedBox(height: 10.rH(context)),
                             //! Quick Action Pills
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -360,7 +353,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                         ),
                       ),
 
-                SizedBox(height: 20.rH(context)),
+                SizedBox(height: 14.rH(context)),
 
                 //! Buttons
                 Row(
