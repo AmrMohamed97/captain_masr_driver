@@ -332,7 +332,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "عرض الراكب الجديد:",
+                              AppStrings.newRiderOffer.tr(context),
                               style: Styles.semibold14Primary(
                                 context,
                               ).copyWith(color: AppColors.green),
