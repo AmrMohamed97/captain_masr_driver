@@ -101,6 +101,15 @@ class FindRidersCubit extends Cubit<FindRidersState> {
         if (!kReleaseMode) log("Changed: ${data.toString()}");
 
         if (data != null) {
+          final changedRide = TripDetailsModel.fromJson(data);
+          final index = rideRequests.indexWhere(
+            (ride) => ride.id == changedRide.id || ride.rideId == changedRide.rideId,
+          );
+          if (index != -1) {
+            rideRequests[index] = changedRide;
+            emit(RiderRequestRecievedState());
+          }
+
           final status = data["status"]?.toString() ?? "";
           if (status == "accepted") {
             // navigateReplacement(
