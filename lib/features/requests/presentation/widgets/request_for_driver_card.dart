@@ -138,26 +138,25 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 SizedBox(height: 20.rH(context)),
 
                 //! Negotiation Panel
-                widget.model.negotiation?.riderPrice == null
-                    ? Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 12.rW(context),
-                          vertical: 12.rH(context),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.black.withOpacity(0.3)
-                              : AppColors.grey3.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                ? AppColors.grey.withOpacity(0.2)
-                                : AppColors.grey,
-                            width: 1,
-                          ),
-                        ),
-                        child: Column(
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.rW(context),
+                    vertical: 12.rH(context),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? AppColors.black.withOpacity(0.3)
+                        : AppColors.grey3.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.grey.withOpacity(0.2)
+                          : AppColors.grey,
+                      width: 1,
+                    ),
+                  ),
+                  child: widget.model.negotiation?.riderPrice == null
+                      ? Column(
                           children: [
                             TextButton(
                               onPressed: () {
@@ -311,12 +310,18 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                               }).toList(),
                             ),
                           ],
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Rider Offer:", style: Styles.bold16(context)),
+                            Text(
+                              "${widget.model.negotiation?.riderPrice ?? ""} ${AppStrings.egp.tr(context)}",
+                              style: Styles.bold16(context),
+                            ),
+                          ],
                         ),
-                      )
-                    : Text(
-                        "${widget.model.negotiations?[BlocProvider.of<GlobalCubit>(context).userModel!.id.toString()]?.riderPrice ?? ""} ${AppStrings.egp.tr(context)}",
-                        style: Styles.bold16(context),
-                      ),
+                ),
 
                 SizedBox(height: 20.rH(context)),
 

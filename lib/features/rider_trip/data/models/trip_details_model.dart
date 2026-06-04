@@ -242,7 +242,9 @@ negotiationStatus,
       preferences: json["preferences"] != null
           ? PreferencesModel.fromJson(json["preferences"])
           : null,
-      tripCode: int.tryParse(json["trip_code"].toString()),
+      tripCode: json["trip_code"] != null
+          ? int.tryParse(json["trip_code"].toString())
+          : null,
       driverPhone: json["driver_phone"],
       riderPhone: json["rider_phone"],
       driverPhoneCode: json["driver_phone_code"]?.toString(),

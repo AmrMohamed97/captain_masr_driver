@@ -84,7 +84,9 @@ class FindRidersCubit extends Cubit<FindRidersState> {
             SoundPlayer.alertSound();
             emit(RiderRequestRecievedState());
           }
-        } catch (e) {
+        } catch (e, stack) {
+          print("Error on Add: $e");
+          print(stack);
           emit(RealTimeErrorState());
           if (!kReleaseMode) log("Error on Add: $e");
         }
@@ -134,7 +136,9 @@ class FindRidersCubit extends Cubit<FindRidersState> {
             emit(RiderRemovedRecievedState());
           }
         }
-      } catch (e) {
+      } catch (e, stack) {
+        print("Error on Change: $e");
+        print(stack);
         if (!kReleaseMode) log("Error on Change: $e");
       }
     });
