@@ -79,6 +79,7 @@ class EndPoints {
 
   //! Driver Trips
   static const String driverAcceptRide = "${baseUrl}driver/request/classic";
+  static String driverResponse(int id) => "${baseUrl}driver/request/$id/driver-response";
   static const String driverArrived = "${baseUrl}driver/request/ID/arrived";
   static const String driverStartTrip = "${baseUrl}driver/request/ID/start";
   static const String driverCompleteTrip =

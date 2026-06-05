@@ -36,6 +36,11 @@ class RequestsBody extends StatelessWidget {
                         biddingPrice: biddingPrice,
                       );
                     },
+                    acceptRiderOffer: (riderPrice) async {
+                      return await cubit.acceptRiderOffer(
+                        id: cubit.rideRequests[index].id ?? 0,
+                      );
+                    },
                     declineOnTap: () => cubit.declineRequest(
                       id: cubit.rideRequests[index].id ?? 0,
                     ),

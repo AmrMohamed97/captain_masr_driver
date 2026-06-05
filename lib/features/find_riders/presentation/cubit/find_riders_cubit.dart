@@ -50,6 +50,28 @@ class FindRidersCubit extends Cubit<FindRidersState> {
     );
   }
 
+  //! Accept Rider Offer
+  Future<bool> acceptRiderOffer({required int id}) async {
+    emit(AcceptRequestLoadingState());
+    final result = await sl<DriverTripRepo>().acceptRiderOffer(
+      id: id,
+    );
+    return result.fold(
+      (error) {
+        // Ride no longer available — remove it from the list
+        rideRequests.removeWhere((ride) => ride.id == id || ride.rideId == id);
+        _pendingRideSubscriptions.remove(id)?.cancel();
+        emit(AcceptRequestErrorState(error: error));
+        emit(RiderRemovedRecievedState());
+        return false;
+      },
+      (message) {
+        emit(AcceptRequestSuccessState(message: message));
+        return true;
+      },
+    );
+  }
+
   //! Ride Requests
   DatabaseReference? db;
   StreamSubscription<DatabaseEvent>? requestsSubscription;

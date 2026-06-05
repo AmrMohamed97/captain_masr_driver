@@ -32,6 +32,23 @@ class DriverTripRepo {
     }
   }
 
+  //! Accept Rider Offer
+  Future<Either<String, String>> acceptRiderOffer({required int id}) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.driverResponse(id),
+        data: {
+          "action": "accept",
+        },
+      );
+      return Right(response.data["message"]);
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(AppStrings.anErrorOccured());
+    }
+  }
+
   //! Trip Arrived
   Future<Either<String, String>> tripArriverd({required int tripId}) async {
     try {

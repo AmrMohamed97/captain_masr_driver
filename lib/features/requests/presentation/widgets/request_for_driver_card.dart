@@ -10,11 +10,13 @@ class RequestForDriverCard extends StatefulWidget {
     super.key,
     required this.model,
     required this.acceptOnTap,
+    required this.acceptRiderOffer,
     required this.declineOnTap,
+
   });
 
   final TripDetailsModel model;
-  final Future<bool> Function(num? biddingPrice) acceptOnTap;
+  final Future<bool> Function(num? biddingPrice) acceptOnTap,acceptRiderOffer;
   final Function() declineOnTap;
 
   @override
@@ -176,8 +178,8 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                                   SizedBox(width: 10.rH(context)),
                                   //! Decrement Button
                                   IconButton(
-                                    onPressed: _isCountingDown ||
-                                            _biddingPrice <= 0.0
+                                    onPressed:
+                                        _isCountingDown || _biddingPrice <= 0.0
                                         ? null
                                         : () {
                                             setState(() {
@@ -189,7 +191,8 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                                           },
                                     icon: Icon(
                                       Icons.remove_circle_outline,
-                                      color: _isCountingDown ||
+                                      color:
+                                          _isCountingDown ||
                                               _biddingPrice <= 0.0
                                           ? AppColors.grey
                                           : AppColors.primary,
@@ -365,11 +368,20 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                     Expanded(
                       child: CustomButton(
                         onPressed: () async {
-                          final success = await widget.acceptOnTap(
-                            _biddingPrice,
-                          );
-                          if (success) {
-                            _startCountdown();
+                          if (widget.model.negotiation?.riderPrice == null) {
+                            final success = await widget.acceptOnTap(
+                              _biddingPrice,
+                            );
+                            if (success) {
+                              _startCountdown();
+                            }
+                          } else {
+                            final success = await widget.acceptRiderOffer(
+                              widget.model.negotiation?.riderPrice,
+                            );
+                            if (success) {
+                              _startCountdown();
+                            }
                           }
                         },
                         title: _isCountingDown
