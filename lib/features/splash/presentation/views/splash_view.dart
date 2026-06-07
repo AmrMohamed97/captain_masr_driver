@@ -1,7 +1,6 @@
+import 'package:captain_masr_driver/features/home/presentation/views/home_view.dart';
+
 import '../../../../core/imports/imports.dart';
-import '../../../home/presentation/views/home_view.dart';
-import 'choose_role_view.dart';
-import 'onboarding_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -19,57 +18,40 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   void initState() {
-    Future.delayed(
-      const Duration(milliseconds: 400),
-      () {
-        final bool onBoardingVisited =
-            sl<Cache>().getBoolData(AppConstants.onBoardingVisited) ?? false;
-        carPosititon = 0;
+    Future.delayed(const Duration(milliseconds: 400), () {
+      // final bool onBoardingVisited =
+      //     sl<Cache>().getBoolData(AppConstants.onBoardingVisited) ?? false;
+      carPosititon = 0;
+      setState(() {});
+      Future.delayed(const Duration(seconds: 0), () {
+        showLogo = true;
         setState(() {});
-        Future.delayed(
-          const Duration(seconds: 2),
-          () {
-            showLogo = true;
+        Future.delayed(const Duration(seconds: 1), () {
+          logoPosition = 176;
+          setState(() {});
+          Future.delayed(const Duration(milliseconds: 300), () {
+            showTitle = true;
             setState(() {});
-            Future.delayed(
-              const Duration(seconds: 1),
-              () {
-                logoPosition = 176;
-                setState(() {});
-                Future.delayed(
-                  const Duration(milliseconds: 300),
-                  () {
-                    showTitle = true;
-                    setState(() {});
-                    Future.delayed(
-                      const Duration(milliseconds: 1500),
-                      () {
-                        context
-                          .read<GlobalCubit>()
-                          .selectRole(AppConstants.driver);
-                      // navigate(context, const LoginView());
-                        navigateReplacement(
-                          // ignore: use_build_context_synchronously
-                          context,
-                          onBoardingVisited
-                              ? sl<Cache>().getStringData(AppConstants.token) ==
-                                      null
-                                  ? const LoginView()
-                                  : context.read<GlobalCubit>().isRider
-                                      ? const BaseView()
-                                      : const HomeView()
-                              : const OnboardingView(),
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-            );
-          },
-        );
-      },
-    );
+            Future.delayed(const Duration(milliseconds: 1300), () {
+              context.read<GlobalCubit>().selectRole(AppConstants.driver);
+              // navigate(context, const LoginView());
+              navigateReplacement(
+                // ignore: use_build_context_synchronously
+                context,
+                // onBoardingVisited
+                //     ?
+                sl<Cache>().getStringData(AppConstants.token) == null
+                    ? const LoginView()
+                    // : context.read<GlobalCubit>().isRider
+                    //     ? const BaseView()
+                    : const HomeView(),
+                // : const OnboardingView(),
+              );
+            });
+          });
+        });
+      });
+    });
     super.initState();
   }
 
@@ -78,55 +60,51 @@ class _SplashViewState extends State<SplashView> {
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.center,
         children: [
           //! Road Image
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Image.asset(
-              Assets.imagesSplashRoad,
-              width: double.infinity,
-              fit: BoxFit.fitWidth,
-            ),
+          Image.asset(
+            Assets.splashBG,
+            width: double.infinity,
+            fit: BoxFit.fitWidth,
           ),
           //! Car Image
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 1000),
-            left: carPosititon,
-            bottom: 88.rH(context),
-            child: Image.asset(
-              Assets.imagesSplashCar,
-            ),
-          ),
+          // AnimatedPositioned(
+          //   duration: const Duration(milliseconds: 1000),
+          //   left: carPosititon,
+          //   bottom: 88.rH(context),
+          //   child: Image.asset(Assets.imagesSplashCar),
+          // ),
           //! Logo
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
-            top: logoPosition.rH(context),
-            left: 0,
-            right: 0,
-            child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 300),
-              opacity: showLogo ? 1 : 0,
-              child: Image.asset(
-                Assets.imagesLogo,
+          RepaintBoundary(
+            child: AnimatedScale(
+              scale: showLogo ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 1600),
+              curve: Curves.easeOutBack,
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 1200),
+                opacity: showLogo ? 1 : 0,
+                child: Image.asset(Assets.imagesLogo),
               ),
             ),
           ),
           //! Title
-          Positioned(
-            top: 141.rH(context),
-            left: 0,
-            right: 0,
-            child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 300),
-              opacity: showTitle ? 1 : 0,
-              child: Center(
-                child: Text(
-                  AppStrings.splashTitle.tr(context),
-                  style: Styles.bold22white(context),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 141.rH(context),
+          //   left: 0,
+          //   right: 0,
+          //   child: AnimatedOpacity(
+          //     duration: const Duration(milliseconds: 300),
+          //     opacity: showTitle ? 1 : 0,
+          //     child: Center(
+          //       child: Text(
+          //         AppStrings.splashTitle.tr(context),
+          //         style: Styles.bold22white(context),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

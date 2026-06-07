@@ -5,6 +5,7 @@ class Assets {
   /// Assets for imagesAccepted
   /// assets/images/accepted.svg
   static const String imagesAccepted = "assets/images/accepted.svg";
+  static const String splashBG = "assets/images/splash_bg.jpg";
 
   /// Assets for imagesAirConditioner
   /// assets/images/air_conditioner.svg
