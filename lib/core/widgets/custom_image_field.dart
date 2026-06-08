@@ -36,9 +36,9 @@ class CustomImageField extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 8.rH(context)),
               child: Text(
                 title!,
-                style: Styles.regular14(context).copyWith(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                ),
+                style: Styles.regular14(
+                  context,
+                ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
               ),
             ),
           if (image == null && imageUrl == null)
@@ -62,10 +62,12 @@ class CustomImageField extends StatelessWidget {
                     //! Prefiex
                     if (prefixSvg != null)
                       Padding(
-                        padding:
-                            EdgeInsetsDirectional.only(end: 10.rW(context)),
+                        padding: EdgeInsetsDirectional.only(
+                          end: 10.rW(context),
+                        ),
                         child: SvgPicture.asset(
                           prefixSvg!,
+                          color: AppColors.primary,
                           height: 18.rH(context),
                         ),
                       ),
@@ -73,24 +75,20 @@ class CustomImageField extends StatelessWidget {
                     Expanded(
                       child: Text(
                         hintText ?? title ?? "",
-                        style: Styles.regular14(context).copyWith(
-                          color: AppColors.greyText,
-                        ),
+                        style: Styles.regular14(
+                          context,
+                        ).copyWith(color: AppColors.greyText),
                       ),
                     ),
                     //! Suffix
-                    SvgPicture.asset(
-                      Assets.imagesUpload,
-                    ),
+                    SvgPicture.asset(Assets.imagesUpload),
                   ],
                 ),
               ),
             ),
           if (imageUrl != null && image == null)
             Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.rW(context),
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
               decoration: BoxDecoration(
                 color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(8),
