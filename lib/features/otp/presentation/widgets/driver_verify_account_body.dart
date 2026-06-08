@@ -46,7 +46,7 @@ class DriverVerifyAccountBody extends StatelessWidget {
 
           //! Loading
           const CustomLoadingIndicator(
-            color: Colors.red,
+            color: AppColors.primary,
           ),
         ],
       ),

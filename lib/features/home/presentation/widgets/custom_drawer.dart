@@ -51,10 +51,7 @@ class CustomDrawer extends StatelessWidget {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: const Icon(
-                  Icons.close,
-                  color: AppColors.primary,
-                ),
+                child: const Icon(Icons.close, color: AppColors.primary),
               ),
             ),
           ),
@@ -103,35 +100,36 @@ class CustomDrawer extends StatelessWidget {
                                   globalCubit.userModel?.username ?? "",
                                   style: Styles.semibold18Primary(context)
                                       .copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
-                                  ),
+                                        color: Theme.of(
+                                          context,
+                                        ).textTheme.bodyLarge?.color,
+                                      ),
                                 ),
                                 SizedBox(height: 4.rH(context)),
                                 //! Rating
                                 Row(
                                   children: [
                                     SinglePartialStar(
-                                      value: double.tryParse(globalCubit
-                                                  .userModel?.rating
-                                                  ?.toString() ??
-                                              "0.0") ??
+                                      value:
+                                          double.tryParse(
+                                            globalCubit.userModel?.rating
+                                                    ?.toString() ??
+                                                "0.0",
+                                          ) ??
                                           0.0,
                                       starSize: 20.rH(context),
                                     ),
                                     SizedBox(width: 5.rW(context)),
                                     Text(
-                                      double.tryParse(globalCubit
-                                                      .userModel?.rating
-                                                      ?.toString() ??
-                                                  "0.0")
-                                              ?.toStringAsFixed(2) ??
+                                      double.tryParse(
+                                            globalCubit.userModel?.rating
+                                                    ?.toString() ??
+                                                "0.0",
+                                          )?.toStringAsFixed(2) ??
                                           "0.0",
-                                      style: Styles.regular16(context).copyWith(
-                                        color: AppColors.greyText,
-                                      ),
+                                      style: Styles.regular16(
+                                        context,
+                                      ).copyWith(color: AppColors.greyText),
                                     ),
                                   ],
                                 ),
@@ -151,10 +149,7 @@ class CustomDrawer extends StatelessWidget {
                       CustomButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          navigate(
-                            context,
-                            const EditProfileView(),
-                          );
+                          navigate(context, const EditProfileView());
                         },
                         title: AppStrings.editProfile.tr(context),
                         icon: const CustomSvgPicture(svg: Assets.imagesEdit),
@@ -231,10 +226,13 @@ class CustomDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context);
                       navigate(
-                          context,
-                          FindRidersView(
-                              acceptedTripTypeIds:
-                                  context.read<HomeCubit>().driverTripTypes));
+                        context,
+                        FindRidersView(
+                          acceptedTripTypeIds: context
+                              .read<HomeCubit>()
+                              .driverTripTypes,
+                        ),
+                      );
                     },
                   ),
                   //* Trips
@@ -329,9 +327,9 @@ class CustomDrawer extends StatelessWidget {
                           Expanded(
                             child: Text(
                               AppStrings.logout.tr(context),
-                              style: Styles.medium16Primary(context).copyWith(
-                                color: AppColors.red,
-                              ),
+                              style: Styles.medium16Primary(
+                                context,
+                              ).copyWith(color: AppColors.red),
                             ),
                           ),
                         ],
@@ -341,7 +339,7 @@ class CustomDrawer extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -365,18 +363,16 @@ class CustomDrawer extends StatelessWidget {
             SizedBox(
               height: 22.rH(context),
               width: 22.rW(context),
-              child: CustomSvgPicture(
-                svg: svg,
-              ),
+              child: CustomSvgPicture(svg: svg, color: AppColors.primary),
             ),
             SizedBox(width: 16.rW(context)),
             //! Title
             Expanded(
               child: Text(
                 title,
-                style: Styles.medium16Primary(context).copyWith(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                ),
+                style: Styles.medium16Primary(
+                  context,
+                ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
               ),
             ),
             trailing ?? Container(),
