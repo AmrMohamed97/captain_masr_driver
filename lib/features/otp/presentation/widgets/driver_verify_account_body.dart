@@ -45,7 +45,9 @@ class DriverVerifyAccountBody extends StatelessWidget {
           SizedBox(height: 73.rH(context)),
 
           //! Loading
-          const CustomLoadingIndicator(),
+          const CustomLoadingIndicator(
+            color: Colors.red,
+          ),
         ],
       ),
     );

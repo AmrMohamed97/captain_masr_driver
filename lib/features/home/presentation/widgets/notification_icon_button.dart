@@ -1,23 +1,16 @@
-
 import 'package:firebase_database/firebase_database.dart';
 
 import '../../../../core/imports/imports.dart';
 import '../../../notifications/presentation/views/notifications_view.dart';
 
 class NotificationIconButton extends StatelessWidget {
-  const NotificationIconButton({
-    super.key,
-    required this.userId,
-  });
+  const NotificationIconButton({super.key, required this.userId});
   final int userId;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        navBarNavigate(
-          context: context,
-          widget: const NotificationsView(),
-        );
+        navBarNavigate(context: context, widget: const NotificationsView());
       },
       child: Container(
         width: 38.rH(context),
@@ -59,6 +52,7 @@ class NotificationIconButton extends StatelessWidget {
                 ),
                 child: CustomSvgPicture(
                   svg: Assets.imagesNotifications,
+                  color: AppColors.primary,
                   height: 22.rH(context),
                 ),
               );

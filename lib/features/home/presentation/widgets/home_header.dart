@@ -1,13 +1,9 @@
 import '../../../../core/imports/imports.dart';
-import '../../../notifications/presentation/views/notifications_view.dart';
 import '../cubit/home_cubit.dart';
-import 'home_sliders.dart';
 import 'notification_icon_button.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({
-    super.key,
-  });
+  const HomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +15,12 @@ class HomeHeader extends StatelessWidget {
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               width: double.infinity,
-              height: state is SlidersLoadingState ||
+              height:
+                  state is SlidersLoadingState ||
                       (context.read<HomeCubit>().sliders?.isNotEmpty ?? false)
-                  ? 228.rH(context)
+                  ? 143.rH(context)
                   : 130.rH(context),
-              decoration:   BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: AppColors.primaryGradient,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),
@@ -58,10 +55,12 @@ class HomeHeader extends StatelessWidget {
                             ),
                             child: Center(
                               child: Transform.flip(
-                                flipX: context.read<GlobalCubit>().language ==
+                                flipX:
+                                    context.read<GlobalCubit>().language ==
                                     "ar",
                                 child: CustomSvgPicture(
                                   svg: Assets.imagesDrawer,
+                                  color: AppColors.primary,
                                   height: 22.rH(context),
                                 ),
                               ),
@@ -95,10 +94,9 @@ class HomeHeader extends StatelessWidget {
                                                         ?.username ??
                                                     "",
                                               ),
-                                          style:
-                                              Styles.bold20(context).copyWith(
-                                            color: AppColors.white,
-                                          ),
+                                          style: Styles.bold20(
+                                            context,
+                                          ).copyWith(color: AppColors.white),
                                         )
                                       : Container();
                                 },
@@ -112,9 +110,9 @@ class HomeHeader extends StatelessWidget {
                                         .read<HomeCubit>()
                                         .checkTimeOfDay()
                                         .tr(context),
-                                    style: Styles.regular14(context).copyWith(
-                                      color: AppColors.white,
-                                    ),
+                                    style: Styles.regular14(
+                                      context,
+                                    ).copyWith(color: AppColors.white),
                                   );
                                 },
                               ),
@@ -132,7 +130,7 @@ class HomeHeader extends StatelessWidget {
                   SizedBox(height: 39.rH(context)),
 
                   //! Slider
-                  const HomeSliders(),
+                  // const HomeSliders(),
                 ],
               ),
             ),

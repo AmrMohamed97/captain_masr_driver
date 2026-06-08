@@ -2,13 +2,17 @@ import '../imports/imports.dart';
 
 ThemeData theme() {
   return ThemeData(
+    primaryColor: AppColors.primary,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.primary,
+      // brightness: Brightness.dark,
+    ),
     scaffoldBackgroundColor: AppColors.white,
     cardColor: AppColors.white,
     shadowColor: AppColors.grey.withOpacity(.5),
     textTheme: const TextTheme(
-        bodyLarge: TextStyle(
-      color: AppColors.textColor,
-    )),
+      bodyLarge: TextStyle(color: AppColors.textColor),
+    ),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: AppColors.primary,
       selectionColor: AppColors.primary.withOpacity(.4),
@@ -18,14 +22,9 @@ ThemeData theme() {
       fillColor: AppColors.strokColor,
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(
-          color: Colors.red[900] ?? Colors.red,
-        ),
+        borderSide: BorderSide(color: Colors.red[900] ?? Colors.red),
       ),
-      errorStyle: TextStyle(
-        color: Colors.red[900],
-        fontSize: 12,
-      ),
+      errorStyle: TextStyle(color: Colors.red[900], fontSize: 12),
     ),
   );
 }
@@ -35,10 +34,7 @@ ThemeData darkTheme() {
     cardColor: const Color(0xff353535),
     scaffoldBackgroundColor: const Color(0xff262626),
     shadowColor: AppColors.black.withOpacity(.15),
-    textTheme: const TextTheme(
-        bodyLarge: TextStyle(
-      color: AppColors.white,
-    )),
+    textTheme: const TextTheme(bodyLarge: TextStyle(color: AppColors.white)),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: AppColors.primary,
       selectionColor: AppColors.primary.withOpacity(.4),
@@ -48,14 +44,9 @@ ThemeData darkTheme() {
       fillColor: const Color(0xff353535),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(
-          color: Colors.red[900] ?? Colors.red,
-        ),
+        borderSide: BorderSide(color: Colors.red[900] ?? Colors.red),
       ),
-      errorStyle: TextStyle(
-        color: Colors.red[900],
-        fontSize: 12,
-      ),
+      errorStyle: TextStyle(color: Colors.red[900], fontSize: 12),
     ),
   );
 }
