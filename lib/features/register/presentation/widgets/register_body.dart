@@ -80,7 +80,7 @@ class RegisterBody extends StatelessWidget {
                           itemCount: 3,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            switch (cubit.pageIndex) {
+                            switch (index) {
                               case 0:
                                 return const RegisterFirstForm();
                               case 1:

@@ -14,32 +14,40 @@ class RegisterPageIndicators extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildStepCircle(context, step: 1, isActive: cubit.pageIndex >= 0),
+            _buildStepCircle(context, step: 1, isActive: cubit.pageIndex >= 0, cubit: cubit),
             _buildLine(context, isActive: cubit.pageIndex >= 1),
-            _buildStepCircle(context, step: 2, isActive: cubit.pageIndex >= 1),
+            _buildStepCircle(context, step: 2, isActive: cubit.pageIndex >= 1, cubit: cubit),
             _buildLine(context, isActive: cubit.pageIndex >= 2),
-            _buildStepCircle(context, step: 3, isActive: cubit.pageIndex >= 2),
+            _buildStepCircle(context, step: 3, isActive: cubit.pageIndex >= 2, cubit: cubit),
           ],
         );
       },
     );
   }
 
-  Widget _buildStepCircle(BuildContext context, {required int step, required bool isActive}) {
-    return Container(
-      width: 44.rH(context),
-      height: 44.rH(context),
-      decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : Colors.grey.shade400,
-        shape: BoxShape.circle,
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        step.toString(),
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16.rH(context),
-          fontWeight: FontWeight.bold,
+  Widget _buildStepCircle(BuildContext context, {required int step, required bool isActive, required RegisterCubit cubit}) {
+    final targetIndex = step - 1;
+    return GestureDetector(
+      onTap: () {
+        if (targetIndex < cubit.pageIndex) {
+          cubit.changePage(targetIndex);
+        }
+      },
+      child: Container(
+        width: 44.rH(context),
+        height: 44.rH(context),
+        decoration: BoxDecoration(
+          color: isActive ? AppColors.primary : Colors.grey.shade400,
+          shape: BoxShape.circle,
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          step.toString(),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16.rH(context),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
