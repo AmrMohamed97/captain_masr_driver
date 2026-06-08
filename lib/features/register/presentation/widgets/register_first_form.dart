@@ -153,6 +153,7 @@ class RegisterFirstForm extends StatelessWidget {
                   hintText: AppStrings.selectYourGender.tr(context),
                   prefixIcon: SvgPicture.asset(
                     Assets.imagesGender,
+                    color: AppColors.primary,
                     height: 18.rH(context),
                   ),
                   validator: (value) {

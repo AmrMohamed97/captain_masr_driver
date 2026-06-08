@@ -39,7 +39,7 @@ class _CustomLoadingIndicatorState extends State<CustomLoadingIndicator>
       turns: _controller,
       child: SvgPicture.asset(
         Assets.imagesLoading,
-        color: widget.color,
+        color: widget.color?? AppColors.primary,
       ),
     );
   }

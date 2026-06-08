@@ -30,9 +30,9 @@ class CustomBottomSheetSelectContainer extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 8.rH(context)),
             child: Text(
               title!,
-              style: Styles.regular14(context).copyWith(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-              ),
+              style: Styles.regular14(
+                context,
+              ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
             ),
           ),
         AnimatedOpacity(
@@ -57,9 +57,7 @@ class CustomBottomSheetSelectContainer extends StatelessWidget {
                 children: [
                   //! Svg
                   if (svg != null)
-                    SvgPicture.asset(
-                      svg!,
-                    ),
+                    SvgPicture.asset(svg!, color: AppColors.primary),
                   //! Value
                   Expanded(
                     child: Padding(

@@ -48,9 +48,9 @@ class AuthTextField extends StatelessWidget {
             padding: EdgeInsets.only(bottom: 8.rH(context)),
             child: Text(
               title!,
-              style: Styles.regular14(context).copyWith(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-              ),
+              style: Styles.regular14(
+                context,
+              ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
             ),
           ),
         CustomTextField(
@@ -76,13 +76,15 @@ class AuthTextField extends StatelessWidget {
                       width: 20.rW(context),
                       child: SvgPicture.asset(
                         svgIcon!,
+                        color: AppColors.primary,
                         fit: BoxFit.contain,
                       ),
                     ),
                   ],
                 )
               : null,
-          suffixIcon: suffixIcon ??
+          suffixIcon:
+              suffixIcon ??
               (showPasswordSuffix
                   ? Row(
                       mainAxisSize: MainAxisSize.min,

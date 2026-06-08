@@ -1,10 +1,7 @@
 import '../../../../core/imports/imports.dart';
 
 class SelectVehicleModelBottomSheet extends StatelessWidget {
-  const SelectVehicleModelBottomSheet({
-    super.key,
-    required this.brandId,
-  });
+  const SelectVehicleModelBottomSheet({super.key, required this.brandId});
 
   final int brandId;
 
@@ -43,18 +40,14 @@ class SelectVehicleModelBottomSheet extends StatelessWidget {
                 //! Items
                 state is GetVehicleDetailsLoadingState &&
                         cubit.vehicleModels.isEmpty
-                    ? const Expanded(
-                        child: CustomLoadingIndicator(),
-                      )
+                    ? const Expanded(child: CustomLoadingIndicator())
                     : Expanded(
                         child: ListView.separated(
                           physics: const AlwaysScrollableScrollPhysics(),
                           controller: cubit.scrollController,
                           itemCount: cubit.vehicleModels.length,
                           separatorBuilder: (context, index) {
-                            return CustomDivider(
-                              space: 4.rH(context),
-                            );
+                            return CustomDivider(space: 4.rH(context));
                           },
                           itemBuilder: (context, index) {
                             return GestureDetector(
@@ -71,10 +64,9 @@ class SelectVehicleModelBottomSheet extends StatelessWidget {
                                 child: Text(
                                   cubit.vehicleModels[index].name ?? "",
                                   style: Styles.medium14(context).copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
+                                    color: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge?.color,
                                   ),
                                 ),
                               ),
@@ -88,7 +80,9 @@ class SelectVehicleModelBottomSheet extends StatelessWidget {
                   Container(
                     height: 30.rH(context),
                     margin: EdgeInsets.symmetric(vertical: 8.rH(context)),
-                    child: const CustomLoadingIndicator(),
+                    child: const CustomLoadingIndicator(
+                      color: AppColors.primary,
+                    ),
                   ),
               ],
             );
