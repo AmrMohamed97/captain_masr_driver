@@ -24,9 +24,11 @@ class RegisterBody extends StatelessWidget {
                   title: AppStrings.createAccount.tr(context),
                   subtitle: context.read<GlobalCubit>().isRider
                       ? AppStrings.createYourAccountToRideTogether.tr(context)
-                      : AppStrings.allYouNeedUIsVehicleAndDestination
-                          .tr(context),
+                      : AppStrings.allYouNeedUIsVehicleAndDestination.tr(
+                          context,
+                        ),
                   heightBetweenPopAndTitle: 0,
+                  popOnTap: () => Navigator.of(context).pop(),
                 ),
               if (cubit.pageIndex != 0)
                 CustomAppBar(
@@ -42,8 +44,8 @@ class RegisterBody extends StatelessWidget {
                   },
                 ),
               SizedBox(
-                  height:
-                      cubit.pageIndex == 0 ? 42.rH(context) : 77.rH(context)),
+                height: cubit.pageIndex == 0 ? 42.rH(context) : 77.rH(context),
+              ),
               //! Page Indicator
               if (context.read<GlobalCubit>().isDriver)
                 const RegisterPageIndicators(),

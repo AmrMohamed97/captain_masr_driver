@@ -18,6 +18,7 @@ class CustomButton extends StatelessWidget {
     this.enabled = true,
     this.iconEndPadding,
     this.loading = false,
+    this.borderRadius,
   });
 
   final String title;
@@ -27,6 +28,7 @@ class CustomButton extends StatelessWidget {
   final double? widgth, height, iconEndPadding;
   final EdgeInsets? padding;
   final bool enabled, loading;
+  final BorderRadius? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class CustomButton extends StatelessWidget {
           color: enabled
               ? (color ?? AppColors.primary)
               : AppColors.primary.withOpacity(.5),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: borderRadius ?? BorderRadius.circular(8),
           border: Border.all(
             color: borderColor ?? AppColors.transparent,
           ),

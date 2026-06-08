@@ -20,6 +20,8 @@ class AuthTextField extends StatelessWidget {
     this.fillColor,
     this.maxLines = 1,
     this.onChanged,
+    this.borderRadius,
+    this.borderSideColor,
   });
 
   final TextEditingController controller;
@@ -33,6 +35,8 @@ class AuthTextField extends StatelessWidget {
   final Color? fillColor;
   final int? maxLines;
   final dynamic Function(String)? onChanged;
+  final double? borderRadius;
+  final Color? borderSideColor;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +64,8 @@ class AuthTextField extends StatelessWidget {
           enabled: enabled,
           maxLines: maxLines,
           fillColor: fillColor,
+          borderRadius: borderRadius,
+          borderSideColor: borderSideColor,
           prefixIcon: svgIcon != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,

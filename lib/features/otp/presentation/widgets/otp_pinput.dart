@@ -25,53 +25,54 @@ class OtpPinput extends StatelessWidget {
               },
               length: 4,
               submittedPinTheme: PinTheme(
-                width: 49.rW(context),
-                height: 48.rH(context),
+                width: 56.rW(context),
+                height: 56.rH(context),
                 textStyle: Styles.bold20(context).copyWith(
                   color: context.read<GlobalCubit>().isDarkMode
                       ? AppColors.white
                       : AppColors.textColor,
                 ),
-                margin: EdgeInsetsDirectional.only(
-                  start: 8.rW(context),
-                  end: 8.rW(context),
+                margin: EdgeInsets.symmetric(
+                  horizontal: 6.rW(context),
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  color: Colors.white,
                   border: Border.all(
-                    color: AppColors.primary,
-                    width: 1.8,
+                    color: Colors.grey.shade300,
+                    width: 1,
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
               focusedPinTheme: PinTheme(
-                width: 49.rW(context),
-                height: 48.rH(context),
+                width: 56.rW(context),
+                height: 56.rH(context),
                 textStyle: Styles.bold20(context),
-                margin: EdgeInsetsDirectional.only(
-                  start: 8.rW(context),
-                  end: 8.rW(context),
+                margin: EdgeInsets.symmetric(
+                  horizontal: 6.rW(context),
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  color: Colors.white,
                   border: Border.all(
                     color: AppColors.primary,
-                    width: 1.8,
+                    width: 1.5,
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
               defaultPinTheme: PinTheme(
-                width: 49.rW(context),
-                height: 48.rH(context),
+                width: 56.rW(context),
+                height: 56.rH(context),
                 textStyle: Styles.bold20(context),
-                margin: EdgeInsetsDirectional.only(
-                  start: 8.rW(context),
-                  end: 8.rW(context),
+                margin: EdgeInsets.symmetric(
+                  horizontal: 6.rW(context),
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.grey.withOpacity(.25),
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.grey.shade300,
+                    width: 1,
+                  ),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

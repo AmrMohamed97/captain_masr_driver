@@ -7,27 +7,16 @@ class ChangePasswordBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
-      child: Column(
-        children: [
-          //! Header
-          CustomAppBar(
-            title: AppStrings.changePassword.tr(context),
-          ),
+    return const Column(
+      children: [
+        //! Header
+        AuthHeaderRed(
+          showBackButton: true,
+        ),
 
-          SizedBox(height: 26.rH(context)),
-
-          const ChangePasswordForm(),
-
-          SizedBox(height: 16.rH(context)),
-
-          //! Save Changes Button
-          const ChangePasswordButton(),
-
-          SizedBox(height: 32.rH(context)),
-        ],
-      ),
+        //! Form
+        ChangePasswordForm(),
+      ],
     );
   }
 }

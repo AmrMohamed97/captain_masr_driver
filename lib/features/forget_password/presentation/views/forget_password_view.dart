@@ -11,6 +11,7 @@ class ForgetPasswordView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ForgetPasswordCubit(),
       child: Scaffold(
+        backgroundColor: const Color(0xff800005),
         body: BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
           listener: (context, state) {
             if (state is ForgetPasswordSuccessState) {
@@ -23,9 +24,12 @@ class ForgetPasswordView extends StatelessWidget {
                 context,
                 OtpView(
                   isForgetPassword: true,
-                  phone:
-                      context.read<ForgetPasswordCubit>().phoneController.text,
-                  countryCode: context
+                  phone: context
+                      .read<ForgetPasswordCubit>()
+                      .phoneController
+                      .text,
+                  countryCode:
+                      context
                           .read<ForgetPasswordCubit>()
                           .selectedCountry
                           ?.dialCode ??

@@ -10,6 +10,7 @@ class ChangePasswordView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ChangePasswordCubit(),
       child: Scaffold(
+        backgroundColor: const Color(0xff800005),
         body: BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
           listener: (context, state) {
             if (state is ChangePasswordSuccessState) {

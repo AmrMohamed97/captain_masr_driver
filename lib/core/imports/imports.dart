@@ -2,6 +2,7 @@ export 'package:flutter/material.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:captain_masr_driver/core/common/common.dart';
 export 'package:captain_masr_driver/core/databases/cache/cache.dart';
+export 'package:captain_masr_driver/core/widgets/auth_header_red.dart';
 export 'package:captain_masr_driver/core/global_cubit/global_cubit.dart';
 export 'package:captain_masr_driver/core/local/app_loacl.dart';
 export 'package:captain_masr_driver/core/responsive/responsive.dart';

@@ -29,6 +29,7 @@ class OtpView extends StatelessWidget {
         ..email = email
         ..isChangePhone = isChangePhone,
       child: Scaffold(
+        backgroundColor: const Color(0xff800005),
         body: BlocConsumer<OtpCubit, OtpState>(
           listener: (context, state) {
             if (state is VerifyOtpSuccessState) {
@@ -91,7 +92,8 @@ class OtpView extends StatelessWidget {
           },
           builder: (context, state) {
             return CustomModalProgressIndicator(
-              inAsyncCall: state is VerifyOtpLoadingState ||
+              inAsyncCall:
+                  state is VerifyOtpLoadingState ||
                   state is ResendOtpLoadingState,
               child: const OtpBody(),
             );

@@ -9,6 +9,7 @@ class LoginView extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(),
       child: Scaffold(
+        backgroundColor: const Color(0xff800005),
         body: BlocBuilder<LoginCubit, LoginState>(
           builder: (context, state) {
             return CustomModalProgressIndicator(

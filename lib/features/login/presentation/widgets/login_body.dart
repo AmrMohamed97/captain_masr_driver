@@ -7,27 +7,16 @@ class LoginBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.rH(context)),
-      child: Column(
-        children: [
-          //! Header
-          AuthHeader(
-            popOnTap: () {
-              // navigateAndRemoveUntil(context, const ChooseRoleView());
-              context.read<GlobalCubit>().selectRole(AppConstants.driver);
-              navigateAndRemoveUntil(context, const LoginView());
-            },
-            title: AppStrings.welcomeBack.tr(context),
-            subtitle: context.read<GlobalCubit>().isRider
-                ? AppStrings.letsGetYouMoving.tr(context)
-                : AppStrings.letsHitTheRoad.tr(context),
-          ),
+    return const Column(
+      children: [
+        //! Header
+        AuthHeaderRed(
+          showBackButton: false,
+        ),
 
-          //! Form
-          const LoginForm(),
-        ],
-      ),
+        //! Form
+        LoginForm()
+      ],
     );
   }
 }

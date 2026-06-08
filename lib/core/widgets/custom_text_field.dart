@@ -20,6 +20,8 @@ class CustomTextField extends StatelessWidget {
     this.borderColor,
     this.focusNode,
     this.helper,
+    this.borderRadius,
+    this.borderSideColor,
   });
 
   final TextEditingController? controller;
@@ -36,6 +38,8 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final FocusNode? focusNode;
   final Widget? helper;
+  final double? borderRadius;
+  final Color? borderSideColor;
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +73,9 @@ class CustomTextField extends StatelessWidget {
               horizontal: 16.rW(context),
               vertical: 16.rH(context),
             ),
-        border: border(color: borderColor),
-        enabledBorder: border(color: borderColor),
-        disabledBorder: border(color: borderColor),
+        border: border(color: borderColor ?? borderSideColor),
+        enabledBorder: border(color: borderColor ?? borderSideColor),
+        disabledBorder: border(color: borderColor ?? borderSideColor),
         focusedBorder: border(color: borderColor ?? AppColors.primary),
       ),
     );
@@ -79,7 +83,7 @@ class CustomTextField extends StatelessWidget {
 
   OutlineInputBorder border({Color? color}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(borderRadius ?? 8),
       borderSide: BorderSide(color: color ?? AppColors.transparent),
     );
   }

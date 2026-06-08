@@ -6,20 +6,16 @@ class ForgetPasswordBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.rW(context)),
-      child: Column(
-        children: [
-          //! Header
-          AuthHeader(
-            title: AppStrings.forgetPassword.tr(context),
-            subtitle: AppStrings.dontWorryWeHaveGotYouCovered.tr(context),
-          ),
+    return const Column(
+      children: [
+        //! Header
+        AuthHeaderRed(
+          showBackButton: true,
+        ),
 
-          //! Form
-          const ForgetPasswordForm(),
-        ],
-      ),
+        //! Form
+        ForgetPasswordForm(),
+      ],
     );
   }
 }

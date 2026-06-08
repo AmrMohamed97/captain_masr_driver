@@ -17,7 +17,9 @@ class ChangePasswordButton extends StatelessWidget {
               cubit.changePassword();
             }
           },
-          title: AppStrings.saveChanges.tr(context),
+          title: AppStrings.confirm.tr(context),
+          borderRadius: BorderRadius.circular(30),
+          height: 52.rH(context),
         );
       },
     );

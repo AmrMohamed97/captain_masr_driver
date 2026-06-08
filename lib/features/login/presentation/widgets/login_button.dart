@@ -59,6 +59,8 @@ class LoginButton extends StatelessWidget {
             }
           },
           title: AppStrings.login.tr(context),
+          borderRadius: BorderRadius.circular(30),
+          height: 52.rH(context),
         );
       },
     );
