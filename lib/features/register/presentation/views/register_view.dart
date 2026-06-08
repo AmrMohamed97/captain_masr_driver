@@ -41,6 +41,7 @@ class RegisterView extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
+            backgroundColor: const Color(0xff800005),
             body: CustomModalProgressIndicator(
               inAsyncCall: state is RegisterLoadingState,
               child: const RegisterBody(),

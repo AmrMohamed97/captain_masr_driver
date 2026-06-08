@@ -13,71 +13,92 @@ class RegisterBody extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       builder: (context, state) {
         final cubit = context.read<RegisterCubit>();
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //! Header
-              if (cubit.pageIndex == 0)
-                AuthHeader(
-                  title: AppStrings.createAccount.tr(context),
-                  subtitle: context.read<GlobalCubit>().isRider
-                      ? AppStrings.createYourAccountToRideTogether.tr(context)
-                      : AppStrings.allYouNeedUIsVehicleAndDestination.tr(
-                          context,
+        return Column(
+          children: [
+            //! Header
+            AuthHeaderRed(
+              showBackButton: cubit.pageIndex != 0,
+              onBackTap: () {
+                if (cubit.pageIndex == 0) {
+                  Navigator.pop(context);
+                } else {
+                  cubit.changePage(cubit.pageIndex - 1);
+                }
+              },
+            ),
+
+            //! White Container
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 24.rH(context)),
+                      //! Title
+                      Center(
+                        child: Text(
+                          cubit.pageIndex == 0
+                              ? context.read<GlobalCubit>().isRider
+                                  ? AppStrings.createAccount.tr(context)
+                                  : context.read<GlobalCubit>().language == 'ar'
+                                      ? 'البيانات الشخصية'
+                                      : 'Personal Data'
+                              : cubit.pageIndex == 1
+                                  ? context.read<GlobalCubit>().language == 'ar'
+                                      ? 'المستندات الشخصية'
+                                      : 'Personal Documents'
+                                  : context.read<GlobalCubit>().language == 'ar'
+                                      ? 'بيانات المركبة'
+                                      : 'Vehicle Data',
+                          style: Styles.bold20(context).copyWith(
+                            color: const Color(0xff800005),
+                            fontSize: 22,
+                          ),
                         ),
-                  heightBetweenPopAndTitle: 0,
-                  popOnTap: () => Navigator.of(context).pop(),
+                      ),
+                      SizedBox(height: 24.rH(context)),
+
+                      //! Page Indicator
+                      if (context.read<GlobalCubit>().isDriver)
+                        const RegisterPageIndicators(),
+                      if (context.read<GlobalCubit>().isDriver)
+                        SizedBox(height: 32.rH(context)),
+
+                      //! Page View
+                      Expanded(
+                        child: PageView.builder(
+                          controller: cubit.pageController,
+                          itemCount: 3,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            switch (cubit.pageIndex) {
+                              case 0:
+                                return const RegisterFirstForm();
+                              case 1:
+                                return const RegisterSecondForm();
+                              case 2:
+                                return const RegisterThirdForm();
+                              default:
+                                return Container();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              if (cubit.pageIndex != 0)
-                CustomAppBar(
-                  title: cubit.pageIndex == 1
-                      ? AppStrings.vehicleDetails.tr(context)
-                      : AppStrings.licenseAndDocument.tr(context),
-                  popOnTap: () {
-                    if (cubit.pageIndex == 0) {
-                      Navigator.pop(context);
-                    } else {
-                      cubit.changePage(cubit.pageIndex - 1);
-                    }
-                  },
-                ),
-              SizedBox(
-                height: cubit.pageIndex == 0 ? 42.rH(context) : 77.rH(context),
               ),
-              //! Page Indicator
-              if (context.read<GlobalCubit>().isDriver)
-                const RegisterPageIndicators(),
-              if (context.read<GlobalCubit>().isDriver)
-                SizedBox(height: 32.rH(context)),
-              //! Page View
-              BlocBuilder<RegisterCubit, RegisterState>(
-                builder: (context, state) {
-                  final cubit = context.read<RegisterCubit>();
-                  return Expanded(
-                    child: PageView.builder(
-                      controller: cubit.pageController,
-                      itemCount: 3,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        switch (cubit.pageIndex) {
-                          case 0:
-                            return const RegisterFirstForm();
-                          case 1:
-                            return const RegisterSecondForm();
-                          case 2:
-                            return const RegisterThirdForm();
-                          default:
-                            return Container();
-                        }
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
