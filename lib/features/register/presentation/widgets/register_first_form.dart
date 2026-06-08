@@ -181,7 +181,7 @@ class RegisterFirstForm extends StatelessWidget {
                 CustomIntlPhoneField(
                   controller: cubit.phoneController,
                   validator: (value) {
-                    if (value == null) {
+                    if (cubit.phoneController.text.isEmpty) {
                       return AppStrings.enteryYouMobileNumber.tr(context);
                     } else if ((cubit.selectedCountry?.maxLength ?? 10) !=
                         cubit.phoneController.text.length) {
