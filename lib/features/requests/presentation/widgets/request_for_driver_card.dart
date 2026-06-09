@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:firebase_database/firebase_database.dart';
-
 import '../../../../core/imports/imports.dart';
 import '../../../rider_trip/data/models/trip_details_model.dart';
 import 'luggages_row.dart';
@@ -58,13 +56,19 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     });
   }
 
+  @override
+  void didUpdateWidget(covariant RequestForDriverCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.model.negotiation != widget.model.negotiation) {
+      _evaluateCountdown();
+    }
+  }
+
   void _evaluateCountdown() {
     final driverId = _getDriverId();
-    if (driverId == null || _driversSnapshot == null) {
-      _stopCountdown();
-      return;
-    }
-    final driverData = _driversSnapshot![driverId] as Map?;
+    final driverData = (driverId != null && _driversSnapshot != null) 
+        ? _driversSnapshot![driverId] as Map? 
+        : null;
     final negotiationMap = driverData?['negotiation'] as Map?;
 
     final firebaseRequestSent = negotiationMap?['request_sent'];
@@ -129,18 +133,23 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine card state from Firebase snapshot
+    // Determine card state from Firebase snapshot or model
     final driverIdStr = _getDriverId();
-    final bool driverInMap =
-        _driversSnapshot != null &&
+    
+    final bool hasFirebaseData = _driversSnapshot != null &&
         driverIdStr != null &&
         _driversSnapshot!.containsKey(driverIdStr);
+        
+    final bool hasModelData = widget.model.negotiation?.requestSent != null || 
+                              widget.model.negotiation?.riderPrice != null;
+                              
+    final bool driverInMap = hasFirebaseData || hasModelData;
 
     Map<dynamic, dynamic>? negotiationMap;
     num? riderPrice;
     dynamic requestSent;
 
-    if (driverInMap) {
+    if (hasFirebaseData) {
       final driverData = _driversSnapshot![driverIdStr] as Map?;
       negotiationMap = driverData?['negotiation'] as Map?;
       final rawRiderPrice = negotiationMap?['rider_price'];
