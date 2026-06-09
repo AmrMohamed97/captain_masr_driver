@@ -276,14 +276,14 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 else if (isCaseC) ...[
                   _buildRiderOfferPanel(
                     context,
-                    riderPrice: combinedRiderPrice ?? 0,
+                    riderPrice: combinedRiderPrice ,
                   ),
                   SizedBox(height: 14.rH(context)),
                   _buildActionButtons(
                     context,
                     disabled: false,
                     useRiderOffer: true,
-                    firebaseRiderPrice: combinedRiderPrice ?? 0,
+                    firebaseRiderPrice: combinedRiderPrice  ,
                   ),
                 ]
                 //! ─── CASE D: Request sent → countdown waiting for confirmation ───
