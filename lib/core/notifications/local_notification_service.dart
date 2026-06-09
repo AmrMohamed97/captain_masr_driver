@@ -49,7 +49,7 @@ class LocalNotificationService {
       'channel_name',
       importance: Importance.max,
       priority: Priority.high,
-      icon: "@drawable/ic_notification",
+      icon: "@mipmap/ic_launcher",
     );
     const NotificationDetails details = NotificationDetails(
       android: android,
