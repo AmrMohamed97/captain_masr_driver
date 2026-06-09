@@ -37,10 +37,10 @@ class FindRidersCubit extends Cubit<FindRidersState> {
     return result.fold(
       (error) {
         // Ride no longer available — remove it from the list
-        rideRequests.removeWhere((ride) => ride.id == id || ride.rideId == id);
-        _pendingRideSubscriptions.remove(id)?.cancel();
+        // rideRequests.removeWhere((ride) => ride.id == id || ride.rideId == id);
+        // _pendingRideSubscriptions.remove(id)?.cancel();
         emit(AcceptRequestErrorState(error: error));
-        emit(RiderRemovedRecievedState());
+        // emit(RiderRemovedRecievedState());
         return false;
       },
       (message) {
@@ -59,10 +59,10 @@ class FindRidersCubit extends Cubit<FindRidersState> {
     return result.fold(
       (error) {
         // Ride no longer available — remove it from the list
-        rideRequests.removeWhere((ride) => ride.id == id || ride.rideId == id);
-        _pendingRideSubscriptions.remove(id)?.cancel();
+        // rideRequests.removeWhere((ride) => ride.id == id || ride.rideId == id);
+        // _pendingRideSubscriptions.remove(id)?.cancel();
         emit(AcceptRequestErrorState(error: error));
-        emit(RiderRemovedRecievedState());
+        // emit(RiderRemovedRecievedState());
         return false;
       },
       (message) {
