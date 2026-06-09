@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -48,8 +46,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
   void _startFirebaseListener() {
     final rideId = widget.model.rideId ?? widget.model.id ?? 0;
     if (rideId == 0) return;
-    final ref = FirebaseDatabase.instance
-        .ref('ride_requests/$rideId/drivers');
+    final ref = FirebaseDatabase.instance.ref('ride_requests/$rideId/drivers');
     _driversSubscription = ref.onValue.listen((event) {
       if (!mounted) return;
       final data = event.snapshot.value;
@@ -69,15 +66,17 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     }
     final driverData = _driversSnapshot![driverId] as Map?;
     final negotiationMap = driverData?['negotiation'] as Map?;
-    
+
     final firebaseRequestSent = negotiationMap?['request_sent'];
-    final combinedRequestSent = firebaseRequestSent ?? widget.model.negotiation?.requestSent;
+    final combinedRequestSent =
+        firebaseRequestSent ?? widget.model.negotiation?.requestSent;
 
     final rawRiderPrice = negotiationMap?['rider_price'];
     final firebaseRiderPrice = rawRiderPrice is num
         ? rawRiderPrice
         : (rawRiderPrice is String ? num.tryParse(rawRiderPrice) : null);
-    final combinedRiderPrice = firebaseRiderPrice ?? widget.model.negotiation?.riderPrice;
+    final combinedRiderPrice =
+        firebaseRiderPrice ?? widget.model.negotiation?.riderPrice;
 
     if (combinedRequestSent != null && combinedRiderPrice == null) {
       // Case D — start countdown if not already running
@@ -132,7 +131,8 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
   Widget build(BuildContext context) {
     // Determine card state from Firebase snapshot
     final driverIdStr = _getDriverId();
-    final bool driverInMap = _driversSnapshot != null &&
+    final bool driverInMap =
+        _driversSnapshot != null &&
         driverIdStr != null &&
         _driversSnapshot!.containsKey(driverIdStr);
 
@@ -150,13 +150,21 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
       requestSent = negotiationMap?['request_sent'];
     }
 
-    final combinedRiderPrice = riderPrice ?? widget.model.negotiation?.riderPrice;
-    final combinedRequestSent = requestSent ?? widget.model.negotiation?.requestSent;
+    final combinedRiderPrice =
+        riderPrice ?? widget.model.negotiation?.riderPrice;
+    final combinedRequestSent =
+        requestSent ?? widget.model.negotiation?.requestSent;
 
     // Case D: requestSent != null (waiting for rider confirmation → countdown)
-    final bool isCaseD = driverInMap && combinedRequestSent != null && combinedRiderPrice == null;
+    final bool isCaseD =
+        driverInMap &&
+        combinedRequestSent != null &&
+        combinedRiderPrice == null;
     // Case B: driver in map, no riderPrice, no requestSent (waiting for rider response)
-    final bool isCaseB = driverInMap && combinedRiderPrice == null && combinedRequestSent == null;
+    final bool isCaseB =
+        driverInMap &&
+        combinedRiderPrice == null &&
+        combinedRequestSent == null;
     // Case C: driver in map + riderPrice != null
     final bool isCaseC = driverInMap && combinedRiderPrice != null;
     // Case A: driver NOT in map → show full negotiation
@@ -247,24 +255,29 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                     useRiderOffer: widget.model.negotiation?.riderPrice != null,
                   ),
                 ]
-
                 //! ─── CASE B: Waiting for rider response ───
                 else if (isCaseB) ...[
                   _buildWaitingPanel(
                     context,
                     message: AppStrings.waitingRiderResponse.tr(context),
                     subMessage:
-                        '${AppStrings.sentPrice.tr(context)}: ${negotiationMap?['driver_price'] ?? widget.model.negotiation?.driverPrice ?? ''} ${AppStrings.egp.tr(context)}',
+                        '${AppStrings.sentPrice.tr(context)}: $_biddingPrice  ${AppStrings.egp.tr(context)}',
                     icon: Icons.hourglass_top_rounded,
                     color: AppColors.primary,
                   ),
                   SizedBox(height: 14.rH(context)),
-                  _buildActionButtons(context, disabled: true, useRiderOffer: false),
+                  _buildActionButtons(
+                    context,
+                    disabled: true,
+                    useRiderOffer: false,
+                  ),
                 ]
-
                 //! ─── CASE C: Rider sent offer → show riderPrice + accept/decline ───
                 else if (isCaseC) ...[
-                  _buildRiderOfferPanel(context, riderPrice: combinedRiderPrice ?? 0),
+                  _buildRiderOfferPanel(
+                    context,
+                    riderPrice: combinedRiderPrice ?? 0,
+                  ),
                   SizedBox(height: 14.rH(context)),
                   _buildActionButtons(
                     context,
@@ -273,7 +286,6 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                     firebaseRiderPrice: combinedRiderPrice ?? 0,
                   ),
                 ]
-
                 //! ─── CASE D: Request sent → countdown waiting for confirmation ───
                 else if (isCaseD) ...[
                   _buildWaitingPanel(
@@ -286,7 +298,11 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                     countdown: _countdown,
                   ),
                   SizedBox(height: 14.rH(context)),
-                  _buildActionButtons(context, disabled: true, useRiderOffer: false),
+                  _buildActionButtons(
+                    context,
+                    disabled: true,
+                    useRiderOffer: false,
+                  ),
                 ],
 
                 SizedBox(height: 13.rH(context)),
@@ -408,15 +424,15 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                     color: isSelected
                         ? AppColors.primary
                         : (Theme.of(context).brightness == Brightness.dark
-                            ? AppColors.black.withOpacity(0.5)
-                            : AppColors.white),
+                              ? AppColors.black.withOpacity(0.5)
+                              : AppColors.white),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
                       color: isSelected
                           ? AppColors.primary
                           : (Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.grey.withOpacity(0.3)
-                              : AppColors.grey),
+                                ? AppColors.grey.withOpacity(0.3)
+                                : AppColors.grey),
                       width: 1,
                     ),
                   ),
@@ -438,7 +454,10 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
   }
 
   // ─── Rider Offer Panel (Case C) ──────────────────────────────────────────────
-  Widget _buildRiderOfferPanel(BuildContext context, {required num riderPrice}) {
+  Widget _buildRiderOfferPanel(
+    BuildContext context, {
+    required num riderPrice,
+  }) {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
@@ -449,10 +468,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
       decoration: BoxDecoration(
         color: AppColors.green.withOpacity(0.12),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.green.withOpacity(0.3),
-          width: 1.5,
-        ),
+        border: Border.all(color: AppColors.green.withOpacity(0.3), width: 1.5),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -467,10 +483,9 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
             children: [
               Text(
                 " $riderPrice ${AppStrings.egp.tr(context)}",
-                style: Styles.semibold14Primary(context).copyWith(
-                  color: AppColors.green,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Styles.semibold14Primary(
+                  context,
+                ).copyWith(color: AppColors.green, fontWeight: FontWeight.bold),
               ),
               SizedBox(width: 8.rW(context)),
               Icon(
@@ -504,10 +519,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
       decoration: BoxDecoration(
         color: color.withOpacity(0.08),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: color.withOpacity(0.3),
-          width: 1.5,
-        ),
+        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
       ),
       child: Row(
         children: [
@@ -519,16 +531,17 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
               children: [
                 Text(
                   message,
-                  style: Styles.semibold14Primary(context)
-                      .copyWith(color: color),
+                  style: Styles.semibold14Primary(
+                    context,
+                  ).copyWith(color: color),
                 ),
                 if (subMessage.isNotEmpty) ...[
                   SizedBox(height: 4.rH(context)),
                   Text(
                     subMessage,
-                    style: Styles.semibold12(context).copyWith(
-                      color: color.withOpacity(0.8),
-                    ),
+                    style: Styles.semibold12(
+                      context,
+                    ).copyWith(color: color.withOpacity(0.8)),
                   ),
                 ],
               ],
@@ -546,10 +559,9 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
               child: Center(
                 child: Text(
                   '$countdown',
-                  style: Styles.semibold14Primary(context).copyWith(
-                    color: color,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Styles.semibold14Primary(
+                    context,
+                  ).copyWith(color: color, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -589,7 +601,8 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                       await widget.acceptOnTap(_biddingPrice);
                     } else {
                       // Prefer Firebase riderPrice, fallback to model
-                      final price = firebaseRiderPrice ??
+                      final price =
+                          firebaseRiderPrice ??
                           widget.model.negotiation?.riderPrice;
                       await widget.acceptRiderOffer(price);
                     }
