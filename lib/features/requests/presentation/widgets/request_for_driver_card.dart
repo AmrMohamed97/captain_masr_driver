@@ -82,7 +82,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     final combinedRiderPrice =
         firebaseRiderPrice ?? widget.model.negotiation?.riderPrice;
 
-    if (combinedRequestSent != null && combinedRiderPrice == null) {
+    if (combinedRequestSent != null) {
       // Case D — start countdown if not already running
       if (!_isCountingDown) {
         _startCountdown();
@@ -167,15 +167,14 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     // Case D: requestSent != null (waiting for rider confirmation → countdown)
     final bool isCaseD =
         driverInMap &&
-        combinedRequestSent != null &&
-        combinedRiderPrice == null;
+        combinedRequestSent != null;
     // Case B: driver in map, no riderPrice, no requestSent (waiting for rider response)
     final bool isCaseB =
         driverInMap &&
         combinedRiderPrice == null &&
         combinedRequestSent == null;
     // Case C: driver in map + riderPrice != null
-    final bool isCaseC = driverInMap && combinedRiderPrice != null;
+    final bool isCaseC = driverInMap && combinedRiderPrice != null && combinedRequestSent == null;
     // Case A: driver NOT in map → show full negotiation
     final bool isCaseA = !driverInMap;
 
