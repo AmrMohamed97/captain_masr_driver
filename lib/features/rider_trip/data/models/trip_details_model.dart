@@ -390,7 +390,7 @@ class Negotiation {
   final num? driverPrice;
   final int? driverRequestId;
   final int? id;
-  final bool? isFinal;
+  final bool? isFinal,requestSent;
   final num? price;
   final num? riderPrice;
   final String? updatedAt;
@@ -402,6 +402,7 @@ class Negotiation {
     this.driverRequestId,
     this.id,
     this.isFinal,
+    this.requestSent,
     this.price,
     this.riderPrice,
     this.updatedAt,
@@ -415,6 +416,7 @@ class Negotiation {
       driverRequestId: json['driver_request_id'] as int?,
       id: json['id'] as int?,
       isFinal: json['is_final'] as bool?,
+      requestSent: json['request_sent'] as bool?,
       price: json['price'] as num?,
       riderPrice: json['rider_price'] as num?,
       updatedAt: json['updated_at'] as String?,

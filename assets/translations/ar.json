@@ -424,6 +424,8 @@
     "startEarningAsDriver": "ابدأ كسب المال كسائق",
     "riderWantedDays": "أيام الراكب المطلوبة",
     "waitingRiderResponse": "في انتظار الراكب",
+    "waitingRiderConfirmation": "في انتظار تأكيد الراكب",
+    "sentPrice": "السعر المرسل",
     "todayIsNotWithinTheTripsScheduledDates": "تاريخ اليوم ليس ضمن التواريخ المجدولة للرحلة.",
     "waitingDriverApproval": "في انتظار موافقة السائق",
     "notAvailableForToday": "غير متاح لليوم",

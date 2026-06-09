@@ -501,4 +501,6 @@ abstract class AppStrings {
   static const String negotiatePrice = "negotiatePrice";
   static const String newRiderOffer = "newRiderOffer";
   static const String tapToReadAll = "tapToReadAll";
+  static const String waitingRiderConfirmation = "waitingRiderConfirmation";
+  static const String sentPrice = "sentPrice";
 }

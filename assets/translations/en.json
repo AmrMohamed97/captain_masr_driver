@@ -424,6 +424,8 @@
     "startEarningAsDriver": "Start earning as driver",
     "riderWantedDays": "Rider wanted days",
     "waitingRiderResponse": "Waiting for rider",
+    "waitingRiderConfirmation": "Waiting for rider confirmation",
+    "sentPrice": "Sent price",
     "todayIsNotWithinTheTripsScheduledDates": "Today is not within the trip's scheduled dates.",
     "waitingDriverApproval": "Waiting driver approval",
     "notAvailableForToday": "Not available for today",
