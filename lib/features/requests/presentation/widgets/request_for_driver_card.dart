@@ -1,4 +1,4 @@
-import 'dart:async';
+
 
 import '../../../../core/imports/imports.dart';
 import '../../../rider_trip/data/models/trip_details_model.dart';
@@ -24,42 +24,12 @@ class RequestForDriverCard extends StatefulWidget {
 }
 
 class _RequestForDriverCardState extends State<RequestForDriverCard> {
-  bool _isCountingDown = false;
-  int _countdown = 10;
-  Timer? _timer;
   late double _biddingPrice;
 
   @override
   void initState() {
     super.initState();
     _biddingPrice = (widget.model.price ?? 0.0).toDouble();
-  }
-
-  void _startCountdown() {
-    setState(() {
-      _isCountingDown = true;
-      _countdown = 12;
-    });
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_countdown > 1) {
-        setState(() {
-          _countdown--;
-        });
-      } else {
-        _timer?.cancel();
-        if (mounted) {
-          setState(() {
-            _isCountingDown = false;
-          });
-        }
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -178,8 +148,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                                   SizedBox(width: 10.rH(context)),
                                   //! Decrement Button
                                   IconButton(
-                                    onPressed:
-                                        _isCountingDown || _biddingPrice <= 0.0
+                                    onPressed: _biddingPrice <= 0.0
                                         ? null
                                         : () {
                                             setState(() {
@@ -191,9 +160,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                                           },
                                     icon: Icon(
                                       Icons.remove_circle_outline,
-                                      color:
-                                          _isCountingDown ||
-                                              _biddingPrice <= 0.0
+                                      color: _biddingPrice <= 0.0
                                           ? AppColors.grey
                                           : AppColors.primary,
                                     ),
@@ -216,18 +183,14 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                                   SizedBox(width: 20.rW(context)),
                                   //! Increment Button
                                   IconButton(
-                                    onPressed: _isCountingDown
-                                        ? null
-                                        : () {
-                                            setState(() {
-                                              _biddingPrice += 5;
-                                            });
-                                          },
+                                    onPressed: () {
+                                      setState(() {
+                                        _biddingPrice += 5;
+                                      });
+                                    },
                                     icon: Icon(
                                       Icons.add_circle_outline,
-                                      color: _isCountingDown
-                                          ? AppColors.grey
-                                          : AppColors.primary,
+                                      color: AppColors.primary,
                                     ),
                                     iconSize: 32.rW(context),
                                     padding: EdgeInsets.zero,
@@ -246,13 +209,11 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                                     increment;
                                 final isSelected = _biddingPrice == pillPrice;
                                 return InkWell(
-                                  onTap: _isCountingDown
-                                      ? null
-                                      : () {
-                                          setState(() {
-                                            _biddingPrice = pillPrice;
-                                          });
-                                        },
+                                  onTap: () {
+                                    setState(() {
+                                      _biddingPrice = pillPrice;
+                                    });
+                                  },
                                   borderRadius: BorderRadius.circular(20),
                                   child: AnimatedContainer(
                                     duration: const Duration(milliseconds: 200),
@@ -360,7 +321,6 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                         color: AppColors.transparent,
                         textColor: AppColors.primary,
                         borderColor: AppColors.primary,
-                        enabled: !_isCountingDown,
                       ),
                     ),
                     SizedBox(width: 22.rW(context)),
@@ -369,25 +329,16 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                       child: CustomButton(
                         onPressed: () async {
                           if (widget.model.negotiation?.riderPrice == null) {
-                            final success = await widget.acceptOnTap(
+                            await widget.acceptOnTap(
                               _biddingPrice,
                             );
-                            if (success) {
-                              _startCountdown();
-                            }
                           } else {
-                            final success = await widget.acceptRiderOffer(
+                            await widget.acceptRiderOffer(
                               widget.model.negotiation?.riderPrice,
                             );
-                            if (success) {
-                              _startCountdown();
-                            }
                           }
                         },
-                        title: _isCountingDown
-                            ? '${AppStrings.waitingRiderResponse.tr(context)} ($_countdown)'
-                            : AppStrings.accept.tr(context),
-                        enabled: !_isCountingDown,
+                        title: AppStrings.accept.tr(context),
                       ),
                     ),
                   ],
