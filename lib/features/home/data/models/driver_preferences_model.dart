@@ -1,11 +1,12 @@
 class DriverPreferencesModel {
-  final bool classicRide, shareTrip, groupTrip, delivery;
+  final bool classicRide, shareTrip, groupTrip, delivery, racing;
 
   DriverPreferencesModel({
     required this.classicRide,
     required this.shareTrip,
     required this.groupTrip,
     required this.delivery,
+    required this.racing,
   });
 
   factory DriverPreferencesModel.fromJson(Map<String, dynamic> json) {
@@ -14,6 +15,7 @@ class DriverPreferencesModel {
       shareTrip: json["share_trip"] ?? false,
       groupTrip: json["group_trip"] ?? false,
       delivery: json["delivery"] ?? false,
+      racing: json["racing"] ?? false,
     );
   }
 
@@ -22,5 +24,6 @@ class DriverPreferencesModel {
         "share_trip": shareTrip,
         "group_trip": groupTrip,
         "delivery": delivery,
+        "racing": racing,
       };
 }

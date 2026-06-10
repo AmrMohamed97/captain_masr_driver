@@ -27,6 +27,11 @@ class HomeDriverPreferences extends StatelessWidget {
       type: AppStrings.delivery,
       image: Assets.imagesDeliveryPng,
     ),
+    ServicesModel(
+      title: AppStrings.addDriversLicense,
+      type: 'Racing',
+      image: Assets.imagesAirplane,
+    ),
   ];
 
   @override
@@ -39,9 +44,9 @@ class HomeDriverPreferences extends StatelessWidget {
           //! Title
           Text(
             AppStrings.preferences.tr(context),
-            style: Styles.semibold18Primary(context).copyWith(
-              color: Theme.of(context).textTheme.bodyLarge?.color,
-            ),
+            style: Styles.semibold18Primary(
+              context,
+            ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
           ),
 
           SizedBox(height: 16.rH(context)),
@@ -55,7 +60,7 @@ class HomeDriverPreferences extends StatelessWidget {
               final filteredPreferences = preferences
                   .asMap()
                   .entries
-                  .where((e) => cubit.driverTripTypes.contains(e.key + 1))
+                                      .where((e) => cubit.driverTripTypes.contains(e.key + 1) || e.key == 4)
                   .toList();
 
               return GridView.builder(

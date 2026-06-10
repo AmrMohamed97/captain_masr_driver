@@ -94,6 +94,7 @@ class HomeCubit extends Cubit<HomeState> {
         shareRides = model.shareTrip;
         groupRides = model.groupTrip;
         deliveryRides = model.delivery;
+        racing = model.racing;
       },
     );
   }
@@ -105,6 +106,7 @@ class HomeCubit extends Cubit<HomeState> {
       shareTrip: shareRides,
       groupTrip: groupRides,
       delivery: deliveryRides,
+      racing: racing
     );
   }
 
@@ -132,6 +134,7 @@ class HomeCubit extends Cubit<HomeState> {
   bool shareRides = false;
   bool groupRides = false;
   bool deliveryRides = false;
+  bool racing = false;
 
   bool checkPreferencesActive(index) {
     switch (index) {
@@ -143,6 +146,8 @@ class HomeCubit extends Cubit<HomeState> {
         return groupRides;
       case 3:
         return deliveryRides;
+      case 4:
+        return racing;
       default:
         return false;
     }
@@ -161,6 +166,9 @@ class HomeCubit extends Cubit<HomeState> {
         break;
       case 3:
         deliveryRides = !deliveryRides;
+        break;
+      case 4:
+        racing = !racing;
         break;
       default:
     }

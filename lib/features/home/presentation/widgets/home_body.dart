@@ -1,11 +1,9 @@
 import '../../../../core/imports/imports.dart';
 import '../../../find_riders/presentation/views/find_riders_view.dart';
 import '../cubit/home_cubit.dart';
-import 'home_current_location.dart';
 import 'home_driver_preferences.dart';
 import 'home_header.dart';
 import 'home_recent_rides.dart';
-import 'home_services.dart';
 import 'home_today_trips.dart';
 
 class HomeBody extends StatelessWidget {
@@ -35,12 +33,12 @@ class HomeBody extends StatelessWidget {
                       if (!isRider) const HomeTodayTrips(),
 
                       //! Services (For Rider)
-                      if (isRider) const HomeServices(),
+                      // if (isRider) const HomeServices(),
 
                       SizedBox(height: 20.rH(context)),
 
                       //! Current Location (For Rider)
-                      if (isRider) const HomeCurrentLocation(),
+                      // if (isRider) const HomeCurrentLocation(),
 
                       //! Preferces (For Driver)
                       if (!isRider) const HomeDriverPreferences(),

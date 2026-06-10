@@ -48,6 +48,7 @@ class HomeRepo {
     required bool shareTrip,
     required bool groupTrip,
     required bool delivery,
+    required bool racing,
   }) async {
     try {
       final Response response = await api.post(
@@ -57,6 +58,7 @@ class HomeRepo {
           "share_trip": shareTrip,
           "group_trip": groupTrip,
           "delivery": delivery,
+          "racing": racing,
         },
       );
       return Right(response.data["message"]);
