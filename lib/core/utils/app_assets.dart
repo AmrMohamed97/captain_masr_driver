@@ -611,4 +611,8 @@ class Assets {
   /// Assets for imagesWork
   /// assets/images/work.svg
   static const String imagesWork = "assets/images/work.svg";
+
+  /// Assets for imagesRacingTripCard
+  /// assets/images/racing_trip_card.png
+  static const String imagesRacingTripCard = "assets/images/racing_trip_card.png";
 }

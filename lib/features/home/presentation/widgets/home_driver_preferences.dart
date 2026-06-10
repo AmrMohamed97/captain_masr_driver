@@ -28,9 +28,9 @@ class HomeDriverPreferences extends StatelessWidget {
       image: Assets.imagesDeliveryPng,
     ),
     ServicesModel(
-      title: AppStrings.addDriversLicense,
-      type: 'Racing',
-      image: Assets.imagesAirplane,
+      title: AppStrings.racing,
+      type: AppStrings.racing,
+      image: Assets.imagesRacingTripCard,
     ),
   ];
 

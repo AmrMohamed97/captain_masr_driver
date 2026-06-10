@@ -312,6 +312,7 @@ abstract class AppStrings {
   static const String saveAndShare = "saveAndShare";
   static const String rideTogether = "rideTogether";
   static const String fastAndReliable = "fastAndReliable";
+  static const String racing = "racing";
   static const String chooseSavedPlace = "chooseSavedPlace";
   static const String recentRides = "recentRides";
   static const String seeAll = "seeAll";
