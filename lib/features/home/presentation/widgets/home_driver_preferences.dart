@@ -56,11 +56,14 @@ class HomeDriverPreferences extends StatelessWidget {
             builder: (context, state) {
               final cubit = context.read<HomeCubit>();
 
+              // hide grid until trip types are loaded from API
+              if (cubit.driverTripTypes.isEmpty) return const SizedBox.shrink();
+
               // filter only the preferences that are active
               final filteredPreferences = preferences
                   .asMap()
                   .entries
-                                      .where((e) => cubit.driverTripTypes.contains(e.key + 1) || e.key == 4)
+                  .where((e) => cubit.driverTripTypes.contains(e.key + 1) || e.key == 4)
                   .toList();
 
               return GridView.builder(
