@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
+
 import '../../../../core/imports/imports.dart';
 import '../../../rider_trip/data/models/trip_details_model.dart';
 import 'luggages_row.dart';
@@ -26,8 +28,11 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
   late double _biddingPrice;
 
   // Firebase listener
-  StreamSubscription<DatabaseEvent>? _driversSubscription;
+  StreamSubscription<DatabaseEvent>? _childAddedSubscription;
+  StreamSubscription<DatabaseEvent>? _childChangedSubscription;
+  StreamSubscription<DatabaseEvent>? _childRemovedSubscription;
   Map<dynamic, dynamic>? _driversSnapshot;
+  bool _isDeletedFromFirebase = false;
 
   // Countdown timer (Case D)
   bool _isCountingDown = false;
@@ -45,13 +50,41 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     final rideId = widget.model.rideId ?? widget.model.id ?? 0;
     if (rideId == 0) return;
     final ref = FirebaseDatabase.instance.ref('ride_requests/$rideId/drivers');
-    _driversSubscription = ref.onValue.listen((event) {
+    _childAddedSubscription = ref.onChildAdded.listen((event) {
       if (!mounted) return;
-      final data = event.snapshot.value;
       setState(() {
-        _driversSnapshot = data is Map ? data : null;
+        if (event.snapshot.key == _getDriverId()) {
+          _isDeletedFromFirebase = false;
+        }
+        _driversSnapshot ??= {};
+        _driversSnapshot![event.snapshot.key] = event.snapshot.value;
       });
-      // Check if we should start/stop countdown
+      _evaluateCountdown();
+    });
+
+    _childChangedSubscription = ref.onChildChanged.listen((event) {
+      if (!mounted) return;
+      setState(() {
+        if (event.snapshot.key == _getDriverId()) {
+          _isDeletedFromFirebase = false;
+        }
+        _driversSnapshot ??= {};
+        _driversSnapshot![event.snapshot.key] = event.snapshot.value;
+      });
+      _evaluateCountdown();
+    });
+
+    _childRemovedSubscription = ref.onChildRemoved.listen((event) {
+      if (!mounted) return;
+      setState(() {
+        if (event.snapshot.key == _getDriverId()) {
+          _isDeletedFromFirebase = true;
+        }
+        _driversSnapshot?.remove(event.snapshot.key);
+        if (_driversSnapshot != null && _driversSnapshot!.isEmpty) {
+          _driversSnapshot = null;
+        }
+      });
       _evaluateCountdown();
     });
   }
@@ -66,23 +99,20 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
 
   void _evaluateCountdown() {
     final driverId = _getDriverId();
-    final driverData = (driverId != null && _driversSnapshot != null) 
-        ? _driversSnapshot![driverId] as Map? 
+    final driverData = (driverId != null && _driversSnapshot != null)
+        ? _driversSnapshot![driverId] as Map?
         : null;
     final negotiationMap = driverData?['negotiation'] as Map?;
 
-    final firebaseRequestSent = negotiationMap?['request_sent'];
-    final combinedRequestSent =
-        firebaseRequestSent ?? widget.model.negotiation?.requestSent;
+    dynamic firebaseRequestSent;
+    if (driverData != null) {
+      firebaseRequestSent = negotiationMap?['request_sent'] ?? 
+          (!_isDeletedFromFirebase ? widget.model.negotiation?.requestSent : null);
+    } else if (!_isDeletedFromFirebase) {
+      firebaseRequestSent = widget.model.negotiation?.requestSent;
+    }
 
-    final rawRiderPrice = negotiationMap?['rider_price'];
-    final firebaseRiderPrice = rawRiderPrice is num
-        ? rawRiderPrice
-        : (rawRiderPrice is String ? num.tryParse(rawRiderPrice) : null);
-    final combinedRiderPrice =
-        firebaseRiderPrice ?? widget.model.negotiation?.riderPrice;
-
-    if (combinedRequestSent != null) {
+    if (firebaseRequestSent != null) {
       // Case D — start countdown if not already running
       if (!_isCountingDown) {
         _startCountdown();
@@ -126,23 +156,27 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
 
   @override
   void dispose() {
-    _driversSubscription?.cancel();
+    _childAddedSubscription?.cancel();
+    _childChangedSubscription?.cancel();
+    _childRemovedSubscription?.cancel();
     _countdownTimer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Determine card state from Firebase snapshot or model
+    // Determine card state from Firebase snapshot
     final driverIdStr = _getDriverId();
-    
-    final bool hasFirebaseData = _driversSnapshot != null &&
+
+    final bool hasFirebaseData =
+        _driversSnapshot != null &&
         driverIdStr != null &&
         _driversSnapshot!.containsKey(driverIdStr);
-        
-    final bool hasModelData = widget.model.negotiation?.requestSent != null || 
-                              widget.model.negotiation?.riderPrice != null;
-                              
+
+    final bool hasModelData = !_isDeletedFromFirebase &&
+        (widget.model.negotiation?.requestSent != null ||
+         widget.model.negotiation?.riderPrice != null);
+
     final bool driverInMap = hasFirebaseData || hasModelData;
 
     Map<dynamic, dynamic>? negotiationMap;
@@ -152,29 +186,31 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     if (hasFirebaseData) {
       final driverData = _driversSnapshot![driverIdStr] as Map?;
       negotiationMap = driverData?['negotiation'] as Map?;
+      
       final rawRiderPrice = negotiationMap?['rider_price'];
-      riderPrice = rawRiderPrice is num
+      final fbRiderPrice = rawRiderPrice is num
           ? rawRiderPrice
           : (rawRiderPrice is String ? num.tryParse(rawRiderPrice) : null);
-      requestSent = negotiationMap?['request_sent'];
+          
+      riderPrice = fbRiderPrice ?? (!_isDeletedFromFirebase ? widget.model.negotiation?.riderPrice : null);
+      requestSent = negotiationMap?['request_sent'] ?? (!_isDeletedFromFirebase ? widget.model.negotiation?.requestSent : null);
+    } else if (hasModelData) {
+      riderPrice = widget.model.negotiation?.riderPrice;
+      requestSent = widget.model.negotiation?.requestSent;
     }
 
-    final combinedRiderPrice =
-        riderPrice ?? widget.model.negotiation?.riderPrice;
-    final combinedRequestSent =
-        requestSent ?? widget.model.negotiation?.requestSent;
-
     // Case D: requestSent != null (waiting for rider confirmation → countdown)
-    final bool isCaseD =
-        driverInMap &&
-        combinedRequestSent != null;
+    final bool isCaseD = driverInMap && requestSent != null;
     // Case B: driver in map, no riderPrice, no requestSent (waiting for rider response)
     final bool isCaseB =
         driverInMap &&
-        combinedRiderPrice == null &&
-        combinedRequestSent == null;
+        riderPrice == null &&
+        requestSent == null;
     // Case C: driver in map + riderPrice != null
-    final bool isCaseC = driverInMap && combinedRiderPrice != null && combinedRequestSent == null;
+    final bool isCaseC =
+        driverInMap &&
+        riderPrice != null &&
+        requestSent == null;
     // Case A: driver NOT in map → show full negotiation
     final bool isCaseA = !driverInMap;
 
@@ -284,14 +320,14 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 else if (isCaseC) ...[
                   _buildRiderOfferPanel(
                     context,
-                    riderPrice: combinedRiderPrice ,
+                    riderPrice: riderPrice ?? 0,
                   ),
                   SizedBox(height: 14.rH(context)),
                   _buildActionButtons(
                     context,
                     disabled: false,
                     useRiderOffer: true,
-                    firebaseRiderPrice: combinedRiderPrice  ,
+                    firebaseRiderPrice: riderPrice ?? 0,
                   ),
                 ]
                 //! ─── CASE D: Request sent → countdown waiting for confirmation ───
