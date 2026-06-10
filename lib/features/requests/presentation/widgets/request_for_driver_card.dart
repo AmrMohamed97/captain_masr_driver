@@ -239,7 +239,9 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
         requestSent == null &&
         widget.model.negotiation?.riderPrice != null;
     // Case A: driver NOT in map → show full negotiation
-    final bool isCaseA = !driverInMap || widget.model.negotiation == null;
+    final bool isCaseA =
+        !driverInMap ||
+        (widget.model.negotiation == null && riderPrice != null);
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.rH(context)),
