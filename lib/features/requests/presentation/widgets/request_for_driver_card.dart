@@ -234,9 +234,12 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
         driverInMap && riderPrice == null && requestSent == null;
     // Case C: driver in map + riderPrice != null
     final bool isCaseC =
-        driverInMap && riderPrice != null && requestSent == null;
+        driverInMap &&
+        riderPrice != null &&
+        requestSent == null &&
+        widget.model.negotiation?.riderPrice != null;
     // Case A: driver NOT in map → show full negotiation
-    final bool isCaseA = !driverInMap;
+    final bool isCaseA = !driverInMap || widget.model.negotiation == null;
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.rH(context)),
@@ -342,7 +345,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 ]
                 //! ─── CASE C: Rider sent offer → show riderPrice + accept/decline ───
                 else if (isCaseC) ...[
-                  _buildRiderOfferPanel(context, riderPrice: riderPrice ?? 0),
+                  _buildRiderOfferPanel(context, riderPrice: riderPrice),
                   SizedBox(height: 14.rH(context)),
                   _buildActionButtons(
                     context,
