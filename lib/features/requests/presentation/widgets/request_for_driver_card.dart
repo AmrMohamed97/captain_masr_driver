@@ -106,8 +106,11 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
 
     dynamic firebaseRequestSent;
     if (driverData != null) {
-      firebaseRequestSent = negotiationMap?['request_sent'] ?? 
-          (!_isDeletedFromFirebase ? widget.model.negotiation?.requestSent : null);
+      firebaseRequestSent =
+          negotiationMap?['request_sent'] ??
+          (!_isDeletedFromFirebase
+              ? widget.model.negotiation?.requestSent
+              : null);
     } else if (!_isDeletedFromFirebase) {
       firebaseRequestSent = widget.model.negotiation?.requestSent;
     }
@@ -133,10 +136,26 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
       }
       if (_countdown > 0) {
         setState(() => _countdown--);
+        // When countdown reaches 1, delete request_sent from Firebase
+        if (_countdown == 1) {
+          _deleteRequestSentFromFirebase();
+        }
       } else {
         _stopCountdown();
       }
     });
+  }
+
+  void _deleteRequestSentFromFirebase() {
+    final driverId = _getDriverId();
+    final rideId = widget.model.rideId ?? widget.model.id ?? 0;
+    if (driverId != null && rideId != 0) {
+      FirebaseDatabase.instance
+          .ref(
+            'drivers/$driverId/assigned_rides/$rideId/negotiation/request_sent',
+          )
+          .remove();
+    }
   }
 
   void _stopCountdown() {
@@ -173,9 +192,10 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
         driverIdStr != null &&
         _driversSnapshot!.containsKey(driverIdStr);
 
-    final bool hasModelData = !_isDeletedFromFirebase &&
+    final bool hasModelData =
+        !_isDeletedFromFirebase &&
         (widget.model.negotiation?.requestSent != null ||
-         widget.model.negotiation?.riderPrice != null);
+            widget.model.negotiation?.riderPrice != null);
 
     final bool driverInMap = hasFirebaseData || hasModelData;
 
@@ -186,14 +206,22 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     if (hasFirebaseData) {
       final driverData = _driversSnapshot![driverIdStr] as Map?;
       negotiationMap = driverData?['negotiation'] as Map?;
-      
+
       final rawRiderPrice = negotiationMap?['rider_price'];
       final fbRiderPrice = rawRiderPrice is num
           ? rawRiderPrice
           : (rawRiderPrice is String ? num.tryParse(rawRiderPrice) : null);
-          
-      riderPrice = fbRiderPrice ?? (!_isDeletedFromFirebase ? widget.model.negotiation?.riderPrice : null);
-      requestSent = negotiationMap?['request_sent'] ?? (!_isDeletedFromFirebase ? widget.model.negotiation?.requestSent : null);
+
+      riderPrice =
+          fbRiderPrice ??
+          (!_isDeletedFromFirebase
+              ? widget.model.negotiation?.riderPrice
+              : null);
+      requestSent =
+          negotiationMap?['request_sent'] ??
+          (!_isDeletedFromFirebase
+              ? widget.model.negotiation?.requestSent
+              : null);
     } else if (hasModelData) {
       riderPrice = widget.model.negotiation?.riderPrice;
       requestSent = widget.model.negotiation?.requestSent;
@@ -203,14 +231,10 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     final bool isCaseD = driverInMap && requestSent != null;
     // Case B: driver in map, no riderPrice, no requestSent (waiting for rider response)
     final bool isCaseB =
-        driverInMap &&
-        riderPrice == null &&
-        requestSent == null;
+        driverInMap && riderPrice == null && requestSent == null;
     // Case C: driver in map + riderPrice != null
     final bool isCaseC =
-        driverInMap &&
-        riderPrice != null &&
-        requestSent == null;
+        driverInMap && riderPrice != null && requestSent == null;
     // Case A: driver NOT in map → show full negotiation
     final bool isCaseA = !driverInMap;
 
@@ -305,7 +329,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                     context,
                     message: AppStrings.waitingRiderResponse.tr(context),
                     subMessage:
-                        '${AppStrings.sentPrice.tr(context)}: $_biddingPrice  ${AppStrings.egp.tr(context)}',
+                        '${AppStrings.sentPrice.tr(context)}: ${_biddingPrice.toStringAsFixed(2)}  ${AppStrings.egp.tr(context)}',
                     icon: Icons.hourglass_top_rounded,
                     color: AppColors.primary,
                   ),
@@ -318,10 +342,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 ]
                 //! ─── CASE C: Rider sent offer → show riderPrice + accept/decline ───
                 else if (isCaseC) ...[
-                  _buildRiderOfferPanel(
-                    context,
-                    riderPrice: riderPrice ?? 0,
-                  ),
+                  _buildRiderOfferPanel(context, riderPrice: riderPrice ?? 0),
                   SizedBox(height: 14.rH(context)),
                   _buildActionButtons(
                     context,
