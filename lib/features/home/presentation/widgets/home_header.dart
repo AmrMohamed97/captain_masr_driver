@@ -70,109 +70,65 @@ class HomeHeader extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                             horizontal: 16.rW(context),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //! Title
-                              BlocBuilder<GlobalCubit, GlobalState>(
-                                builder: (context, state) {
-                                  return context
-                                              .read<GlobalCubit>()
-                                              .userModel
-                                              ?.username !=
-                                          null
+                          child: BlocBuilder<GlobalCubit, GlobalState>(
+                            builder: (context, globalState) {
+                              final globalCubit = context.read<GlobalCubit>();
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //! Title
+                                  globalCubit.userModel?.username != null
                                       ? Text(
                                           AppStrings.helloNAME
                                               .tr(context)
                                               .replaceAll(
                                                 "NAME",
-                                                context
-                                                        .read<GlobalCubit>()
-                                                        .userModel
-                                                        ?.username ??
+                                                globalCubit.userModel?.username ??
                                                     "",
                                               ),
                                           style: Styles.bold20(
                                             context,
                                           ).copyWith(color: AppColors.white),
                                         )
-                                      : Container();
-                                },
-                              ),
-                              SizedBox(height: 7.rH(context)),
-                              //! Subtitle
-                              context.read<GlobalCubit>().userLocation == null
-                                  ? BlocBuilder<HomeCubit, HomeState>(
-                                      builder: (context, state) {
-                                        return Text(
-                                          context
-                                              .read<HomeCubit>()
-                                              .checkTimeOfDay()
-                                              .tr(context),
-                                          style: Styles.regular14(
-                                            context,
-                                          ).copyWith(color: AppColors.white),
-                                        );
-                                      },
-                                    )
-                                  : Row(
-                                      children: [
-                                        const CustomSvgPicture(
-                                          svg: Assets.imagesPinLocation,
-                                          color: AppColors.yellow,
+                                      : Container(),
+                                  SizedBox(height: 7.rH(context)),
+                                  //! Subtitle
+                                  globalCubit.userLocation == null
+                                      ? BlocBuilder<HomeCubit, HomeState>(
+                                          builder: (context, state) {
+                                            return Text(
+                                              context
+                                                  .read<HomeCubit>()
+                                                  .checkTimeOfDay()
+                                                  .tr(context),
+                                              style: Styles.regular14(
+                                                context,
+                                              ).copyWith(color: AppColors.white),
+                                            );
+                                          },
+                                        )
+                                      : Row(
+                                          children: [
+                                            const CustomSvgPicture(
+                                              svg: Assets.imagesPinLocation,
+                                              color: AppColors.yellow,
+                                            ),
+                                            SizedBox(width: 8.rW(context)),
+                                            Expanded(
+                                              child: Text(
+                                                globalCubit.userLocationName ??
+                                                    "...",
+                                                style: Styles.regular12(context)
+                                                    .copyWith(
+                                                      color: AppColors.greyText,
+                                                    ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        SizedBox(width: 8.rW(context)),
-                                        Expanded(
-                                          child: Text(
-                                            context
-                                                    .read<GlobalCubit>()
-                                                    .userLocationName ??
-                                                "...",
-                                            style: Styles.regular12(context)
-                                                .copyWith(
-                                                  color: AppColors.greyText,
-                                                ),
-                                          ),
-                                        ),
-                                        // ),
-                                      ],
-                                    ),
-                              // Column(
-                              //   crossAxisAlignment: CrossAxisAlignment.start,
-                              //   children: [
-                              //     //* Title
-                              //     // Text(
-                              //     //   AppStrings.yourCurrentLocations.tr(context),
-                              //     //   style: Styles.regular12(
-                              //     //     context,
-                              //     //   ).copyWith(color: AppColors.greyText),
-                              //     // ),
-                              //     // SizedBox(height: 6.rH(context)),
-                              //     //* Current Location
-                              //     Row(
-                              //       children: [
-                              //         const CustomSvgPicture(
-                              //           svg: Assets.imagesPinLocation,
-                              //         ),
-                              //         SizedBox(width: 8.rW(context)),
-                              //         Expanded(
-                              //           child: Text(
-                              //             context
-                              //                     .read<GlobalCubit>()
-                              //                     .userLocationName ??
-                              //                 "...",
-                              //             style: Styles.regular12(context)
-                              //                 .copyWith(
-                              //                   color: AppColors.greyText,
-                              //                 ),
-                              //           ),
-                              //         ),
-                              //         // ),
-                              //       ],
-                              //     ),
-                              //   ],
-                              // ),
-                            ],
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ),
