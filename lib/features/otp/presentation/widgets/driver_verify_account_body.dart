@@ -35,19 +35,24 @@ class DriverVerifyAccountBody extends StatelessWidget {
             AppStrings
                 .yourInformationIsUnderReviewYoullBeNotifiedOnceYourAccountIsApproved
                 .tr(context),
-            style: Styles.medium14Primary(context).copyWith(
-              color: Theme.of(context).textTheme.bodyLarge?.color,
-            ),
+            style: Styles.medium14Primary(
+              context,
+            ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
             overflow: TextOverflow.clip,
             textAlign: TextAlign.center,
           ),
 
           SizedBox(height: 73.rH(context)),
-
+          // Text(
+          //   context.read<GlobalCubit>().userModel?.id.toString() ?? "",
+          //   style: Styles.medium14Primary(
+          //     context,
+          //   ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
+          //   overflow: TextOverflow.clip,
+          //   textAlign: TextAlign.center,
+          // ),
           //! Loading
-          const CustomLoadingIndicator(
-            color: AppColors.primary,
-          ),
+          const CustomLoadingIndicator(color: AppColors.primary),
         ],
       ),
     );
