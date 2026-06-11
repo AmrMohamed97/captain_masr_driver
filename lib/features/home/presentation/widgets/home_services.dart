@@ -120,7 +120,7 @@ class _HomeServicesState extends State<HomeServices> {
                           duration: const Duration(milliseconds: 200),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: isOnline
+                            color:context.read<GlobalCubit>().driverOnline
                                 ? AppColors.primary
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(20.rW(context)),
@@ -152,7 +152,7 @@ class _HomeServicesState extends State<HomeServices> {
                           duration: const Duration(milliseconds: 200),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: !isOnline
+                            color: !context.read<GlobalCubit>().driverOnline
                                 ? const Color(0xFF9E9E9E)
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(20.rW(context)),
@@ -160,7 +160,7 @@ class _HomeServicesState extends State<HomeServices> {
                           child: Text(
                             AppStrings.offline.tr(context),
                             style: Styles.medium16Primary(context).copyWith(
-                              color: !isOnline
+                              color: !context.read<GlobalCubit>().driverOnline
                                   ? AppColors.white
                                   : (globalCubit.isDarkMode
                                         ? AppColors.greyText
