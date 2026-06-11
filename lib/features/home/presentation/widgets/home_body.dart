@@ -149,26 +149,13 @@ class _HomeBodyState extends State<HomeBody> {
                           ),
                         ],
                       ),
-                      padding: EdgeInsets.only(bottom: 35.rH(context)),
-                      child: Column(
+                      padding: EdgeInsets.only(
+                        top: 24.rH(context),
+                        bottom: 35.rH(context),
+                      ),
+                      child: const Column(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Center(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                top: 12.rH(context),
-                                bottom: 12.rH(context),
-                              ),
-                              width: 48.rW(context),
-                              height: 5.rH(context),
-                              decoration: BoxDecoration(
-                                color: AppColors.grey.withOpacity(.5),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          const HomeServices(),
-                        ],
+                        children: [HomeServices()],
                       ),
                     ),
                   ],

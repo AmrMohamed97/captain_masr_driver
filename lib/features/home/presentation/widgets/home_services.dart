@@ -78,75 +78,109 @@ class _HomeServicesState extends State<HomeServices> {
       children: [
         BlocBuilder<GlobalCubit, GlobalState>(
           builder: (context, state) {
-            return GestureDetector(
-              onTap: () {
-                context.read<GlobalCubit>().driverOnlineToggle();
-                if (context.read<GlobalCubit>().driverOnline) {
-                  navigate(
-                    context,
-                    FindRidersView(
-                      acceptedTripTypeIds: context
-                          .read<HomeCubit>()
-                          .driverTripTypes,
-                    ),
-                  );
-                }
-              },
-              child: Center(
-                child: CircleAvatar(
-                  radius: 61.rH(context),
-                  backgroundColor: context.read<GlobalCubit>().isDarkMode
-                      ? Theme.of(context).cardColor.withOpacity(.5)
-                      : context.read<GlobalCubit>().driverOnline
-                      ? AppColors.red.withOpacity(.05)
-                      : AppColors.primary.withOpacity(.05),
-                  child: CircleAvatar(
-                    radius: 51.rH(context),
-                    backgroundColor: context.read<GlobalCubit>().isDarkMode
-                        ? Theme.of(context).cardColor.withOpacity(.75)
-                        : context.read<GlobalCubit>().driverOnline
-                        ? AppColors.red.withOpacity(.15)
-                        : AppColors.primary.withOpacity(.15),
-                    child: CircleAvatar(
-                      radius: 41.rH(context),
-                      backgroundColor: context.read<GlobalCubit>().driverOnline
-                          ? AppColors.red
-                          : AppColors.primary,
-                      child: BlocBuilder<GlobalCubit, GlobalState>(
-                        builder: (context, state) {
-                          return Text(
-                            context.read<GlobalCubit>().driverOnline
-                                ? AppStrings.online.tr(context)
-                                : AppStrings.offline.tr(context),
-                            style: Styles.medium16Primary(
-                              context,
-                            ).copyWith(color: AppColors.white),
-                          );
+            final globalCubit = context.read<GlobalCubit>();
+            final isOnline = globalCubit.driverOnline;
+
+            return Center(
+              child: Container(
+                width: 250.rW(context),
+                height: 48.rH(context),
+                padding: EdgeInsets.all(4.rW(context)),
+                decoration: BoxDecoration(
+                  color: globalCubit.isDarkMode
+                      ? Theme.of(context).cardColor
+                      : const Color(0xFFF2F2F2),
+                  borderRadius: BorderRadius.circular(24.rW(context)),
+                ),
+                child: Row(
+                  textDirection: TextDirection.ltr,
+                  children: [
+                    // Active (Online) Tab - Left
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          if (!isOnline) {
+                            globalCubit.driverOnlineToggle();
+                            if (globalCubit.driverOnline) {
+                              navigate(
+                                context,
+                                FindRidersView(
+                                  acceptedTripTypeIds: context
+                                      .read<HomeCubit>()
+                                      .driverTripTypes,
+                                ),
+                              );
+                            }
+                          }
                         },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: isOnline
+                                ? AppColors.primary
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(20.rW(context)),
+                          ),
+                          child: Text(
+                            AppStrings.online.tr(context),
+                            style: Styles.medium16Primary(context).copyWith(
+                              color: isOnline
+                                  ? AppColors.white
+                                  : (globalCubit.isDarkMode
+                                      ? AppColors.greyText
+                                      : AppColors.black.withOpacity(0.6)),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.rT(context),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    // Inactive (Offline) Tab - Right
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          if (isOnline) {
+                            globalCubit.driverOnlineToggle();
+                          }
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: !isOnline
+                                ? const Color(0xFF9E9E9E)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(20.rW(context)),
+                          ),
+                          child: Text(
+                            AppStrings.offline.tr(context),
+                            style: Styles.medium16Primary(context).copyWith(
+                              color: !isOnline
+                                  ? AppColors.white
+                                  : (globalCubit.isDarkMode
+                                      ? AppColors.greyText
+                                      : AppColors.black.withOpacity(0.6)),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.rT(context),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
           },
         ),
 
-        //! Title
-        // Padding(
-        //   padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
-        //   child: Text(
-        //     AppStrings.services.tr(context),
-        //     style: Styles.semibold18Primary(
-        //       context,
-        //     ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
-        //   ),
-        // ),
-        SizedBox(height: 16.rH(context)),
+        SizedBox(height: 20.rH(context)),
 
         SizedBox(
           width: double.infinity,
-          height: 118.rH(context),
+          height: 135.rH(context),
           child: ListView.separated(
             controller: _scrollController,
             shrinkWrap: true,
@@ -154,7 +188,7 @@ class _HomeServicesState extends State<HomeServices> {
             padding: EdgeInsets.symmetric(horizontal: 10.rW(context)),
             itemCount: HomeServices.services.length + 1,
             separatorBuilder: (context, index) {
-              return SizedBox(width: 4.rW(context));
+              return SizedBox(width: 12.rW(context));
             },
             itemBuilder: (context, index) {
               if (index == HomeServices.services.length) {

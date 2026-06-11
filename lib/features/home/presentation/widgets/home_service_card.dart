@@ -15,90 +15,83 @@ class HomeServiceCard extends StatelessWidget {
   final bool selected;
   final int index;
 
+  String _getServiceType(BuildContext context) {
+    final language = context.read<GlobalCubit>().language;
+    if (language == "ar") {
+      switch (model.type) {
+        case AppStrings.shareRide:
+          return "سفر";
+        case AppStrings.dailyRides:
+          return "رحلة مميزة";
+        case AppStrings.classicRide:
+          return "رحلة عادية";
+        default:
+          return model.type.tr(context);
+      }
+    } else {
+      switch (model.type) {
+        case AppStrings.shareRide:
+          return "Travel";
+        case AppStrings.dailyRides:
+          return "Premium Ride";
+        case AppStrings.classicRide:
+          return "Classic Ride";
+        default:
+          return model.type.tr(context);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedScale(
         duration: const Duration(milliseconds: 300),
-        scale: selected ? 1 : .85,
-        child: SizedBox(
-          width: 136.rW(context),
-          child: Stack(
-            children: [
-              //! Background
-              BlocBuilder<GlobalCubit, GlobalState>(
-                builder: (context, state) {
-                  return Transform.flip(
-                    flipX: context.read<GlobalCubit>().language == "ar",
-                    child: CustomSvgPicture(
-                      svg: Assets.imagesServiceCardContainer,
-                      width: 126.rW(context),
-                      height: 118.rH(context),
-                      fit: BoxFit.fill,
-                      color: selected
-                          ? AppColors.primary
-                          : Theme.of(context).cardColor,
-                    ),
-                  );
-                },
+        scale: selected ? 1.0 : 0.95,
+        child: Container(
+          width: 116.rW(context),
+          height: 118.rH(context),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(20.rW(context)),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.black.withOpacity(0.04),
+                blurRadius: 10,
+                spreadRadius: 1,
+                offset: const Offset(0, 4),
               ),
-              //! Forward Button
-              PositionedDirectional(
-                bottom: 0,
-                end: 8.rW(context),
-                child: Container(
-                  width: 24.rH(context),
-                  height: 24.rH(context),
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? AppColors.primary
-                        : Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      color: selected ? AppColors.white : AppColors.black,
-                      size: 10.rH(context),
-                    ),
-                  ),
+            ],
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: 10.rW(context),
+            vertical: 12.rH(context),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              //! Image
+              Expanded(
+                child: Image.asset(
+                  model.image,
+                  height: 60.rH(context),
+                  fit: BoxFit.contain,
                 ),
               ),
-
-              PositionedDirectional(
-                top: 8.rH(context),
-                start: 8.rW(context),
-                end: index == 3 ? -14.rW(context) : -8.rW(context),
-                bottom: 8.rH(context),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //! Image
-                    Expanded(
-                      child: Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: Image.asset(
-                          model.image,
-                          height: 72.rH(context),
-                          width: 108.rW(context),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    //! Title
-                    Text(
-                      model.type.tr(context),
-                      style: Styles.semibold16Primary(context).copyWith(
-                        color: selected
-                            ? AppColors.white
-                            : Theme.of(context).textTheme.bodyLarge?.color,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.rT(context),
-                      ),
-                    ),
-                  ],
+              SizedBox(height: 8.rH(context)),
+              //! Title
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  _getServiceType(context),
+                  textAlign: TextAlign.center,
+                  style: Styles.semibold14Primary(context).copyWith(
+                    color: Theme.of(context).textTheme.bodyLarge?.color ?? AppColors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.rT(context),
+                  ),
                 ),
               ),
             ],
