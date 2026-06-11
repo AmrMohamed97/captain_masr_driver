@@ -1,116 +1,157 @@
-import '../../../../core/imports/imports.dart';
-import '../../../find_riders/presentation/views/find_riders_view.dart';
-import '../cubit/home_cubit.dart';
-import 'home_driver_preferences.dart';
-import 'home_header.dart';
-import 'home_today_trips.dart';
+import 'package:captain_masr_driver/features/home/presentation/widgets/home_header.dart';
+import 'package:captain_masr_driver/features/home/presentation/widgets/home_services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class HomeBody extends StatelessWidget {
+import '../../../../core/imports/imports.dart';
+
+class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
 
   @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
+  GoogleMapController? mapController;
+
+  @override
   Widget build(BuildContext context) {
-    final isRider = context.read<GlobalCubit>().isRider;
-    return SizedBox(
-      width: double.infinity,
-      height: double.infinity,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Column(
-              children: [
-                //! Header & Slider
-                const HomeHeader(),
+    return BlocBuilder<GlobalCubit, GlobalState>(
+      builder: (context, state) {
+        final globalCubit = context.read<GlobalCubit>();
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            GoogleMap(
+              onMapCreated: (controller) {
+                mapController = controller;
+              },
+              style: context.read<GlobalCubit>().isDarkMode
+                  ? context.read<GlobalCubit>().mapDarkStyle
+                  : null,
+              zoomGesturesEnabled: false,
+              scrollGesturesEnabled: false,
+              zoomControlsEnabled: false,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                  globalCubit.userLocation?.latitude ?? 26.820553,
+                  globalCubit.userLocation?.longitude ?? 30.802498,
+                ),
+                zoom: 6.151926040649414,
+              ),
+            ),
 
-                SizedBox(height: 18.rH(context)),
+            //! HomeHeader
+            const HomeHeader(),
 
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      //! Trips Today (For Driver)
-                      // if (!isRider) const HomeTodayTrips(),
-
-                      //! Services (For Rider)
-                      // if (isRider) const HomeServices(),
-                      // SizedBox(height: 20.rH(context)),
-
-                      //! Current Location (For Rider)
-                      // if (isRider) const HomeCurrentLocation(),
-
-                      //! Preferces (For Driver)
-                      // if (!isRider) const HomeDriverPreferences(),
-                      //! Recent Rides
-                    ],
+            if (globalCubit.userLocation != null)
+              //! Pin
+              Positioned.fill(
+                child: Center(
+                  child: Container(
+                    width: 63.rH(context),
+                    height: 63.rH(context),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(.15),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                            radius: 5.rH(context),
+                            backgroundColor: AppColors.white,
+                          ),
+                        ),
+                        CustomSvgPicture(
+                          svg: Assets.carMapImage,
+                          height: 22.rH(context),
+                          width: 27.rH(context),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ),
-
-          //! Driver Online Float Button
-          if (!isRider)
+              ),
+            //----------------------------------------------------------------
+            ///services
             Positioned(
-              bottom: 16.rH(context),
+              bottom: 0,
               left: 0,
               right: 0,
-              child: BlocBuilder<GlobalCubit, GlobalState>(
-                builder: (context, state) {
-                  return GestureDetector(
-                    onTap: () {
-                      context.read<GlobalCubit>().driverOnlineToggle();
-                      if (context.read<GlobalCubit>().driverOnline) {
-                        navigate(
-                          context,
-                          FindRidersView(
-                            acceptedTripTypeIds: context
-                                .read<HomeCubit>()
-                                .driverTripTypes,
-                          ),
-                        );
-                      }
-                    },
-                    child: CircleAvatar(
-                      radius: 61.rH(context),
-                      backgroundColor: context.read<GlobalCubit>().isDarkMode
-                          ? Theme.of(context).cardColor.withOpacity(.5)
-                          : context.read<GlobalCubit>().driverOnline
-                          ? AppColors.red.withOpacity(.05)
-                          : AppColors.primary.withOpacity(.05),
-                      child: CircleAvatar(
-                        radius: 51.rH(context),
-                        backgroundColor: context.read<GlobalCubit>().isDarkMode
-                            ? Theme.of(context).cardColor.withOpacity(.75)
-                            : context.read<GlobalCubit>().driverOnline
-                            ? AppColors.red.withOpacity(.15)
-                            : AppColors.primary.withOpacity(.15),
-                        child: CircleAvatar(
-                          radius: 41.rH(context),
-                          backgroundColor:
-                              context.read<GlobalCubit>().driverOnline
-                              ? AppColors.red
-                              : AppColors.primary,
-                          child: BlocBuilder<GlobalCubit, GlobalState>(
-                            builder: (context, state) {
-                              return Text(
-                                context.read<GlobalCubit>().driverOnline
-                                    ? AppStrings.online.tr(context)
-                                    : AppStrings.offline.tr(context),
-                                style: Styles.medium16Primary(
-                                  context,
-                                ).copyWith(color: AppColors.white),
-                              );
-                            },
-                          ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.black.withOpacity(.08),
+                      blurRadius: 15,
+                      spreadRadius: 1,
+                      offset: const Offset(0, -4),
+                    ),
+                  ],
+                ),
+                padding: EdgeInsets.only(bottom: 35.rH(context)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Center(
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          top: 12.rH(context),
+                          bottom: 12.rH(context),
+                        ),
+                        width: 48.rW(context),
+                        height: 5.rH(context),
+                        decoration: BoxDecoration(
+                          color: AppColors.grey.withOpacity(.5),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ),
-                  );
-                },
+                    const HomeServices(),
+                  ],
+                ),
               ),
             ),
-        ],
-      ),
+          ],
+        );
+      },
     );
   }
 }
+
+
+//  Column(
+//       children: [
+//         //! Header & Slider
+//         // const HomeHeader(),
+
+//         // SizedBox(height: 18.rH(context)),
+
+//         //! Trips Today (For Driver)
+//         // if (!isRider) const HomeTodayTrips(),
+
+//         //! Services (For Rider)
+//         // if (isRider) const HomeServices(),
+//         // SizedBox(height: 20.rH(context)),
+
+//         //! Current Location (For Rider)
+
+//         //! Preferces (For Driver)
+//         // if (!isRider) const HomeDriverPreferences(),
+//         // SizedBox(height: 20.rH(context)),
+
+//         //! Recent Rides
+//         // const HomeRecentRides(),
+//         // SizedBox(height: 24.rH(context)),
+
+//         // if (!isRider) SizedBox(height: 120.rH(context)),
+//       ],
+//     );

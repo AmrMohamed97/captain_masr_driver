@@ -19,17 +19,18 @@ class CustomSvgPicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      svg,
-      colorFilter: color != null
-          ? ColorFilter.mode(
-              color!,
-              BlendMode.srcIn,
-            )
-          : null,
-      height: height,
-      width: width,
-      fit: fit,
-    );
+    return svg.contains('.png')
+        ? Image.asset(svg, height: height, width: width, fit: fit, color: color)
+        : Center(
+            child: SvgPicture.asset(
+              svg,
+              colorFilter: color != null
+                  ? ColorFilter.mode(color!, BlendMode.srcIn)
+                  : null,
+              height: height,
+              width: width,
+              fit: fit,
+            ),
+          );
   }
 }

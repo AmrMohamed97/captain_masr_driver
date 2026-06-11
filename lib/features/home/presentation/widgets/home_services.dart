@@ -1,7 +1,7 @@
+import 'package:captain_masr_driver/features/find_riders/presentation/views/find_riders_view.dart';
+import 'package:captain_masr_driver/features/home/presentation/cubit/home_cubit.dart';
+
 import '../../../../core/imports/imports.dart';
-import '../../../delivery/presentation/views/package_details_view.dart';
-import '../../../schedule_trip/presentation/views/schedule_trip_view.dart';
-import '../../../start_trip/presentation/views/start_trip_view.dart';
 import '../../data/models/services_model.dart';
 import 'home_service_card.dart';
 
@@ -29,6 +29,11 @@ class HomeServices extends StatefulWidget {
       type: AppStrings.delivery,
       image: Assets.imagesDeliveryPng,
     ),
+    ServicesModel(
+      title: AppStrings.fastAndReliable,
+      type: AppStrings.race,
+      image: Assets.imagesRacingTripCard,
+    ),
   ];
 
   @override
@@ -55,7 +60,7 @@ class _HomeServicesState extends State<HomeServices> {
   void _updateCurrentIndex() {
     if (_scrollController.hasClients) {
       final double offset = _scrollController.offset;
-      final double itemWidth = 187.rW(context) + 16.rW(context);
+      final double itemWidth = 136.rW(context) + 16.rW(context);
       final int newIndex = (offset / itemWidth).round();
 
       if (newIndex != _currentIndex) {
@@ -71,63 +76,122 @@ class _HomeServicesState extends State<HomeServices> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //! Title
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
-          child: Text(
-            AppStrings.services.tr(context),
-            style: Styles.semibold18Primary(context).copyWith(
-              color: Theme.of(context).textTheme.bodyLarge?.color,
-            ),
-          ),
+        BlocBuilder<GlobalCubit, GlobalState>(
+          builder: (context, state) {
+            return GestureDetector(
+              onTap: () {
+                context.read<GlobalCubit>().driverOnlineToggle();
+                if (context.read<GlobalCubit>().driverOnline) {
+                  navigate(
+                    context,
+                    FindRidersView(
+                      acceptedTripTypeIds: context
+                          .read<HomeCubit>()
+                          .driverTripTypes,
+                    ),
+                  );
+                }
+              },
+              child: Center(
+                child: CircleAvatar(
+                  radius: 61.rH(context),
+                  backgroundColor: context.read<GlobalCubit>().isDarkMode
+                      ? Theme.of(context).cardColor.withOpacity(.5)
+                      : context.read<GlobalCubit>().driverOnline
+                      ? AppColors.red.withOpacity(.05)
+                      : AppColors.primary.withOpacity(.05),
+                  child: CircleAvatar(
+                    radius: 51.rH(context),
+                    backgroundColor: context.read<GlobalCubit>().isDarkMode
+                        ? Theme.of(context).cardColor.withOpacity(.75)
+                        : context.read<GlobalCubit>().driverOnline
+                        ? AppColors.red.withOpacity(.15)
+                        : AppColors.primary.withOpacity(.15),
+                    child: CircleAvatar(
+                      radius: 41.rH(context),
+                      backgroundColor: context.read<GlobalCubit>().driverOnline
+                          ? AppColors.red
+                          : AppColors.primary,
+                      child: BlocBuilder<GlobalCubit, GlobalState>(
+                        builder: (context, state) {
+                          return Text(
+                            context.read<GlobalCubit>().driverOnline
+                                ? AppStrings.online.tr(context)
+                                : AppStrings.offline.tr(context),
+                            style: Styles.medium16Primary(
+                              context,
+                            ).copyWith(color: AppColors.white),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
 
+        //! Title
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
+        //   child: Text(
+        //     AppStrings.services.tr(context),
+        //     style: Styles.semibold18Primary(
+        //       context,
+        //     ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
+        //   ),
+        // ),
         SizedBox(height: 16.rH(context)),
 
         SizedBox(
           width: double.infinity,
-          height: 163.rH(context),
+          height: 118.rH(context),
           child: ListView.separated(
             controller: _scrollController,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.symmetric(horizontal: 16.rW(context)),
+            padding: EdgeInsets.symmetric(horizontal: 10.rW(context)),
             itemCount: HomeServices.services.length + 1,
             separatorBuilder: (context, index) {
-              return SizedBox(width: 12.rW(context));
+              return SizedBox(width: 4.rW(context));
             },
             itemBuilder: (context, index) {
               if (index == HomeServices.services.length) {
-                return SizedBox(width: 80.rW(context));
+                return SizedBox(width: 200.rW(context));
               }
               return HomeServiceCard(
                 model: HomeServices.services[index],
                 onTap: () {
                   switch (index) {
                     case 0:
-                      navBarNavigate(
-                        context: context,
-                        widget: const StartTripView(
-                          isShareRide: true,
-                        ),
-                      );
+                      // navBarNavigate(
+                      //   context: context,
+                      //   widget: const StartTripView(isShareRide: true),
+                      // );
                       break;
                     case 1:
-                      navBarNavigate(
-                        context: context,
-                        widget: const ScheduleTripView(),
-                      );
+                      // navBarNavigate(
+                      //   context: context,
+                      //   widget: const ScheduleTripView(),
+                      // );
                       break;
                     case 2:
-                      navBarNavigate(
-                        context: context,
-                        widget: const StartTripView(),
-                      );
+                    // navBarNavigate(
+                    //   context: context,
+                    //   widget: const StartTripView(),
+                    // );
                     case 3:
-                      navBarNavigate(
-                        context: context,
-                        widget: const PackageDetailsView(),
-                      );
+                      // navBarNavigate(
+                      //   context: context,
+                      //   widget: const PackageDetailsView(),
+                      // );
+                      break;
+                    case 4:
+                      // navBarNavigate(
+                      //   context: context,
+                      //   widget: const RacingTripView(),
+                      // );
                       break;
                     default:
                   }
@@ -137,7 +201,7 @@ class _HomeServicesState extends State<HomeServices> {
               );
             },
           ),
-        )
+        ),
       ],
     );
   }

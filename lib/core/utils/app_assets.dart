@@ -15,6 +15,7 @@ class Assets {
   /// Assets for imagesAirplane
   /// assets/images/airplane.svg
   static const String imagesAirplane = "assets/images/airplane.svg";
+  static const String carMap = "assets/images/car.svg";
 
   /// Assets for imagesAppIcon
   /// assets/images/app_icon.png
@@ -374,6 +375,7 @@ class Assets {
   /// Assets for imagesPinLocation
   /// assets/images/pin_location.svg
   static const String imagesPinLocation = "assets/images/pin_location.svg";
+  static const String carMapImage = "assets/images/carMap.png";
 
   /// Assets for imagesPinLocationPng
   /// assets/images/pin_location_png.png
