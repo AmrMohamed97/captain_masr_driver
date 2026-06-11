@@ -65,7 +65,7 @@ class HomeServiceCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.rW(context)),
             boxShadow: [
               BoxShadow(
-                color: AppColors.black.withOpacity(0.09),
+                color: AppColors.black.withOpacity(0.1),
                 blurRadius: 12,
                 spreadRadius: 1,
                 offset: const Offset(0, 4),
