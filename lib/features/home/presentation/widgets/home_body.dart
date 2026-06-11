@@ -151,7 +151,7 @@ class _HomeBodyState extends State<HomeBody> {
                       ),
                       padding: EdgeInsets.only(
                         top: 24.rH(context),
-                        bottom: 35.rH(context),
+                        bottom: 20.rH(context),
                       ),
                       child: const Column(
                         mainAxisSize: MainAxisSize.min,
