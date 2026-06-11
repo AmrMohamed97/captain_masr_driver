@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:captain_masr_driver/features/home/presentation/widgets/trips_types.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../../../../core/imports/imports.dart';
 import '../../../../core/widgets/partial_star.dart';
 import '../../../become_rider_or_driver/presentation/views/become_rider_or_driver_view.dart';
