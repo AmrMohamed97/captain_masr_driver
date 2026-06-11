@@ -614,5 +614,5 @@ class Assets {
 
   /// Assets for imagesRacingTripCard
   /// assets/images/racing_trip_card.png
-  static const String imagesRacingTripCard = "assets/images/racing_trip_card.png";
+  static const String imagesRacingTripCard = "assets/images/race.png";
 }

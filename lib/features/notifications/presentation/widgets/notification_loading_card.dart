@@ -16,12 +16,12 @@ class NotificationLoadingCard extends StatelessWidget {
         vertical: 14.rH(context),
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.dark
-            ? const Color(0xff1E1E1E)
-            : AppColors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.greyText.withOpacity(0.15),
+          color: Theme.of(context).brightness == Brightness.dark
+              ? AppColors.greyText.withOpacity(0.15)
+              : AppColors.grey.withOpacity(0.5),
         ),
       ),
       child: Row(

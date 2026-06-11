@@ -39,7 +39,7 @@ class _NotificationDetailContent extends StatelessWidget {
     if (t.contains('ride_request') || t.contains('driver request')) {
       return _NotifStyle(
         icon: Icons.directions_car_rounded,
-        color: const Color(0xff009EAA),
+        color: AppColors.primary,
         label: 'Driver Request',
       );
     } else if (t.contains('cancel')) {
@@ -63,7 +63,7 @@ class _NotificationDetailContent extends StatelessWidget {
     } else {
       return _NotifStyle(
         icon: Icons.notifications_rounded,
-        color: const Color(0xff009EAA),
+        color: AppColors.primary,
         label: 'Notification',
       );
     }
@@ -85,8 +85,7 @@ class _NotificationDetailContent extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor:
-          isDark ? const Color(0xff0F0F0F) : const Color(0xffF5F5F5),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: BlocBuilder<NotificationDetailCubit, NotificationDetailState>(
         builder: (context, state) {
           final cubit = context.read<NotificationDetailCubit>();
@@ -330,8 +329,7 @@ class _NotificationDetailContent extends StatelessWidget {
 
   Widget _buildLoading(BuildContext context, bool isDark) {
     return Scaffold(
-      backgroundColor:
-          isDark ? const Color(0xff0F0F0F) : const Color(0xffF5F5F5),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -525,7 +523,7 @@ class _InfoCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xff1C1C1C) : Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isDark

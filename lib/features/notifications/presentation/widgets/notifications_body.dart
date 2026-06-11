@@ -38,15 +38,11 @@ class NotificationsBody extends StatelessWidget {
                   vertical: 12.rH(context),
                 ),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xff05C1CF), Color(0xff02767E)],
-                    begin: AlignmentDirectional.centerStart,
-                    end: AlignmentDirectional.centerEnd,
-                  ),
+                  gradient: AppColors.primaryGradient,
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xff009EAA).withOpacity(0.25),
+                      color: AppColors.primary.withOpacity(0.25),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -100,7 +96,7 @@ class NotificationsBody extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 13.rT(context),
                           fontWeight: FontWeight.w800,
-                          color: const Color(0xff009EAA),
+                          color: AppColors.primary,
                           fontFamily: 'Nunito',
                         ),
                       ),

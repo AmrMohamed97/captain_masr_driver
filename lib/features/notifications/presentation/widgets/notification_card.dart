@@ -19,7 +19,7 @@ class NotificationCard extends StatelessWidget {
     if (t.contains('ride_request') || t.contains('driver request')) {
       return _NotifStyle(
         icon: Icons.directions_car_rounded,
-        color: const Color(0xff009EAA), // primary teal
+        color: AppColors.primary, // primary theme color
       );
     } else if (t.contains('cancel')) {
       return _NotifStyle(
@@ -39,7 +39,7 @@ class NotificationCard extends StatelessWidget {
     } else {
       return _NotifStyle(
         icon: Icons.notifications_rounded,
-        color: const Color(0xff009EAA),
+        color: AppColors.primary,
       );
     }
   }
@@ -60,9 +60,7 @@ class NotificationCard extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isRead
-              ? (isDark
-                  ? const Color(0xff1E1E1E)
-                  : AppColors.white)
+              ? Theme.of(context).cardColor
               : (isDark
                   ? style.color.withOpacity(0.12)
                   : style.color.withOpacity(0.06)),
@@ -127,9 +125,7 @@ class NotificationCard extends StatelessWidget {
                           color: style.color,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: isDark
-                                ? const Color(0xff1E1E1E)
-                                : AppColors.white,
+                            color: Theme.of(context).cardColor,
                             width: 2,
                           ),
                         ),
