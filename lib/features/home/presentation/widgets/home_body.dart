@@ -29,17 +29,17 @@ class HomeBody extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     children: [
                       //! Trips Today (For Driver)
-                      if (!isRider) const HomeTodayTrips(),
+                      // if (!isRider) const HomeTodayTrips(),
 
                       //! Services (For Rider)
                       // if (isRider) const HomeServices(),
-                      SizedBox(height: 20.rH(context)),
+                      // SizedBox(height: 20.rH(context)),
 
                       //! Current Location (For Rider)
                       // if (isRider) const HomeCurrentLocation(),
 
                       //! Preferces (For Driver)
-                      if (!isRider) const HomeDriverPreferences(),
+                      // if (!isRider) const HomeDriverPreferences(),
                       //! Recent Rides
                     ],
                   ),

@@ -42,14 +42,13 @@ class HomeDriverPreferences extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //! Title
-          Text(
-            AppStrings.preferences.tr(context),
-            style: Styles.semibold18Primary(
-              context,
-            ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
-          ),
-
-          SizedBox(height: 16.rH(context)),
+          // Text(
+          //   AppStrings.preferences.tr(context),
+          //   style: Styles.semibold18Primary(
+          //     context,
+          //   ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
+          // ),
+          SizedBox(height: 25.rH(context)),
 
           //! Grid View
           BlocBuilder<HomeCubit, HomeState>(
@@ -63,7 +62,10 @@ class HomeDriverPreferences extends StatelessWidget {
               final filteredPreferences = preferences
                   .asMap()
                   .entries
-                  .where((e) => cubit.driverTripTypes.contains(e.key + 1) || e.key == 4)
+                  .where(
+                    (e) =>
+                        cubit.driverTripTypes.contains(e.key + 1) || e.key == 4,
+                  )
                   .toList();
 
               return GridView.builder(

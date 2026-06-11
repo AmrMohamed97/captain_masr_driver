@@ -4,7 +4,6 @@ import 'notification_icon_button.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -18,7 +17,7 @@ class HomeHeader extends StatelessWidget {
               height:
                   state is SlidersLoadingState ||
                       (context.read<HomeCubit>().sliders?.isNotEmpty ?? false)
-                  ? 143.rH(context)
+                  ? 140.rH(context)
                   : 130.rH(context),
               decoration: BoxDecoration(
                 gradient: AppColors.primaryGradient,
@@ -41,32 +40,31 @@ class HomeHeader extends StatelessWidget {
                   Row(
                     children: [
                       //! Drawer
-                      if (context.read<GlobalCubit>().isDriver)
-                        GestureDetector(
-                          onTap: () {
-                            Scaffold.of(context).openDrawer();
-                          },
-                          child: Container(
-                            width: 38.rH(context),
-                            height: 38.rH(context),
-                            decoration: BoxDecoration(
-                              color: AppColors.white.withOpacity(.90),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Center(
-                              child: Transform.flip(
-                                flipX:
-                                    context.read<GlobalCubit>().language ==
-                                    "ar",
-                                child: CustomSvgPicture(
-                                  svg: Assets.imagesDrawer,
-                                  color: AppColors.primary,
-                                  height: 22.rH(context),
-                                ),
+                      // if (context.read<GlobalCubit>().isDriver)
+                      GestureDetector(
+                        onTap: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                        child: Container(
+                          width: 38.rH(context),
+                          height: 38.rH(context),
+                          decoration: BoxDecoration(
+                            color: AppColors.white.withOpacity(.90),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: Transform.flip(
+                              flipX:
+                                  context.read<GlobalCubit>().language == "ar",
+                              child: CustomSvgPicture(
+                                svg: Assets.imagesDrawer,
+                                color: AppColors.primary,
+                                height: 22.rH(context),
                               ),
                             ),
                           ),
                         ),
+                      ),
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
@@ -103,19 +101,77 @@ class HomeHeader extends StatelessWidget {
                               ),
                               SizedBox(height: 7.rH(context)),
                               //! Subtitle
-                              BlocBuilder<HomeCubit, HomeState>(
-                                builder: (context, state) {
-                                  return Text(
-                                    context
-                                        .read<HomeCubit>()
-                                        .checkTimeOfDay()
-                                        .tr(context),
-                                    style: Styles.regular14(
-                                      context,
-                                    ).copyWith(color: AppColors.white),
-                                  );
-                                },
-                              ),
+                              context.read<GlobalCubit>().userLocation == null
+                                  ? BlocBuilder<HomeCubit, HomeState>(
+                                      builder: (context, state) {
+                                        return Text(
+                                          context
+                                              .read<HomeCubit>()
+                                              .checkTimeOfDay()
+                                              .tr(context),
+                                          style: Styles.regular14(
+                                            context,
+                                          ).copyWith(color: AppColors.white),
+                                        );
+                                      },
+                                    )
+                                  : Row(
+                                      children: [
+                                        const CustomSvgPicture(
+                                          svg: Assets.imagesPinLocation,
+                                          color: AppColors.yellow,
+                                        ),
+                                        SizedBox(width: 8.rW(context)),
+                                        Expanded(
+                                          child: Text(
+                                            context
+                                                    .read<GlobalCubit>()
+                                                    .userLocationName ??
+                                                "...",
+                                            style: Styles.regular12(context)
+                                                .copyWith(
+                                                  color: AppColors.greyText,
+                                                ),
+                                          ),
+                                        ),
+                                        // ),
+                                      ],
+                                    ),
+                              // Column(
+                              //   crossAxisAlignment: CrossAxisAlignment.start,
+                              //   children: [
+                              //     //* Title
+                              //     // Text(
+                              //     //   AppStrings.yourCurrentLocations.tr(context),
+                              //     //   style: Styles.regular12(
+                              //     //     context,
+                              //     //   ).copyWith(color: AppColors.greyText),
+                              //     // ),
+                              //     // SizedBox(height: 6.rH(context)),
+                              //     //* Current Location
+                              //     Row(
+                              //       children: [
+                              //         const CustomSvgPicture(
+                              //           svg: Assets.imagesPinLocation,
+                              //         ),
+                              //         SizedBox(width: 8.rW(context)),
+                              //         Expanded(
+                              //           child: Text(
+                              //             context
+                              //                     .read<GlobalCubit>()
+                              //                     .userLocationName ??
+                              //                 "...",
+                              //             style: Styles.regular12(context)
+                              //                 .copyWith(
+                              //                   color: AppColors.greyText,
+                              //                 ),
+                              //           ),
+                              //         ),
+                              //         // ),
+                              //       ],
+                              //     ),
+                              //   ],
+                              // ),
                             ],
                           ),
                         ),

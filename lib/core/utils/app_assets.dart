@@ -213,6 +213,7 @@ class Assets {
   /// Assets for imagesHistory
   /// assets/images/history.svg
   static const String imagesHistory = "assets/images/history.svg";
+  static const String tripsTyps = "assets/images/trips_typs.svg";
 
   /// Assets for imagesHomeActive
   /// assets/images/home_active.svg

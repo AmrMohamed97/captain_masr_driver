@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:captain_masr_driver/features/home/presentation/widgets/trips_types.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/imports/imports.dart';
@@ -233,6 +234,16 @@ class CustomDrawer extends StatelessWidget {
                               .driverTripTypes,
                         ),
                       );
+                    },
+                  ),
+                  //* Trips types
+                  drawerListTile(
+                    context,
+                    title: AppStrings.tripsTypes.tr(context),
+                    svg: Assets.tripsTyps,
+                    onTap: () {
+                      Navigator.pop(context);
+                      navigate(context, const TripsTypes());
                     },
                   ),
                   //* Trips

@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
     print(sl<Cache>().getStringData(AppConstants.token));
     return BlocProvider(
       create: (context) => HomeCubit(
-        isDriver: context.read<GlobalCubit>().isDriver,
+        isDriver: true,
       ),
       child: Scaffold(
         key: _scaffoldKey,

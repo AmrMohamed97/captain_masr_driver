@@ -230,7 +230,7 @@ class _ToastOverlayState extends State<_ToastOverlay>
   Color _getStateColor(ToastStates state) {
     switch (state) {
       case ToastStates.success:
-        return AppColors.primary;
+        return AppColors.green;
       case ToastStates.error:
         return AppColors.red;
       case ToastStates.warning:
