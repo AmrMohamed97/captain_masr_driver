@@ -195,6 +195,7 @@
     "tripsToday": "رحلات اليوم",
     "online": "نشط",
     "offline": "غير نشط",
+    "goOnlineToAccessThisService": "يرجى تفعيل وضع نشط للوصول إلى هذه الخدمة",
     "yourCurrentLocations": "موقعك الحالي",
     "notifications": "الاشعارات",
     "areYouSureYouWantToLogout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",

@@ -1,3 +1,4 @@
+import 'package:captain_masr_driver/core/widgets/custom_toast.dart';
 import 'package:captain_masr_driver/features/find_riders/presentation/views/find_riders_view.dart';
 import 'package:captain_masr_driver/features/home/presentation/cubit/home_cubit.dart';
 
@@ -10,12 +11,12 @@ class HomeServices extends StatefulWidget {
 
   static List services = [
     ServicesModel(
-      title: AppStrings.saveAndShare,
+      title: AppStrings.onMyWay,
       type: AppStrings.shareRide,
       image: Assets.imagesShareTripCard,
     ),
     ServicesModel(
-      title: AppStrings.rideTogether,
+      title: AppStrings.scheduleTrip,
       type: AppStrings.dailyRides,
       image: Assets.imagesGroupTripCard,
     ),
@@ -101,16 +102,16 @@ class _HomeServicesState extends State<HomeServices> {
                         onTap: () {
                           if (!isOnline) {
                             globalCubit.driverOnlineToggle();
-                            if (globalCubit.driverOnline) {
-                              navigate(
-                                context,
-                                FindRidersView(
-                                  acceptedTripTypeIds: context
-                                      .read<HomeCubit>()
-                                      .driverTripTypes,
-                                ),
-                              );
-                            }
+                            // if (globalCubit.driverOnline) {
+                            //   navigate(
+                            //     context,
+                            //     FindRidersView(
+                            //       acceptedTripTypeIds: context
+                            //           .read<HomeCubit>()
+                            //           .driverTripTypes,
+                            //     ),
+                            //   );
+                            // }
                           }
                         },
                         child: AnimatedContainer(
@@ -128,8 +129,8 @@ class _HomeServicesState extends State<HomeServices> {
                               color: isOnline
                                   ? AppColors.white
                                   : (globalCubit.isDarkMode
-                                      ? AppColors.greyText
-                                      : AppColors.black.withOpacity(0.6)),
+                                        ? AppColors.greyText
+                                        : AppColors.black.withOpacity(0.6)),
                               fontWeight: FontWeight.bold,
                               fontSize: 14.rT(context),
                             ),
@@ -160,8 +161,8 @@ class _HomeServicesState extends State<HomeServices> {
                               color: !isOnline
                                   ? AppColors.white
                                   : (globalCubit.isDarkMode
-                                      ? AppColors.greyText
-                                      : AppColors.black.withOpacity(0.6)),
+                                        ? AppColors.greyText
+                                        : AppColors.black.withOpacity(0.6)),
                               fontWeight: FontWeight.bold,
                               fontSize: 14.rT(context),
                             ),
@@ -211,21 +212,63 @@ class _HomeServicesState extends State<HomeServices> {
                       // );
                       break;
                     case 2:
-                    // navBarNavigate(
-                    //   context: context,
-                    //   widget: const StartTripView(),
-                    // );
+                      if (context.read<GlobalCubit>().driverOnline) {
+                        navigate(
+                          context,
+                          FindRidersView(
+                            acceptedTripTypeIds: context
+                                .read<HomeCubit>()
+                                .driverTripTypes,
+                          ),
+                        );
+                      } else {
+                        showToast(
+                          message: AppStrings.goOnlineToAccessThisService.tr(
+                            context,
+                          ),
+                          state: ToastStates.warning,
+                          context,
+                        );
+                      }
                     case 3:
-                      // navBarNavigate(
-                      //   context: context,
-                      //   widget: const PackageDetailsView(),
-                      // );
+                      if (context.read<GlobalCubit>().driverOnline) {
+                        navigate(
+                          context,
+                          FindRidersView(
+                            acceptedTripTypeIds: context
+                                .read<HomeCubit>()
+                                .driverTripTypes,
+                          ),
+                        );
+                      } else {
+                        showToast(
+                          message: AppStrings.goOnlineToAccessThisService.tr(
+                            context,
+                          ),
+                          state: ToastStates.warning,
+                          context,
+                        );
+                      }
                       break;
                     case 4:
-                      // navBarNavigate(
-                      //   context: context,
-                      //   widget: const RacingTripView(),
-                      // );
+                      if (context.read<GlobalCubit>().driverOnline) {
+                        navigate(
+                          context,
+                          FindRidersView(
+                            acceptedTripTypeIds: context
+                                .read<HomeCubit>()
+                                .driverTripTypes,
+                          ),
+                        );
+                      } else {
+                        showToast(
+                          message: AppStrings.goOnlineToAccessThisService.tr(
+                            context,
+                          ),
+                          state: ToastStates.warning,
+                          context,
+                        );
+                      }
                       break;
                     default:
                   }

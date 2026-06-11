@@ -321,6 +321,7 @@ abstract class AppStrings {
   static const String tripsToday = "tripsToday";
   static const String online = "online";
   static const String offline = "offline";
+  static const String goOnlineToAccessThisService = "goOnlineToAccessThisService";
   static const String yourCurrentLocations = "yourCurrentLocations";
   static const String notifications = "notifications";
   static const String riderMode = "riderMode";

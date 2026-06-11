@@ -195,6 +195,7 @@
     "tripsToday": "Trips Today",
     "online": "Active",
     "offline": "Inactive",
+    "goOnlineToAccessThisService": "Please switch to active mode to access this service",
     "yourCurrentLocations": "Your current locations",
     "notifications": "Notifications",
     "areYouSureYouWantToLogout": "Are you sure you want to logout?",

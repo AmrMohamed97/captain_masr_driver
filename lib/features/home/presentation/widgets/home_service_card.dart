@@ -20,22 +20,30 @@ class HomeServiceCard extends StatelessWidget {
     if (language == "ar") {
       switch (model.type) {
         case AppStrings.shareRide:
-          return "سفر";
+          return "في طريقي";
         case AppStrings.dailyRides:
-          return "رحلة مميزة";
+          return "جدولة الرحلة";
         case AppStrings.classicRide:
-          return "رحلة عادية";
+          return "الرحلة الخاصة";
+        case AppStrings.delivery:
+          return "التوصيل";
+        case AppStrings.race:
+          return "السباق";
         default:
           return model.type.tr(context);
       }
     } else {
       switch (model.type) {
         case AppStrings.shareRide:
-          return "Travel";
+          return "On my way";
         case AppStrings.dailyRides:
-          return "Premium Ride";
+          return "Schedule trip";
         case AppStrings.classicRide:
           return "Classic Ride";
+        case AppStrings.delivery:
+          return "Delivery";
+        case AppStrings.race:
+          return "Race";
         default:
           return model.type.tr(context);
       }
@@ -88,7 +96,9 @@ class HomeServiceCard extends StatelessWidget {
                   _getServiceType(context),
                   textAlign: TextAlign.center,
                   style: Styles.semibold14Primary(context).copyWith(
-                    color: Theme.of(context).textTheme.bodyLarge?.color ?? AppColors.black,
+                    color:
+                        Theme.of(context).textTheme.bodyLarge?.color ??
+                        AppColors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 14.rT(context),
                   ),
