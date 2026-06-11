@@ -1,6 +1,8 @@
 import 'package:captain_masr_driver/core/widgets/custom_toast.dart';
 import 'package:captain_masr_driver/features/find_riders/presentation/views/find_riders_view.dart';
 import 'package:captain_masr_driver/features/home/presentation/cubit/home_cubit.dart';
+import 'package:captain_masr_driver/features/schedule_trip/presentation/views/schedule_trip_view.dart';
+import 'package:captain_masr_driver/features/start_trip/presentation/views/start_trip_view.dart';
 
 import '../../../../core/imports/imports.dart';
 import '../../data/models/services_model.dart';
@@ -200,16 +202,16 @@ class _HomeServicesState extends State<HomeServices> {
                 onTap: () {
                   switch (index) {
                     case 0:
-                      // navBarNavigate(
-                      //   context: context,
-                      //   widget: const StartTripView(isShareRide: true),
-                      // );
+                      navigate(
+                        context,
+                        const StartTripView(
+                          driverOnMyWay: true,
+                          isShareRide: true,
+                        ),
+                      );
                       break;
                     case 1:
-                      // navBarNavigate(
-                      //   context: context,
-                      //   widget: const ScheduleTripView(),
-                      // );
+                      navigate(context, const ScheduleTripView());
                       break;
                     case 2:
                       if (context.read<GlobalCubit>().driverOnline) {
