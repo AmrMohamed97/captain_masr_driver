@@ -1,5 +1,6 @@
 import 'package:captain_masr_driver/features/home/presentation/widgets/home_header.dart';
 import 'package:captain_masr_driver/features/home/presentation/widgets/home_services.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/imports/imports.dart';
@@ -85,17 +86,22 @@ class _HomeBodyState extends State<HomeBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: .start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(start: 14.0),
-                    child: CircleAvatar(
-                      radius: 30.rH(context),
-                      backgroundColor: AppColors.white,
-                      child: CustomSvgPicture(
-                        svg: Assets.imagesPinLocation,
-                        height: 26.rH(context),
-                        width: 26.rH(context),
-                        color: AppColors.primary,
-                        fit: BoxFit.fill,
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size.zero,
+                    onPressed: () {},
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.only(start: 14.0),
+                      child: CircleAvatar(
+                        radius: 30.rH(context),
+                        backgroundColor: AppColors.white,
+                        child: CustomSvgPicture(
+                          svg: Assets.imagesPinLocation,
+                          height: 26.rH(context),
+                          width: 26.rH(context),
+                          color: AppColors.primary,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                   ),
