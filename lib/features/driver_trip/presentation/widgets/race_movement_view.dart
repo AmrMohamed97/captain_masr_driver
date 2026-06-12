@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import '../../../../core/imports/imports.dart';
 
 class RaceMovementView extends StatefulWidget {
@@ -111,9 +110,8 @@ class _RaceMovementViewState extends State<RaceMovementView> {
                       backgroundColor: AppColors.primary,
                       child: Padding(
                         padding: EdgeInsets.all(2.rH(context)),
-                        child: Image.asset(
-                          Assets.imagesScooterPng,
-                          fit: BoxFit.contain,
+                        child: const CustomSvgPicture(
+                          svg: Assets.imagesRacingMotorcycle,
                         ),
                       ),
                     ),
