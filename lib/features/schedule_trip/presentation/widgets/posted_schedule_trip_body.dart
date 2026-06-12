@@ -139,7 +139,7 @@ class _PostedScheduleTripBodyState extends State<PostedScheduleTripBody> {
                       //! Gatharing & End Point
                       StartAndEndPoint(
                         startValue: cubit.postedTrip!.pickupAddress ?? "???",
-                        endValue: cubit.postedTrip!.dropoffAddress ?? "???",
+                        endValue: cubit.postedTrip!.dropoffAddress ?? "",
                       ),
 
                       SizedBox(height: 16.rH(context)),

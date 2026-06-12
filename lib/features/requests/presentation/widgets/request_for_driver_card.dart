@@ -303,7 +303,7 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 //! Start & End Points
                 StartAndEndPoint(
                   startValue: widget.model.pickupAddress ?? "??",
-                  endValue: widget.model.dropoffAddress ?? "??",
+                  endValue: widget.model.dropoffAddress ?? "",
                   startTitle: AppStrings.startPoint.tr(context),
                 ),
 
@@ -311,10 +311,36 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                 CustomDivider(space: 2.rH(context)),
 
                 //! Distance & Duration
-                DistanceAndDuration(
-                  distance: widget.model.distanceKm?.toString() ?? "??",
-                  duration: widget.model.timeMinutes?.toString() ?? "??",
-                ),
+                widget.model.raceDuration != null
+                    ? Row(
+                        children: [
+                          CustomSvgPicture(
+                            svg: Assets.imagesTime,
+                            color: AppColors.greyText,
+                            height: 13.rH(context),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            AppStrings.duration.tr(context),
+                            style: Styles.regular14(
+                              context,
+                            ).copyWith(color: AppColors.greyText),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            "${widget.model.raceDuration ?? ""} ${AppStrings.min.tr(context)}",
+                            style: Styles.semibold14Primary(context).copyWith(
+                              color: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.color,
+                            ),
+                          ),
+                        ],
+                      )
+                    : DistanceAndDuration(
+                        distance: widget.model.distanceKm?.toString() ?? "??",
+                        duration: widget.model.timeMinutes?.toString() ?? "??",
+                      ),
 
                 SizedBox(height: 14.rH(context)),
 

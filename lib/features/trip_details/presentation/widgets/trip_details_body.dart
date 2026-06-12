@@ -388,7 +388,7 @@ class TripDetailsBody extends StatelessWidget {
                         title: AppStrings.destination.tr(context),
                         child: StartAndEndPoint(
                           startValue: cubit.tripDetails!.pickupAddress ?? "??",
-                          endValue: cubit.tripDetails!.dropoffAddress ?? "??",
+                          endValue: cubit.tripDetails!.dropoffAddress ?? "",
                           startTitle: AppStrings.gatheringPoint.tr(context),
                         ),
                       ),

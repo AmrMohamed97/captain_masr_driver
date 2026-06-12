@@ -243,7 +243,7 @@ class _AvaibleShareTripCardState extends State<AvaibleShareTripCard> {
                 //! Start & End Point
                 StartAndEndPoint(
                   startValue: model.pickupAddress ?? "??",
-                  endValue: model.dropoffAddress ?? "??",
+                  endValue: model.dropoffAddress ?? "",
                   startTitle: AppStrings.startPoint.tr(context),
                 ),
 

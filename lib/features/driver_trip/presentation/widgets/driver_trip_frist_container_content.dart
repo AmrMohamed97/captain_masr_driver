@@ -177,7 +177,9 @@ class _DriverTripFirstContainerContentState
                 ),
                 SizedBox(width: 8.rW(context)),
                 cubit.isTripStarted
-                    ? FutureBuilder<DataSnapshot>(
+                    ?cubit.tripDetails!.raceDuration!=null
+                    ?RaceDurationCounterDown(cubit.tripDetails!.raceDuration!)
+                    : FutureBuilder<DataSnapshot>(
                         future: FirebaseDatabase.instance
                             .ref()
                             .child(
@@ -289,7 +291,9 @@ class _DriverTripFirstContainerContentState
               ),
             //! Distance Bar
             if (cubit.isTripStarted)
-              CarMovementView(
+            cubit.isTripStarted&&cubit.tripDetails!.raceDuration!=null
+                ? RaceMovementView(cubit.tripDetails!.raceDuration!)
+                :CarMovementView(
                 dropoffLat:
                     double.parse(cubit.tripDetails!.dropoffLatitude.toString()),
                 dropoffLng: double.parse(

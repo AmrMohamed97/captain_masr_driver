@@ -506,7 +506,7 @@ class RiderTripBottomContainer extends StatelessWidget {
                           StartAndEndPoint(
                             startValue:
                                 cubit.tripDetails!.pickupAddress ?? "??",
-                            endValue: cubit.tripDetails!.dropoffAddress ?? "??",
+                            endValue: cubit.tripDetails!.dropoffAddress ?? "",
                           ),
                           SizedBox(height: 12.rH(context)),
                           //! Prefernces

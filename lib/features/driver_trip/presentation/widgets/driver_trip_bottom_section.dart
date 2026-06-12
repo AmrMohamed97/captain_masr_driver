@@ -116,11 +116,10 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                       AppStrings.you.tr(context),
                                       style: Styles.semibold16Primary(context)
                                           .copyWith(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge
-                                            ?.color,
-                                      ),
+                                            color: Theme.of(
+                                              context,
+                                            ).textTheme.bodyLarge?.color,
+                                          ),
                                     ),
                                     Container(
                                       width: double.infinity,
@@ -142,15 +141,16 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                             children: [
                                               //! Title
                                               Text(
-                                                AppStrings.tripStarted
-                                                    .tr(context),
+                                                AppStrings.tripStarted.tr(
+                                                  context,
+                                                ),
                                                 style: Styles.regular16(context)
                                                     .copyWith(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.color,
-                                                ),
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge
+                                                          ?.color,
+                                                    ),
                                               ),
                                               const Spacer(),
                                               CustomSvgPicture(
@@ -173,7 +173,8 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                                     .instance
                                                     .ref()
                                                     .child(
-                                                        'driver_locations/${cubit.tripDetails!.driverId}')
+                                                      'driver_locations/${cubit.tripDetails!.driverId}',
+                                                    )
                                                     .get(),
                                                 builder: (context, snapshot) {
                                                   if (snapshot.hasData &&
@@ -181,52 +182,69 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                                           null) {
                                                     final data =
                                                         snapshot.data!.value
-                                                            as Map<dynamic,
-                                                                dynamic>;
-                                                    final lat = double.tryParse(
-                                                            data['latitude']
-                                                                .toString()) ??
+                                                            as Map<
+                                                              dynamic,
+                                                              dynamic
+                                                            >;
+                                                    final lat =
+                                                        double.tryParse(
+                                                          data['latitude']
+                                                              .toString(),
+                                                        ) ??
                                                         0.0;
-                                                    final lng = double.tryParse(
-                                                            data['longitude']
-                                                                .toString()) ??
+                                                    final lng =
+                                                        double.tryParse(
+                                                          data['longitude']
+                                                              .toString(),
+                                                        ) ??
                                                         0.0;
 
                                                     return ArrivalDownTimeTimer(
                                                       origin: LatLng(lat, lng),
                                                       destination: LatLng(
-                                                        double.parse(cubit
-                                                            .tripDetails!
-                                                            .dropoffLatitude
-                                                            .toString()),
-                                                        double.parse(cubit
-                                                            .tripDetails!
-                                                            .dropoffLongitude
-                                                            .toString()),
+                                                        double.parse(
+                                                          cubit
+                                                              .tripDetails!
+                                                              .dropoffLatitude
+                                                              .toString(),
+                                                        ),
+                                                        double.parse(
+                                                          cubit
+                                                              .tripDetails!
+                                                              .dropoffLongitude
+                                                              .toString(),
+                                                        ),
                                                       ),
                                                     );
                                                   }
                                                   return DownTimeTimer(
-                                                      timeMinutes: cubit
-                                                          .tripDetails!
-                                                          .timeMinutes!);
+                                                    timeMinutes: cubit
+                                                        .tripDetails!
+                                                        .timeMinutes!,
+                                                  );
                                                 },
-                                              )
+                                              ),
                                             ],
                                           ),
 
                                           //! Distance Bar
                                           if (cubit.isTripStarted)
                                             CarMovementView(
-                                              dropoffLat: double.parse(cubit
-                                                  .tripDetails!.dropoffLatitude
-                                                  .toString()),
-                                              dropoffLng: double.parse(cubit
-                                                  .tripDetails!.dropoffLongitude
-                                                  .toString()),
+                                              dropoffLat: double.parse(
+                                                cubit
+                                                    .tripDetails!
+                                                    .dropoffLatitude
+                                                    .toString(),
+                                              ),
+                                              dropoffLng: double.parse(
+                                                cubit
+                                                    .tripDetails!
+                                                    .dropoffLongitude
+                                                    .toString(),
+                                              ),
                                               driverId:
                                                   cubit.tripDetails!.driverId!,
-                                            )
+                                            ),
                                           // SizedBox(
                                           //   height: 30.rH(context),
                                           //   width: 295.rW(context),
@@ -299,8 +317,8 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                         Expanded(
                                           child: CustomButton(
                                             onPressed: () async {
-                                              final bool? value =
-                                                  await showDialog(
+                                              final bool?
+                                              value = await showDialog(
                                                 context: context,
                                                 builder: (context) =>
                                                     const CancelTripAlertDialog(),
@@ -321,8 +339,9 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                                 });
                                               }
                                             },
-                                            title:
-                                                AppStrings.cancel.tr(context),
+                                            title: AppStrings.cancel.tr(
+                                              context,
+                                            ),
                                             borderColor: AppColors.red,
                                             textColor: AppColors.red,
                                             color: AppColors.transparent,
@@ -340,8 +359,9 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                               //       const OnMyWayArrivedAlertDialog(),
                                               // );
                                             },
-                                            title:
-                                                AppStrings.arrived.tr(context),
+                                            title: AppStrings.arrived.tr(
+                                              context,
+                                            ),
                                             // enabled: cubit
                                             //             .remainingDistanceNum !=
                                             //         null &&
@@ -355,7 +375,7 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                 )
                               : const DriverTripFirstContainerContent(),
                         ),
-//this second container is for the trip details like distance and duration and start and end point and the cost if exist=+> for all trips
+                        //this second container is for the trip details like distance and duration and start and end point and the cost if exist=+> for all trips
                         //! Second Container
                         Container(
                           width: double.infinity,
@@ -374,14 +394,46 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 //! Distance & Duration
-                                DistanceAndDuration(
-                                  distance: cubit.tripDetails!.distanceKm
-                                          ?.toString() ??
-                                      "",
-                                  duration: cubit.tripDetails!.timeMinutes
-                                          ?.toString() ??
-                                      "",
-                                ),
+                                cubit.tripDetails!.raceDuration != null
+                                    ? Row(
+                                        children: [
+                                          CustomSvgPicture(
+                                            svg: Assets.imagesTime,
+                                            color: AppColors.greyText,
+                                            height: 13.rH(context),
+                                          ),
+                                          SizedBox(width: 6),
+                                          Text(
+                                            AppStrings.duration.tr(context),
+                                            style: Styles.regular14(context)
+                                                .copyWith(
+                                                  color: AppColors.greyText,
+                                                ),
+                                          ),
+                                          SizedBox(width: 6),
+                                          Text(
+                                            "${cubit.tripDetails?.raceDuration ?? ""} ${AppStrings.min.tr(context)}",
+                                            style:
+                                                Styles.semibold14Primary(
+                                                  context,
+                                                ).copyWith(
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).textTheme.bodyLarge?.color,
+                                                ),
+                                          ),
+                                        ],
+                                      )
+                                    : DistanceAndDuration(
+                                        distance:
+                                            cubit.tripDetails!.distanceKm
+                                                ?.toString() ??
+                                            "",
+                                        duration:
+                                            cubit.tripDetails!.timeMinutes
+                                                ?.toString() ??
+                                            "",
+                                      ),
                                 //! Divider
                                 Padding(
                                   padding: EdgeInsets.symmetric(
@@ -420,14 +472,16 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                                   Text(
                                                     AppStrings.typeOfShipment
                                                         .tr(context),
-                                                    style: Styles.medium14(
-                                                            context)
-                                                        .copyWith(
-                                                            // color: AppColors.greyText,
-                                                            ),
+                                                    style:
+                                                        Styles.medium14(
+                                                          context,
+                                                        ).copyWith(
+                                                          // color: AppColors.greyText,
+                                                        ),
                                                   ),
                                                   SizedBox(
-                                                      height: 8.rH(context)),
+                                                    height: 8.rH(context),
+                                                  ),
                                                   Row(
                                                     children: [
                                                       CustomSvgPicture(
@@ -436,18 +490,20 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                                         height: 16.rH(context),
                                                       ),
                                                       SizedBox(
-                                                          width:
-                                                              12.rH(context)),
+                                                        width: 12.rH(context),
+                                                      ),
                                                       Text(
-                                                        cubit.tripDetails!
+                                                        cubit
+                                                                .tripDetails!
                                                                 .deliverItem ??
                                                             "??",
-                                                        style: Styles.medium14(
-                                                                context)
-                                                            .copyWith(
-                                                          color: AppColors
-                                                              .greyText,
-                                                        ),
+                                                        style:
+                                                            Styles.medium14(
+                                                              context,
+                                                            ).copyWith(
+                                                              color: AppColors
+                                                                  .greyText,
+                                                            ),
                                                       ),
                                                     ],
                                                   ),
@@ -456,7 +512,8 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                             ),
                                           if (cubit.tripDetails!.deliverType !=
                                                   null &&
-                                              cubit.tripDetails!
+                                              cubit
+                                                      .tripDetails!
                                                       .deliverItemSize !=
                                                   null)
                                             Container(
@@ -469,7 +526,8 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                                   .withOpacity(.5),
                                             ),
                                           //! Size of Shipment
-                                          if (cubit.tripDetails!
+                                          if (cubit
+                                                  .tripDetails!
                                                   .deliverItemSize !=
                                               null)
                                             Expanded(
@@ -480,23 +538,28 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                                   Text(
                                                     AppStrings.sizeOfShipment
                                                         .tr(context),
-                                                    style: Styles.medium14(
-                                                            context)
-                                                        .copyWith(
-                                                            // color: AppColors.greyText,
-                                                            ),
+                                                    style:
+                                                        Styles.medium14(
+                                                          context,
+                                                        ).copyWith(
+                                                          // color: AppColors.greyText,
+                                                        ),
                                                   ),
                                                   SizedBox(
-                                                      height: 8.rH(context)),
+                                                    height: 8.rH(context),
+                                                  ),
                                                   Text(
-                                                    cubit.tripDetails!
+                                                    cubit
+                                                            .tripDetails!
                                                             .deliverItemSize ??
                                                         "??",
                                                     style:
-                                                        Styles.medium14(context)
-                                                            .copyWith(
-                                                      color: AppColors.greyText,
-                                                    ),
+                                                        Styles.medium14(
+                                                          context,
+                                                        ).copyWith(
+                                                          color: AppColors
+                                                              .greyText,
+                                                        ),
                                                   ),
                                                 ],
                                               ),
@@ -507,19 +570,22 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                       //! Additional Note
                                       if (cubit.tripDetails!.notes != null &&
                                           cubit
-                                              .tripDetails!.notes!.isNotEmpty &&
+                                              .tripDetails!
+                                              .notes!
+                                              .isNotEmpty &&
                                           cubit.tripDetails!.notes != " ")
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              AppStrings.additionNotes
-                                                  .tr(context),
+                                              AppStrings.additionNotes.tr(
+                                                context,
+                                              ),
                                               style: Styles.medium14(context)
                                                   .copyWith(
-                                                      // color: AppColors.greyText,
-                                                      ),
+                                                    // color: AppColors.greyText,
+                                                  ),
                                             ),
                                             SizedBox(height: 10.rH(context)),
                                             // CustomSelectContainer(
@@ -535,8 +601,8 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                               cubit.tripDetails!.notes!,
                                               style: Styles.medium12(context)
                                                   .copyWith(
-                                                color: AppColors.greyText,
-                                              ),
+                                                    color: AppColors.greyText,
+                                                  ),
                                               maxLines: 310,
                                               overflow: TextOverflow.ellipsis,
                                             ),
@@ -547,7 +613,9 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                       //! Image of the package
                                       if (cubit.tripDetails!.deliveryImage !=
                                               null &&
-                                          cubit.tripDetails!.deliveryImage!
+                                          cubit
+                                              .tripDetails!
+                                              .deliveryImage!
                                               .isNotEmpty &&
                                           cubit.tripDetails!.deliveryImage !=
                                               " ")
@@ -556,12 +624,13 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              AppStrings.deliveryImage
-                                                  .tr(context),
+                                              AppStrings.deliveryImage.tr(
+                                                context,
+                                              ),
                                               style: Styles.medium14(context)
                                                   .copyWith(
-                                                color: AppColors.greyText,
-                                              ),
+                                                    color: AppColors.greyText,
+                                                  ),
                                             ),
                                             SizedBox(height: 10.rH(context)),
                                             CachedImage(
@@ -569,7 +638,8 @@ class _DriverTripBottomSectionState extends State<DriverTripBottomSection> {
                                               height: 60,
                                               radius: 4,
                                               url: cubit
-                                                  .tripDetails!.deliveryImage!,
+                                                  .tripDetails!
+                                                  .deliveryImage!,
                                               showImageOnTap: true,
                                             ),
                                           ],

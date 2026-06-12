@@ -149,7 +149,7 @@ class FindDriverBottomContainer extends StatelessWidget {
                     //! Start & End Point
                     StartAndEndPoint(
                       startValue: cubit.tripDetails?.pickupAddress ?? "??",
-                      endValue: cubit.tripDetails?.dropoffAddress ?? "??",
+                      endValue: cubit.tripDetails?.dropoffAddress ?? "",
                     ),
                     SizedBox(height: 16.rH(context)),
                     //! Prefernces

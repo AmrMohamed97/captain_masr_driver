@@ -278,7 +278,7 @@ class DriverShareTripCompletedAlertDialog extends StatelessWidget {
                     //! Start & End Point
                     StartAndEndPoint(
                       startValue: model.pickupAddress ?? "??",
-                      endValue: model.dropoffAddress ?? "??",
+                      endValue: model.dropoffAddress ?? "",
                       startTitle: AppStrings.startPoint.tr(context),
                     ),
                     SizedBox(height: 4.rH(context)),
