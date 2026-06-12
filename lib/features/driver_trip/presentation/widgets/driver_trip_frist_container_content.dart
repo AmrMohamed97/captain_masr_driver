@@ -1,15 +1,18 @@
 import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../core/imports/imports.dart';
 import '../../../chat/presentation/views/chat_view.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../cubit/driver_trip_cubit.dart';
 import 'arrival_down_time_timer.dart';
 import 'down_time_timer.dart';
 import 'driver_trip_buttons.dart';
 import 'prefernces_items_wrap.dart';
+import 'race_duration_counter_down.dart';
+import 'race_movement_view.dart';
 import 'up_time_timer.dart';
 
 class DriverTripFirstContainerContent extends StatefulWidget {
@@ -67,9 +70,9 @@ class _DriverTripFirstContainerContentState
             //! Title
             Text(
               AppStrings.yourTrip.tr(context),
-              style: Styles.semibold16Primary(context).copyWith(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-              ),
+              style: Styles.semibold16Primary(
+                context,
+              ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
             ),
             SizedBox(height: 8.rH(context)),
             //! Rider Details, Contact
@@ -87,9 +90,9 @@ class _DriverTripFirstContainerContentState
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) =>
                           SvgPicture.asset(
-                        Assets.imagesPersonSvg,
-                        color: AppColors.grey,
-                      ),
+                            Assets.imagesPersonSvg,
+                            color: AppColors.grey,
+                          ),
                     ),
                   ),
                 ),
@@ -132,8 +135,9 @@ class _DriverTripFirstContainerContentState
                         receiverId: cubit.tripDetails!.riderId!,
                         senderName: cubit.tripDetails!.driverName!,
                         receiverName: cubit.tripDetails!.riderName!,
-                        receiverImage: cubit.tripDetails!.riderImage??'',
-                        resolvedRequestType: cubit.tripDetails!.tripType ?? 'classic',
+                        receiverImage: cubit.tripDetails!.riderImage ?? '',
+                        resolvedRequestType:
+                            cubit.tripDetails!.tripType ?? 'classic',
                       ),
                     );
                   },
@@ -145,9 +149,10 @@ class _DriverTripFirstContainerContentState
                   svg: Assets.imagesPhoneCall,
                   onTap: () {
                     context.read<GlobalCubit>().phoneLinkLauncher(
-                        ((cubit.tripDetails!.riderPhoneCode ?? "") +
-                                (cubit.tripDetails!.riderPhone ?? ""))
-                            .toString());
+                      ((cubit.tripDetails!.riderPhoneCode ?? "") +
+                              (cubit.tripDetails!.riderPhone ?? ""))
+                          .toString(),
+                    );
                   },
                   color: AppColors.red.withOpacity(.15),
                 ),
@@ -164,8 +169,8 @@ class _DriverTripFirstContainerContentState
                   cubit.isTripStarted
                       ? AppStrings.tripStarted.tr(context)
                       : cubit.isDriverWaiting
-                          ? AppStrings.arrivedAndWaiting.tr(context)
-                          : AppStrings.youWllArriveIn.tr(context),
+                      ? AppStrings.arrivedAndWaiting.tr(context)
+                      : AppStrings.youWllArriveIn.tr(context),
                   style: Styles.regular16(context).copyWith(
                     color: Theme.of(context).textTheme.bodyLarge?.color,
                   ),
@@ -177,13 +182,71 @@ class _DriverTripFirstContainerContentState
                 ),
                 SizedBox(width: 8.rW(context)),
                 cubit.isTripStarted
-                    ?cubit.tripDetails!.raceDuration!=null
-                    ?RaceDurationCounterDown(cubit.tripDetails!.raceDuration!)
+                    ? cubit.tripDetails!.raceDuration != null
+                          ? RaceDurationCounterDown(
+                              duration: cubit.tripDetails!.raceDuration!,
+                              startTime: DateTime.parse(
+                                "${cubit.tripDetails!.startedAt!}Z",
+                              ).toLocal(),
+                              currentTime: DateTime.now(),
+                            )
+                          : FutureBuilder<DataSnapshot>(
+                              future: FirebaseDatabase.instance
+                                  .ref()
+                                  .child(
+                                    'driver_locations/${cubit.tripDetails!.driverId}',
+                                  )
+                                  .get(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData &&
+                                    snapshot.data!.value != null) {
+                                  final data =
+                                      snapshot.data!.value
+                                          as Map<dynamic, dynamic>;
+                                  final lat =
+                                      double.tryParse(
+                                        data['latitude'].toString(),
+                                      ) ??
+                                      0.0;
+                                  final lng =
+                                      double.tryParse(
+                                        data['longitude'].toString(),
+                                      ) ??
+                                      0.0;
+
+                                  return ArrivalDownTimeTimer(
+                                    origin: LatLng(lat, lng),
+                                    destination: LatLng(
+                                      double.parse(
+                                        cubit.tripDetails!.dropoffLatitude
+                                            .toString(),
+                                      ),
+                                      double.parse(
+                                        cubit.tripDetails!.dropoffLongitude
+                                            .toString(),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return DownTimeTimer(
+                                  timeMinutes: cubit.tripDetails!.timeMinutes!,
+                                );
+                              },
+                            )
+                    : cubit.isDriverWaiting
+                    ? UpTimeTimer(
+                        arrivedTime: cubit.tripDetails!.arrivedAt != null
+                            ? DateTime.parse(
+                                cubit.tripDetails!.arrivedAt!,
+                              ).toLocal()
+                            : DateTime.now(),
+                      )
                     : FutureBuilder<DataSnapshot>(
                         future: FirebaseDatabase.instance
                             .ref()
                             .child(
-                                'driver_locations/${cubit.tripDetails!.driverId}')
+                              'driver_locations/${cubit.tripDetails!.driverId}',
+                            )
                             .get(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData &&
@@ -192,71 +255,32 @@ class _DriverTripFirstContainerContentState
                                 snapshot.data!.value as Map<dynamic, dynamic>;
                             final lat =
                                 double.tryParse(data['latitude'].toString()) ??
-                                    0.0;
+                                0.0;
                             final lng =
                                 double.tryParse(data['longitude'].toString()) ??
-                                    0.0;
+                                0.0;
 
                             return ArrivalDownTimeTimer(
                               origin: LatLng(lat, lng),
                               destination: LatLng(
-                                double.parse(cubit.tripDetails!.dropoffLatitude
-                                    .toString()),
-                                double.parse(cubit.tripDetails!.dropoffLongitude
-                                    .toString()),
+                                double.parse(
+                                  cubit.tripDetails!.pickupLatitude.toString(),
+                                ),
+                                double.parse(
+                                  cubit.tripDetails!.pickupLongitude.toString(),
+                                ),
                               ),
                             );
                           }
-                          return DownTimeTimer(
-                              timeMinutes: cubit.tripDetails!.timeMinutes!);
+                          return SizedBox(
+                            height: 15.rH(context),
+                            width: 15.rH(context),
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          );
                         },
-                      )
-                    : cubit.isDriverWaiting
-                        ? UpTimeTimer(
-                            arrivedTime: cubit.tripDetails!.arrivedAt != null
-                                ? DateTime.parse(cubit.tripDetails!.arrivedAt!)
-                                    .toLocal()
-                                : DateTime.now(),
-                          )
-                        : FutureBuilder<DataSnapshot>(
-                            future: FirebaseDatabase.instance
-                                .ref()
-                                .child(
-                                    'driver_locations/${cubit.tripDetails!.driverId}')
-                                .get(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData &&
-                                  snapshot.data!.value != null) {
-                                final data = snapshot.data!.value
-                                    as Map<dynamic, dynamic>;
-                                final lat = double.tryParse(
-                                        data['latitude'].toString()) ??
-                                    0.0;
-                                final lng = double.tryParse(
-                                        data['longitude'].toString()) ??
-                                    0.0;
-
-                                return ArrivalDownTimeTimer(
-                                  origin: LatLng(lat, lng),
-                                  destination: LatLng(
-                                    double.parse(cubit
-                                        .tripDetails!.pickupLatitude
-                                        .toString()),
-                                    double.parse(cubit
-                                        .tripDetails!.pickupLongitude
-                                        .toString()),
-                                  ),
-                                );
-                              }
-                              return SizedBox(
-                                height: 15.rH(context),
-                                width: 15.rH(context),
-                                child: const CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              );
-                            },
-                          )
+                      ),
                 // ArrivalDownTimeTimer(
                 //         origin:cubit.tripDetails!.driverId!,
                 //         destination: LatLng(
@@ -291,15 +315,23 @@ class _DriverTripFirstContainerContentState
               ),
             //! Distance Bar
             if (cubit.isTripStarted)
-            cubit.isTripStarted&&cubit.tripDetails!.raceDuration!=null
-                ? RaceMovementView(cubit.tripDetails!.raceDuration!)
-                :CarMovementView(
-                dropoffLat:
-                    double.parse(cubit.tripDetails!.dropoffLatitude.toString()),
-                dropoffLng: double.parse(
-                    cubit.tripDetails!.dropoffLongitude.toString()),
-                driverId: cubit.tripDetails!.driverId!,
-              ),
+              cubit.isTripStarted && cubit.tripDetails!.raceDuration != null
+                  ? RaceMovementView(
+                      duration: cubit.tripDetails!.raceDuration!,
+                      startTime: DateTime.parse(
+                        "${cubit.tripDetails!.startedAt!}Z",
+                      ).toLocal(),
+                      currentTime: DateTime.now(),
+                    )
+                  : CarMovementView(
+                      dropoffLat: double.parse(
+                        cubit.tripDetails!.dropoffLatitude.toString(),
+                      ),
+                      dropoffLng: double.parse(
+                        cubit.tripDetails!.dropoffLongitude.toString(),
+                      ),
+                      driverId: cubit.tripDetails!.driverId!,
+                    ),
             if (!cubit.isTripStarted) SizedBox(height: 18.rH(context)),
             //! Buttons
             const DriverTripButtons(),
