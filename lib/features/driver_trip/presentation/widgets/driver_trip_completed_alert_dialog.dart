@@ -57,9 +57,9 @@ class DriverTripCompletedAlertDialog extends StatelessWidget {
               //! Subtitle
               Text(
                 AppStrings.youHaveCompleted.tr(context),
-                style: Styles.semibold20Primary(context).copyWith(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                ),
+                style: Styles.semibold20Primary(
+                  context,
+                ).copyWith(color: Theme.of(context).textTheme.bodyLarge?.color),
               ),
               SizedBox(height: 9.rH(context)),
               //! Trips Today
@@ -69,16 +69,16 @@ class DriverTripCompletedAlertDialog extends StatelessWidget {
                   children: [
                     Text(
                       completedTripsToday!.toString(),
-                      style: Styles.semibold22Primary(context).copyWith(
-                        color: AppColors.red,
-                      ),
+                      style: Styles.semibold22Primary(
+                        context,
+                      ).copyWith(color: AppColors.red),
                     ),
                     SizedBox(width: 9.rW(context)),
                     Text(
                       AppStrings.tripsToday.tr(context),
-                      style: Styles.medium15(context).copyWith(
-                        color: AppColors.greyText,
-                      ),
+                      style: Styles.medium15(
+                        context,
+                      ).copyWith(color: AppColors.greyText),
                     ),
                   ],
                 ),
@@ -118,9 +118,9 @@ class DriverTripCompletedAlertDialog extends StatelessWidget {
                               model.riderImage ?? "",
                               errorBuilder: (context, error, stackTrace) =>
                                   SvgPicture.asset(
-                                Assets.imagesPersonSvg,
-                                color: AppColors.grey,
-                              ),
+                                    Assets.imagesPersonSvg,
+                                    color: AppColors.grey,
+                                  ),
                             ),
                           ),
                         ),
@@ -132,69 +132,66 @@ class DriverTripCompletedAlertDialog extends StatelessWidget {
                             children: [
                               Text(
                                 model.riderName ?? "??",
-                                style:
-                                    Styles.semibold14Primary(context).copyWith(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
-                                ),
+                                style: Styles.semibold14Primary(context)
+                                    .copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge?.color,
+                                    ),
                               ),
                               SizedBox(height: 4.rH(context)),
                               //! Preferences
                               if (!isDeliveryTrip)
                                 Wrap(
                                   direction: Axis.horizontal,
-                                  children: List.generate(
-                                    4,
-                                    (index) {
-                                      return (model.preferences?.coolRide !=
-                                                      true &&
-                                                  index == 0) ||
-                                              (model.preferences?.quietRide !=
-                                                      true &&
-                                                  index == 1) ||
-                                              (model.preferences
-                                                          ?.smokingFriendly !=
-                                                      true &&
-                                                  index == 2) ||
-                                              (model.preferences?.petsFree !=
-                                                      true &&
-                                                  index == 3)
-                                          ? const SizedBox.shrink()
-                                          : Container(
-                                              width: 22.rW(context),
-                                              height: 22.rH(context),
-                                              margin:
-                                                  EdgeInsetsDirectional.only(
-                                                end: 5.rW(context),
-                                                top: 4.rH(context),
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: AppColors.grey3
-                                                    .withOpacity(.25),
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                              ),
-                                              child: Center(
-                                                child: SizedBox(
-                                                  height: 16.rH(context),
-                                                  width: 16.rW(context),
-                                                  child: CustomSvgPicture(
-                                                    svg: (switch (index) {
-                                                      0 => Assets
+                                  children: List.generate(4, (index) {
+                                    return (model.preferences?.coolRide !=
+                                                    true &&
+                                                index == 0) ||
+                                            (model.preferences?.quietRide !=
+                                                    true &&
+                                                index == 1) ||
+                                            (model
+                                                        .preferences
+                                                        ?.smokingFriendly !=
+                                                    true &&
+                                                index == 2) ||
+                                            (model.preferences?.petsFree !=
+                                                    true &&
+                                                index == 3)
+                                        ? const SizedBox.shrink()
+                                        : Container(
+                                            width: 22.rW(context),
+                                            height: 22.rH(context),
+                                            margin: EdgeInsetsDirectional.only(
+                                              end: 5.rW(context),
+                                              top: 4.rH(context),
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.grey3
+                                                  .withOpacity(.25),
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                            ),
+                                            child: Center(
+                                              child: SizedBox(
+                                                height: 16.rH(context),
+                                                width: 16.rW(context),
+                                                child: CustomSvgPicture(
+                                                  svg: (switch (index) {
+                                                    0 =>
+                                                      Assets
                                                           .imagesAirConditioner,
-                                                      1 => Assets.imagesMusic,
-                                                      2 => Assets.imagesSmoking,
-                                                      3 => Assets.imagesPets,
-                                                      _ => "",
-                                                    }),
-                                                  ),
+                                                    1 => Assets.imagesMusic,
+                                                    2 => Assets.imagesSmoking,
+                                                    3 => Assets.imagesPets,
+                                                    _ => "",
+                                                  }),
                                                 ),
                                               ),
-                                            );
-                                    },
-                                  ),
+                                            ),
+                                          );
+                                  }),
                                 ),
                               //! Sending Or Recieving
                               if (isDeliveryTrip)
@@ -207,10 +204,9 @@ class DriverTripCompletedAlertDialog extends StatelessWidget {
                                     SizedBox(width: 8.rW(context)),
                                     Text(
                                       AppStrings.sending.tr(context),
-                                      style: Styles.semibold14Primary(context)
-                                          .copyWith(
-                                        color: AppColors.greyText,
-                                      ),
+                                      style: Styles.semibold14Primary(
+                                        context,
+                                      ).copyWith(color: AppColors.greyText),
                                     ),
                                   ],
                                 ),
@@ -219,53 +215,73 @@ class DriverTripCompletedAlertDialog extends StatelessWidget {
                         ),
                         SizedBox(width: 9.rW(context)),
                         //! Distance & Duration
-                        Column(
-                          children: [
-                            //! Distance
-                            Row(
-                              children: [
-                                CustomSvgPicture(
-                                  svg: Assets.imagesPinLocation,
-                                  height: 17.rH(context),
-                                  color: AppColors.red,
-                                ),
-                                SizedBox(width: 8.rH(context)),
-                                Text(
-                                  "${model.distanceKm ?? "??"} ${AppStrings.km.tr(context)}"
-                                    ..tr(context),
-                                  style: Styles.medium12(context).copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
+                        model.raceDuration != null
+                            ? Row(
+                                children: [
+                                  CustomSvgPicture(
+                                    svg: Assets.imagesTime,
+                                    height: 17.rH(context),
+                                    color: AppColors.yellow,
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 9.5.rH(context)),
-                            //! Duration
-                            Row(
-                              children: [
-                                CustomSvgPicture(
-                                  svg: Assets.imagesTime,
-                                  height: 17.rH(context),
-                                  color: AppColors.yellow,
-                                ),
-                                SizedBox(width: 8.rH(context)),
-                                Text(
-                                  "${model.timeMinutes ?? "??"} ${AppStrings.min.tr(context)}"
-                                    ..tr(context),
-                                  style: Styles.medium12(context).copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.color,
+                                  SizedBox(width: 8.rH(context)),
+                                  Text(
+                                    "${model.raceDuration ?? ""} ${AppStrings.min.tr(context)}"
+                                      ..tr(context),
+                                    style: Styles.medium12(context).copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge?.color,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  //! Distance
+                                  Row(
+                                    children: [
+                                      CustomSvgPicture(
+                                        svg: Assets.imagesPinLocation,
+                                        height: 17.rH(context),
+                                        color: AppColors.red,
+                                      ),
+                                      SizedBox(width: 8.rH(context)),
+                                      Text(
+                                        "${model.distanceKm ?? "??"} ${AppStrings.km.tr(context)}"
+                                          ..tr(context),
+                                        style: Styles.medium12(context)
+                                            .copyWith(
+                                              color: Theme.of(
+                                                context,
+                                              ).textTheme.bodyLarge?.color,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 9.5.rH(context)),
+                                  //! Duration
+                                  Row(
+                                    children: [
+                                      CustomSvgPicture(
+                                        svg: Assets.imagesTime,
+                                        height: 17.rH(context),
+                                        color: AppColors.yellow,
+                                      ),
+                                      SizedBox(width: 8.rH(context)),
+                                      Text(
+                                        "${model.timeMinutes ?? "??"} ${AppStrings.min.tr(context)}"
+                                          ..tr(context),
+                                        style: Styles.medium12(context)
+                                            .copyWith(
+                                              color: Theme.of(
+                                                context,
+                                              ).textTheme.bodyLarge?.color,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                       ],
                     ),
                     //! Divider
@@ -297,68 +313,63 @@ class DriverTripCompletedAlertDialog extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: List.generate(
-                    3,
-                    (index) {
-                      final payment = completeTripResponseModel?.data?.payment;
-                      String formatNum(num? value) {
-                        if (value == null) return '0';
-                        return value
-                            .toStringAsFixed(2)
-                            .replaceAll(RegExp(r'\.?0+$'), '');
-                      }
+                  children: List.generate(3, (index) {
+                    final payment = completeTripResponseModel?.data?.payment;
+                    String formatNum(num? value) {
+                      if (value == null) return '0';
+                      return value
+                          .toStringAsFixed(2)
+                          .replaceAll(RegExp(r'\.?0+$'), '');
+                    }
 
-                      String formatStr(String? s) {
-                        if (s == null) return '0';
-                        final n = num.tryParse(s);
-                        return n != null ? formatNum(n) : s;
-                      }
+                    String formatStr(String? s) {
+                      if (s == null) return '0';
+                      final n = num.tryParse(s);
+                      return n != null ? formatNum(n) : s;
+                    }
 
-                      final List<String> titles = [
-                        AppStrings.totalCost,
-                        AppStrings.systemCut,
-                        AppStrings.driverEarning,
-                      ];
-                      final List<String> values = [
-                        formatStr(payment?.total ?? model.price?.toString()),
-                        formatNum(payment?.systemCut),
-                        formatNum(payment?.driverEarning),
-                      ];
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: index != 2 ? 12.rH(context) : 0,
-                        ),
-                        child: Row(
-                          children: [
-                            //! Title
-                            Text(
-                              titles[index].tr(context),
-                              style: Styles.medium14(context).copyWith(
-                                color: AppColors.greyText,
+                    final List<String> titles = [
+                      AppStrings.totalCost,
+                      AppStrings.systemCut,
+                      AppStrings.driverEarning,
+                    ];
+                    final List<String> values = [
+                      formatStr(payment?.total ?? model.price?.toString()),
+                      formatNum(payment?.systemCut),
+                      formatNum(payment?.driverEarning),
+                    ];
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: index != 2 ? 12.rH(context) : 0,
+                      ),
+                      child: Row(
+                        children: [
+                          //! Title
+                          Text(
+                            titles[index].tr(context),
+                            style: Styles.medium14(
+                              context,
+                            ).copyWith(color: AppColors.greyText),
+                          ),
+                          SizedBox(width: 8.rW(context)),
+                          //! Value
+                          Expanded(
+                            child: Text(
+                              "${values[index]} ${AppStrings.egp.tr(context)}",
+                              style: Styles.semibold14Primary(context).copyWith(
+                                color: index == 2
+                                    ? AppColors.red
+                                    : Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge?.color,
                               ),
+                              textAlign: TextAlign.end,
                             ),
-                            SizedBox(width: 8.rW(context)),
-                            //! Value
-                            Expanded(
-                              child: Text(
-                                "${values[index]} ${AppStrings.egp.tr(context)}",
-                                style:
-                                    Styles.semibold14Primary(context).copyWith(
-                                  color: index == 2
-                                      ? AppColors.red
-                                      : Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge
-                                          ?.color,
-                                ),
-                                textAlign: TextAlign.end,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                 ),
               ),
               SizedBox(height: 16.rH(context)),
