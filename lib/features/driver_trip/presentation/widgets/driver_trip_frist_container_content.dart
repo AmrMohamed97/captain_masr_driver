@@ -315,7 +315,7 @@ class _DriverTripFirstContainerContentState
               ),
             //! Distance Bar
             if (cubit.isTripStarted)
-              cubit.isTripStarted && cubit.tripDetails!.raceDuration != null
+              cubit.tripDetails!.raceDuration != null
                   ? RaceMovementView(
                       duration: cubit.tripDetails!.raceDuration!,
                       startTime: DateTime.parse(
