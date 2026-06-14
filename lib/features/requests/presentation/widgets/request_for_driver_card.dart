@@ -34,10 +34,6 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
   Map<dynamic, dynamic>? _driversSnapshot;
   bool _isDeletedFromFirebase = false;
 
-  // Countdown timer (Case D)
-  bool _isCountingDown = false;
-  int _countdown = 20;
-  Timer? _countdownTimer;
 
   @override
   void initState() {
@@ -59,7 +55,6 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
         _driversSnapshot ??= {};
         _driversSnapshot![event.snapshot.key] = event.snapshot.value;
       });
-      _evaluateCountdown();
     });
 
     _childChangedSubscription = ref.onChildChanged.listen((event) {
@@ -71,7 +66,6 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
         _driversSnapshot ??= {};
         _driversSnapshot![event.snapshot.key] = event.snapshot.value;
       });
-      _evaluateCountdown();
     });
 
     _childRemovedSubscription = ref.onChildRemoved.listen((event) {
@@ -85,88 +79,9 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
           _driversSnapshot = null;
         }
       });
-      _evaluateCountdown();
     });
   }
 
-  @override
-  void didUpdateWidget(covariant RequestForDriverCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.model.negotiation != widget.model.negotiation) {
-      _evaluateCountdown();
-    }
-  }
-
-  void _evaluateCountdown() {
-    final driverId = _getDriverId();
-    final driverData = (driverId != null && _driversSnapshot != null)
-        ? _driversSnapshot![driverId] as Map?
-        : null;
-    final negotiationMap = driverData?['negotiation'] as Map?;
-
-    dynamic firebaseRequestSent;
-    if (driverData != null) {
-      firebaseRequestSent =
-          negotiationMap?['request_sent'] ??
-          (!_isDeletedFromFirebase
-              ? widget.model.negotiation?.requestSent
-              : null);
-    } else if (!_isDeletedFromFirebase) {
-      firebaseRequestSent = widget.model.negotiation?.requestSent;
-    }
-
-    if (firebaseRequestSent != null) {
-      // Case D — start countdown if not already running
-      if (!_isCountingDown) {
-        _startCountdown();
-      }
-    } else {
-      _stopCountdown();
-    }
-  }
-
-  void _startCountdown() {
-    _isCountingDown = true;
-    _countdown = 20;
-    _countdownTimer?.cancel();
-    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!mounted) {
-        timer.cancel();
-        return;
-      }
-      if (_countdown > 0) {
-        setState(() => _countdown--);
-        // When countdown reaches 1, delete request_sent from Firebase
-        if (_countdown == 1) {
-          _deleteRequestSentFromFirebase();
-        }
-      } else {
-        _stopCountdown();
-      }
-    });
-  }
-
-  void _deleteRequestSentFromFirebase() {
-    final driverId = _getDriverId();
-    final rideId = widget.model.rideId ?? widget.model.id ?? 0;
-    if (driverId != null && rideId != 0) {
-      FirebaseDatabase.instance
-          .ref(
-            'drivers/$driverId/assigned_rides/$rideId/negotiation/request_sent',
-          )
-          .remove();
-    }
-  }
-
-  void _stopCountdown() {
-    _countdownTimer?.cancel();
-    if (mounted) {
-      setState(() {
-        _isCountingDown = false;
-        _countdown = 20;
-      });
-    }
-  }
 
   String? _getDriverId() {
     final id = BlocProvider.of<GlobalCubit>(context).userModel?.id;
@@ -178,7 +93,6 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
     _childAddedSubscription?.cancel();
     _childChangedSubscription?.cancel();
     _childRemovedSubscription?.cancel();
-    _countdownTimer?.cancel();
     super.dispose();
   }
 
@@ -387,11 +301,9 @@ class _RequestForDriverCardState extends State<RequestForDriverCard> {
                   _buildWaitingPanel(
                     context,
                     message: AppStrings.waitingRiderConfirmation.tr(context),
-                    subMessage: _isCountingDown ? '$_countdown s' : '',
+                    subMessage: '',
                     icon: Icons.timer_outlined,
                     color: AppColors.yellow,
-                    showCountdown: _isCountingDown,
-                    countdown: _countdown,
                   ),
                   SizedBox(height: 14.rH(context)),
                   _buildActionButtons(
